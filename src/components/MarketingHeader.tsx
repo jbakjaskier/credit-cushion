@@ -8,11 +8,11 @@ import Link from "next/link";
 
 const navigation = [
   { name: "Home", href: "/" },
-  { name: "Try It Out", href: "/process" },
+  { name: "Try It Out", href: "/experiences" },
   { name: "FAQ", href: "#" },
 ];
 
-export default function Header() {
+export default function MarketingHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (

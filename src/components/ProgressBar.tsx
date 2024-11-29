@@ -3,6 +3,15 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { stepIcons } from "./icons/StepIcons";
+import { CheckIcon } from '@heroicons/react/24/solid'
+import { classNames } from "@/lib/classUtils";
+
+
+const preDefSteps = [
+  { id: '01', name: 'Job Details', description: 'Vitae sed mi luctus laoreet.', href: '#', status: 'complete' },
+  { id: '02', name: 'Application form', description: 'Cursus semper viverra.', href: '#', status: 'current' },
+  { id: '03', name: 'Preview', description: 'Penatibus eu quis ante.', href: '#', status: 'upcoming' },
+]
 
 interface Step {
   id: number;
@@ -21,70 +30,112 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   currentStep,
 }) => {
   return (
-    <div className="relative mb-12">
-      {/* Curved progress line */}
-      <div className="absolute top-6 left-0 w-full">
-        <svg
-          className="w-full"
-          height="4"
-          fill="none"
-          viewBox="0 0 100 4"
-          preserveAspectRatio="none"
+    <div className="lg:border-b lg:border-t lg:border-gray-200">
+      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Progress">
+        <ol
+          role="list"
+          className="overflow-hidden rounded-md lg:flex lg:rounded-none lg:border-l lg:border-r lg:border-gray-200"
         >
-          <path
-            d="M0 2 Q 25 4, 50 2 T 100 2"
-            stroke="#E5E7EB"
-            strokeWidth="2"
-            vectorEffect="non-scaling-stroke"
-          />
-          <motion.path
-            d="M0 2 Q 25 4, 50 2 T 100 2"
-            stroke="#4f46e5"
-            strokeWidth="2"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: currentStep / (steps.length - 1) }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-          />
-        </svg>
-      </div>
-
-      {/* Steps */}
-      <div className="relative flex justify-between">
-        {steps.map((step, index) => {
-          const Icon = stepIcons[step.icon];
-          const isActive = index <= currentStep;
-
-          return (
-            <motion.div
-              key={step.id}
-              className="flex flex-col items-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
-              <motion.div
-                className={`relative z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 ${
-                  isActive
-                    ? "border-primary-600 bg-primary-600 text-white"
-                    : "border-gray-300 bg-white text-gray-500"
-                }`}
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.2 }}
+          {preDefSteps.map((step, stepIdx) => (
+            <li key={step.id} className="relative overflow-hidden lg:flex-1">
+              <div
+                className={classNames(
+                  stepIdx === 0 ? 'rounded-t-md border-b-0' : '',
+                  stepIdx === steps.length - 1 ? 'rounded-b-md border-t-0' : '',
+                  'overflow-hidden border border-gray-200 lg:border-0'
+                )}
               >
-                <Icon className="h-6 w-6" />
-              </motion.div>
-              <div className="mt-2 text-center">
-                <div className="text-sm font-medium text-gray-900">
-                  {step.name}
-                </div>
-                <div className="text-xs text-gray-500 hidden md:block">
-                  {step.description}
-                </div>
+                {step.status === 'complete' ? (
+                  <a href={step.href} className="group">
+                    <span
+                      className="absolute left-0 top-0 h-full w-1 bg-transparent group-hover:bg-gray-200 lg:bottom-0 lg:top-auto lg:h-1 lg:w-full"
+                      aria-hidden="true"
+                    />
+                    <span
+                      className={classNames(
+                        stepIdx !== 0 ? 'lg:pl-9' : '',
+                        'flex items-start px-6 py-5 text-sm font-medium'
+                      )}
+                    >
+                      <span className="flex-shrink-0">
+                        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-600">
+                          <CheckIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                        </span>
+                      </span>
+                      <span className="ml-4 mt-0.5 flex min-w-0 flex-col">
+                        <span className="text-sm font-medium">{step.name}</span>
+                        <span className="text-sm font-medium text-gray-500">{step.description}</span>
+                      </span>
+                    </span>
+                  </a>
+                ) : step.status === 'current' ? (
+                  <a href={step.href} aria-current="step">
+                    <span
+                      className="absolute left-0 top-0 h-full w-1 bg-indigo-600 lg:bottom-0 lg:top-auto lg:h-1 lg:w-full"
+                      aria-hidden="true"
+                    />
+                    <span
+                      className={classNames(
+                        stepIdx !== 0 ? 'lg:pl-9' : '',
+                        'flex items-start px-6 py-5 text-sm font-medium'
+                      )}
+                    >
+                      <span className="flex-shrink-0">
+                        <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-indigo-600">
+                          <span className="text-indigo-600">{step.id}</span>
+                        </span>
+                      </span>
+                      <span className="ml-4 mt-0.5 flex min-w-0 flex-col">
+                        <span className="text-sm font-medium text-indigo-600">{step.name}</span>
+                        <span className="text-sm font-medium text-gray-500">{step.description}</span>
+                      </span>
+                    </span>
+                  </a>
+                ) : (
+                  <a href={step.href} className="group">
+                    <span
+                      className="absolute left-0 top-0 h-full w-1 bg-transparent group-hover:bg-gray-200 lg:bottom-0 lg:top-auto lg:h-1 lg:w-full"
+                      aria-hidden="true"
+                    />
+                    <span
+                      className={classNames(
+                        stepIdx !== 0 ? 'lg:pl-9' : '',
+                        'flex items-start px-6 py-5 text-sm font-medium'
+                      )}
+                    >
+                      <span className="flex-shrink-0">
+                        <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-gray-300">
+                          <span className="text-gray-500">{step.id}</span>
+                        </span>
+                      </span>
+                      <span className="ml-4 mt-0.5 flex min-w-0 flex-col">
+                        <span className="text-sm font-medium text-gray-500">{step.name}</span>
+                        <span className="text-sm font-medium text-gray-500">{step.description}</span>
+                      </span>
+                    </span>
+                  </a>
+                )}
+
+                {stepIdx !== 0 ? (
+                  <>
+                    {/* Separator */}
+                    <div className="absolute inset-0 left-0 top-0 hidden w-3 lg:block" aria-hidden="true">
+                      <svg
+                        className="h-full w-full text-gray-300"
+                        viewBox="0 0 12 82"
+                        fill="none"
+                        preserveAspectRatio="none"
+                      >
+                        <path d="M0.5 0V31L10.5 41L0.5 51V82" stroke="currentcolor" vectorEffect="non-scaling-stroke" />
+                      </svg>
+                    </div>
+                  </>
+                ) : null}
               </div>
-            </motion.div>
-          );
-        })}
-      </div>
+            </li>
+          ))}
+        </ol>
+      </nav>
     </div>
   );
 };
