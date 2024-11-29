@@ -7,7 +7,7 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 
 interface ReviewStepProps {
   pdfUrl: string | null;
-  analysis: any;
+  analysis: string;
   onBack: () => void;
   onNext: () => void;
 }
