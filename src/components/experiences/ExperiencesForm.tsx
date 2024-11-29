@@ -1,6 +1,6 @@
 "use client";
 
-import { validateUrl } from "@/app/(application)/(addExperiences)/actions";
+import { validateUrl } from "@/app/(application)/experiences/(addExperiences)/actions";
 import { useActionState } from "react";
 import { ExclamationCircleIcon } from "@heroicons/react/20/solid";
 

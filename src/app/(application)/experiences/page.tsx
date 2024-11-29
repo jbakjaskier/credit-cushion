@@ -25,9 +25,6 @@ const supportedPlatforms = [
 
 
 export default async function ExperiencesPage() {
-  //Add an empty state here
-
-  //const [state, formAction] = useFormState(validateUrl, initialState);
   return (
     <div className="mx-auto max-w-lg">
       <div>

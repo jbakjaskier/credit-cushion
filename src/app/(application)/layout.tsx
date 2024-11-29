@@ -32,12 +32,11 @@ export default async function ApplicationLayout({
   return (
     <html className="h-full bg-gray-100" lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}>
-          <div className="min-h-full">
+          <div className="min-h-full bg-gray-100">
             <ApplicationHeader />
             <main className="-mt-32">
               <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
                 <div className="rounded-lg bg-white px-5 py-6 shadow sm:px-6">
-                  {/* Your content */}
                   {children}
                 </div>
               </div>
