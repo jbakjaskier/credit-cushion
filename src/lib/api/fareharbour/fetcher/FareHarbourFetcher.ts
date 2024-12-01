@@ -2,7 +2,7 @@ import { FareHarbourCompany } from "../models/FareHarbourCompany";
 import { FareHarbourItemsResult } from "../models/FareHarbourItem";
 
 
-export default async function GetFareHarbourItemsForCompany (apiKey: string, shortName: string) :  Promise<{
+export async function GetFareHarbourItemsForCompany (shortName: string) :  Promise<{
     isSuccessful: true;
     data: {
         company: FareHarbourCompany;
