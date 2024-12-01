@@ -30,6 +30,7 @@ export async function validateExperienceForm(
   formData: FormData
 ): Promise<UrlValidationResult> {
   const input = formData.get("url");
+  const platform = formData.get("platform");
 
   if (
     input?.toString() === undefined || 
@@ -38,12 +39,11 @@ export async function validateExperienceForm(
     return {
       mode: "error",
       input: undefined,
-      errorMessage: `Please enter a value before submitting`,
+      errorMessage: `Please enter a value before submitting`
     };
   }
 
-  const platform = formData.get("platform");
-
+  
   if (platform?.toString() === "rezdy") {
     const rezdyResult = await GetRezdySearchResultsFromMarketPlace(input.toString());
 
