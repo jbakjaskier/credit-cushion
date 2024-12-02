@@ -23,9 +23,7 @@ type UrlValidationResult =
   | {
       mode: "initial";
     };
-
-//TODO: This URL must be validated with an external service
-// or Rezdy, Fareharbour APIs before proceeding to the next stage
+    
 export async function validateExperienceForm(
   prevState: UrlValidationResult,
   formData: FormData

@@ -5,7 +5,9 @@ export type FareHarbourItemsResult = {
 }
 
 
-type FareHarbourItem = {
+export type FareHarbourItem = {
+    cancellation_policy?: MaybeString;
+    cancellation_policy_safe_html?: MaybeString;
     customer_prototypes : CustomerPrototype[];
     description: string;
     desription_bullets?: string[] | null;
@@ -64,7 +66,7 @@ type FareHarbourLocation = {
 
 }
 
-type FareHarbourImage = {
+export type FareHarbourImage = {
     pk: number;
     image_cdn_url: string;
 }

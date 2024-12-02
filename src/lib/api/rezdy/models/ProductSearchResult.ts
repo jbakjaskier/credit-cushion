@@ -1,4 +1,22 @@
 import { MaybeString } from "@/lib/common";
+import { FareHarbourCompany } from "../../fareharbour/models/FareHarbourCompany";
+import { FareHarbourImage, FareHarbourItem, FareHarbourItemsResult } from "../../fareharbour/models/FareHarbourItem";
+
+
+export function isRezdyProductSearchResult (input : RezdyProductProductSearchResult | {
+    company: FareHarbourCompany;
+    items: FareHarbourItemsResult;
+  }) : input is RezdyProductProductSearchResult {
+    return (input as RezdyProductProductSearchResult).requestStatus !== undefined
+  }
+  
+  export function isRezdyProduct(input: RezdyProduct | FareHarbourItem) : input is RezdyProduct {
+    return (input as RezdyProduct).productType !== undefined;
+  }
+  
+  export function isRezdyImage(image : RezdyImage | FareHarbourImage) : image is RezdyImage {
+    return (image as RezdyImage).thumbnailUrl !== undefined;
+  }
 
 
 export type RezdyProductProductSearchResult = {
@@ -6,13 +24,13 @@ export type RezdyProductProductSearchResult = {
     products: RezdyProduct[];
 };
 
-type RezdyProduct = {
+export type RezdyProduct = {
     productType: string;
     name: string;
     shortDescription: string;
     description: string;
     productCode: string;
-    supplierId: string;
+    supplierId: number;
     supplierAlias: string;
     supplierName: string;
     timezone: string;
@@ -34,9 +52,10 @@ type RezdyLocationAddress = {
     longitude: number;
 }
 
-type RezdyImage = {
+export type RezdyImage = {
     id: number;
     itemUrl: string;
+    thumbnailUrl: string;
 }
 
 type RezdyPrice = {
