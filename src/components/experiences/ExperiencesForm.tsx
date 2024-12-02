@@ -8,6 +8,8 @@ import { ChevronRightIcon, ExclamationCircleIcon } from "@heroicons/react/20/sol
 import Image from "next/image";
 import { isRezdyImage, isRezdyProduct, isRezdyProductSearchResult, RezdyProduct } from "@/lib/api/rezdy/models/ProductSearchResult";
 import { FareHarbourItem } from "@/lib/api/fareharbour/models/FareHarbourItem";
+import { useRouter } from 'next/navigation'
+
 
 
 
@@ -29,6 +31,9 @@ const supportedPlatforms = [
 ];
 
 export function ExperiencesForm() {
+  const router = useRouter()
+
+  
   const [state, formAction, isPending] = useActionState(
     validateExperienceForm,
     {
@@ -172,46 +177,51 @@ export function ExperiencesForm() {
       )}
     </>
   );
+
+  function loadedListItemUi(listItem: RezdyProduct | FareHarbourItem) {
+    return (
+      <li
+        key={isRezdyProduct(listItem) ? listItem.name : listItem.pk}
+        className="relative flex justify-between gap-x-6 py-5 cursor-pointer"
+        onClick={() => {
+          router.push(`/experiences/create-waiver/expId`) //TODO: Update this in future PR with a valid Experience after storing in MongoDb
+        }}
+      >
+        <div className="flex min-w-0 gap-x-4">
+          <Image
+            width={100}
+            height={100}
+            className="h-12 w-12 flex-none rounded-full bg-gray-50"
+            src={isRezdyImage(listItem.images[0]) ? listItem.images[0].thumbnailUrl : listItem.images[0].image_cdn_url}
+            alt="Experience Image"
+          />
+          <div className="min-w-0 flex-auto">
+            <div className="text-sm font-semibold leading-6 text-gray-900">
+              <p>
+                <span className="absolute inset-x-0 -top-px bottom-0" />
+                {isRezdyProduct(listItem) ? listItem.name : listItem.headline}
+              </p>
+            </div>
+            <div className="mt-1 flex text-xs leading-5 text-gray-500">
+              <p
+                className="relative truncate hover:underline"
+              >
+                {isRezdyProduct(listItem) ? listItem.shortDescription : listItem.description}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="flex shrink-0 items-center gap-x-4">
+          <div className="hidden sm:flex sm:flex-col sm:items-end">
+          </div>
+          <ChevronRightIcon
+            className="h-5 w-5 flex-none text-gray-400"
+            aria-hidden="true"
+          />
+        </div> 
+      </li>
+    );
+  }
+  
 }
 
-function loadedListItemUi(listItem: RezdyProduct | FareHarbourItem) {
-  return (
-    <li
-      key={isRezdyProduct(listItem) ? listItem.name : listItem.pk}
-      className="relative flex justify-between gap-x-6 py-5 cursor-pointer"
-    >
-      <div className="flex min-w-0 gap-x-4">
-        <Image
-          width={100}
-          height={100}
-          className="h-12 w-12 flex-none rounded-full bg-gray-50"
-          src={isRezdyImage(listItem.images[0]) ? listItem.images[0].thumbnailUrl : listItem.images[0].image_cdn_url}
-          alt="Experience Image"
-        />
-        <div className="min-w-0 flex-auto">
-          <div className="text-sm font-semibold leading-6 text-gray-900">
-            <p>
-              <span className="absolute inset-x-0 -top-px bottom-0" />
-              {isRezdyProduct(listItem) ? listItem.name : listItem.headline}
-            </p>
-          </div>
-          <div className="mt-1 flex text-xs leading-5 text-gray-500">
-            <p
-              className="relative truncate hover:underline"
-            >
-              {isRezdyProduct(listItem) ? listItem.shortDescription : listItem.description}
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="flex shrink-0 items-center gap-x-4">
-        <div className="hidden sm:flex sm:flex-col sm:items-end">
-        </div>
-        <ChevronRightIcon
-          className="h-5 w-5 flex-none text-gray-400"
-          aria-hidden="true"
-        />
-      </div> 
-    </li>
-  );
-}
