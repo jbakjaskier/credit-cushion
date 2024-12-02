@@ -1,19 +1,8 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "../globals.css";
 import MarketingHeader from "@/components/MarketingHeader";
 import { APP_NAME, APP_DESCRIPTION } from "@/config/constants";
-
-const geistSans = localFont({
-  src: "../fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "../fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+import { getFontClasses } from "@/config/fonts";
 
 export const metadata: Metadata = {
   title: APP_NAME,
@@ -27,10 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        suppressHydrationWarning
-      >
+      <body className={getFontClasses()} suppressHydrationWarning>
         <div className="bg-white">
           <MarketingHeader />
           {children}
