@@ -1,26 +1,6 @@
 "use server";
 
 import { ExperiencesForm } from "@/components/experiences/ExperiencesForm";
-import Image from "next/image";
-
-const supportedPlatforms = [
-  {
-    name: "Rezdy",
-    role: "An experience hosted and booked on Rezdy",
-    imageUrl: "/external_logos/rezdy_logo.webp",
-  },
-  {
-    name: "FareHarbour",
-    role: "Experiences Managed by FareHarbour",
-    imageUrl: "/external_logos/fareharbour_logo.png",
-  },
-  {
-    name: "GetYourGuide",
-    role: "Experiences hosted on GetYourGuide",
-    imageUrl: "/external_logos/getyourguide_logo.png",
-  },
-];
-
 
 
 
@@ -51,38 +31,6 @@ export default async function ExperiencesPage() {
           </p>
         </div>
         <ExperiencesForm />
-      </div>
-      <div className="mt-10">
-        <h3 className="text-sm font-medium text-gray-500">
-          Currently Supported Booking Platforms
-        </h3>
-        <ul
-          role="list"
-          className="mt-4 divide-y divide-gray-200  border-t border-gray-200"
-        >
-          {supportedPlatforms.map((person, personIdx) => (
-            <li
-              key={personIdx}
-              className="flex items-center justify-between space-x-3 py-4 last:border-b-0"
-            >
-              <div className="flex min-w-0 flex-1 items-center space-x-3">
-                <div className="flex-shrink-0">
-                  <Image width={80} height={80} src={person.imageUrl} alt="" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-gray-900">
-                    {person.name}
-                  </p>
-                  <p className="truncate text-sm font-medium text-gray-500">
-                    {person.role}
-                  </p>
-                </div>
-              </div>
-              <div className="flex-shrink-0">
-              </div>
-            </li>
-          ))}
-        </ul>
       </div>
     </div>
   );
