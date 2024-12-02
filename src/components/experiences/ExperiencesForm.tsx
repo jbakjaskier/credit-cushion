@@ -1,6 +1,7 @@
 "use client";
 
 import { validateExperienceForm } from "@/app/(application)/experiences/(addExperiences)/actions";
+import { UrlValidationResult } from "@/app/(application)/experiences/(addExperiences)/types";
 import { useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
@@ -8,12 +9,17 @@ import { PlatformSelector } from "@/components/experiences/PlatformSelector";
 import { SearchInput } from "@/components/experiences/SearchInput";
 import { ExperiencesList } from "@/components/experiences/ExperiencesList";
 
+const INITIAL_STATE: UrlValidationResult = {
+  mode: "initial",
+};
+
 export function ExperiencesForm() {
   const router = useRouter();
-  const [state, formAction, isPending] = useActionState(validateExperienceForm, {
-    mode: "initial",
-  });
-  const [selectedPlatform, setSelectedPlatform] = useState<string>("rezdy");
+  const [state, formAction, isPending] = useActionState(
+    validateExperienceForm,
+    INITIAL_STATE
+  );
+  const [selectedPlatform, setSelectedPlatform] = useState("rezdy");
 
   if (isPending) {
     return (
@@ -37,7 +43,7 @@ export function ExperiencesForm() {
           isPending={isPending}
         />
       </form>
-      
+
       {state.mode === "success" && (
         <ExperiencesList
           data={state.data}
