@@ -32,6 +32,9 @@ export async function validateExperienceForm(
     );
   }
 
+  // Simulate API delay
+  await new Promise((resolve) => setTimeout(resolve, 1500));
+
   try {
     const result =
       platform === "rezdy"

@@ -45,7 +45,7 @@ export function PlatformSelector({
                   <p className="truncate text-sm font-medium text-gray-900">
                     {platform.name}
                   </p>
-                  <p className="truncate text-sm font-medium text-gray-500">
+                  <p className="text-sm font-medium text-gray-500 break-words">
                     {platform.description}
                   </p>
                 </div>

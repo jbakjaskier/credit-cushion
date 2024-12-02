@@ -4,7 +4,6 @@ import { validateExperienceForm } from "@/app/(application)/experiences/(addExpe
 import { UrlValidationResult } from "@/app/(application)/experiences/(addExperiences)/types";
 import { useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
-import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { PlatformSelector } from "@/components/experiences/PlatformSelector";
 import { SearchInput } from "@/components/experiences/SearchInput";
 import { ExperiencesList } from "@/components/experiences/ExperiencesList";
@@ -20,15 +19,6 @@ export function ExperiencesForm() {
     INITIAL_STATE
   );
   const [selectedPlatform, setSelectedPlatform] = useState("rezdy");
-
-  if (isPending) {
-    return (
-      <div className="py-12 flex flex-col items-center gap-4">
-        <LoadingSpinner size="lg" />
-        <p className="text-gray-500">Searching for experiences...</p>
-      </div>
-    );
-  }
 
   return (
     <>
