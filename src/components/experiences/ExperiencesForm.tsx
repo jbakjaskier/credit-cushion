@@ -73,14 +73,14 @@ const supportedPlatforms = [
     description: "An experience hosted and booked on Rezdy",
     imageUrl: "/external_logos/rezdy_logo.webp",
     radioId: "rezdy-radio",
-    radioValue: "rezdy"
+    radioValue: "rezdy",
   },
   {
     name: "FareHarbour",
     description: "Experiences Managed by FareHarbour",
     imageUrl: "/external_logos/fareharbour_logo.png",
     radioId: "fareharbour-radio",
-    radioValue: "fareharbour"
+    radioValue: "fareharbour",
   },
 ];
 
@@ -93,6 +93,35 @@ export function ExperiencesForm() {
   );
 
   const [selectedPlatform, setSelectedPlatform] = useState<string>("rezdy");
+
+  const TextInputUi = (
+    <input
+      type="search"
+      name="url"
+      id="url"
+      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+      placeholder={
+        selectedPlatform === "rezdy"
+          ? `Search for your experiences on Rezdy`
+          : `Short name in FareHarbour`
+      }
+      defaultValue={
+        state.mode === "initial" || state.mode === "success"
+          ? undefined
+          : state.input
+      }
+      aria-invalid={
+        state.mode === "initial" || state.mode === "success"
+          ? undefined
+          : "true"
+      }
+      aria-describedby={
+        state.mode === "initial" || state.mode === "success"
+          ? undefined
+          : "url-error"
+      }
+    />
+  );
 
   return (
     <>
@@ -139,8 +168,6 @@ export function ExperiencesForm() {
                       </div>
                     </div>
                     <div className="flex-shrink-0"></div>
-
-                    
                   </li>
                 ))}
               </ul>
@@ -155,37 +182,9 @@ export function ExperiencesForm() {
               : `Short Name for FareHarbour`}
           </label>
 
-          {state.mode === "success" ||
-            (state.mode === "initial" && (
-              <input
-                type="search"
-                name="url"
-                id="url"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                placeholder={
-                  selectedPlatform === "rezdy"
-                    ? `Search for your experiences on Rezdy`
-                    : `Short name in FareHarbour`
-                }
-              />
-            ))}
-
-          {state.mode === "error" && (
+          {state.mode === "error" ? (
             <div className="relative block w-full rounded-md shadow-sm">
-              <input
-                type="search"
-                name="url"
-                id="url"
-                className=" block w-full rounded-md border-0 py-1.5 pr-10 text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6"
-                placeholder={
-                   selectedPlatform === "rezdy"
-                    ? `Search for your experiences on Rezdy`
-                    : `Short name in FareHarbour`
-                }
-                defaultValue={state.input}
-                aria-invalid="true"
-                aria-describedby="url-error"
-              />
+              {TextInputUi}
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                 <ExclamationCircleIcon
                   className="h-5 w-5 text-red-500"
@@ -193,6 +192,8 @@ export function ExperiencesForm() {
                 />
               </div>
             </div>
+          ) : (
+            TextInputUi
           )}
 
           {isPending ? (

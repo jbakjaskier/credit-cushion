@@ -3,6 +3,7 @@ import { GetFareHarbourItemsForCompany } from "@/lib/api/fareharbour/fetcher/Far
 import { FareHarbourCompany } from "@/lib/api/fareharbour/models/FareHarbourCompany";
 import { FareHarbourItemsResult } from "@/lib/api/fareharbour/models/FareHarbourItem";
 import { GetRezdySearchResultsFromMarketPlace } from "@/lib/api/rezdy/fetcher/RezdyFetcher";
+import { RezdyProductProductSearchResult } from "@/lib/api/rezdy/models/ProductSearchResult";
 
 type UrlValidationResult =
   | {
@@ -32,10 +33,7 @@ export async function validateExperienceForm(
   const input = formData.get("url");
   const platform = formData.get("platform");
 
-  if (
-    input?.toString() === undefined || 
-    input?.toString() === null ||
-    input?.toString()?.trim() === "") {
+  if (!input?.toString()?.trim()) {
     return {
       mode: "error",
       input: undefined,
