@@ -1,7 +1,7 @@
+import { MaybeString } from "@/lib/common";
 
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type RezdyProductProductSearchResult = {
+export type RezdyProductProductSearchResult = {
     requestStatus: RequestStatus;
     products: RezdyProduct[];
 };
@@ -26,9 +26,9 @@ type RezdyProduct = {
 
 type RezdyLocationAddress = {
     addressLine: string;
-    postCode: string | undefined | null;
-    city: string | undefined | null;
-    state: string | undefined  | null;
+    postCode: MaybeString;
+    city: MaybeString;
+    state: MaybeString;
     countryCode: string;
     latitude: number;
     longitude: number;

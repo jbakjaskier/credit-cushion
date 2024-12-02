@@ -30,7 +30,7 @@ export async function GetFareHarbourItemsForCompany (shortName: string) :  Promi
         const fareHarbourCompanyJsonResult = await fareHarbourCompanyResponse.json() as FareHarbourCompany;
 
         //Make an item call
-        const fareHarbourItemsResponse = await fetch(`${process.env.FAREHARBOUR_BASE_URL}/v1/companies/${shortName}/items`, {
+        const fareHarbourItemsResponse = await fetch(`${process.env.FAREHARBOUR_BASE_URL}/v1/companies/${shortName}/items?detailed=yes&require_future_availabilities=no`, {
             method: "GET",
             headers: getHeaders()
         })

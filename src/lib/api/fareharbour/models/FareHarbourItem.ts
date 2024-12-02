@@ -8,7 +8,7 @@ export type FareHarbourItemsResult = {
 type FareHarbourItem = {
     customer_prototypes : CustomerPrototype[];
     description: string;
-    desription_bullets: string[] | null | undefined;
+    desription_bullets?: string[] | null;
     description_safe_html: string;
     description_text: string;
     headline: string;
@@ -33,9 +33,9 @@ type FareHarbourStructuredDescription = {
     group_size: MaybeString;
     highlights: MaybeString;
     itinerary: MaybeString;
-    max_age: number | null | undefined;
+    max_age?: number | null ;
     meeting_point: MaybeString;
-    min_age: number | null | undefined;
+    min_age?: number | null;
     pricing: MaybeString;
     restrictions: MaybeString;
     special_requirements: MaybeString;

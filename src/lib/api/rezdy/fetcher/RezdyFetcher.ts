@@ -1,3 +1,4 @@
+import { RezdyProductProductSearchResult } from "../models/ProductSearchResult";
 
 
 
