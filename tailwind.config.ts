@@ -1,6 +1,5 @@
 import type { Config } from "tailwindcss";
-import forms from '@tailwindcss/forms';
-
+import forms from "@tailwindcss/forms";
 
 export default {
   content: [
@@ -27,6 +26,7 @@ export default {
       animation: {
         "fade-in": "fadeIn 0.5s ease-out",
         "slide-in": "slideIn 0.5s ease-out",
+        shake: "shake 0.2s ease-in-out 0s 2",
       },
       keyframes: {
         fadeIn: {
@@ -37,10 +37,13 @@ export default {
           "0%": { transform: "translateY(-10px)", opacity: "0" },
           "100%": { transform: "translateY(0)", opacity: "1" },
         },
+        shake: {
+          "0%, 100%": { transform: "translateX(0)" },
+          "25%": { transform: "translateX(-5px)" },
+          "75%": { transform: "translateX(5px)" },
+        },
       },
     },
   },
-  plugins: [
-    forms
-  ],
+  plugins: [forms],
 } satisfies Config;
