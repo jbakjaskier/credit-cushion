@@ -1,17 +1,21 @@
 "use client";
 
-import {
-  validateExperienceForm,
-} from "@/app/(application)/experiences/(addExperiences)/actions";
+import { validateExperienceForm } from "@/app/(application)/experiences/(addExperiences)/actions";
 import { useActionState, useState } from "react";
-import { ChevronRightIcon, ExclamationCircleIcon } from "@heroicons/react/20/solid";
+import {
+  ChevronRightIcon,
+  ExclamationCircleIcon,
+} from "@heroicons/react/20/solid";
 import Image from "next/image";
-import { isRezdyImage, isRezdyProduct, isRezdyProductSearchResult, RezdyProduct } from "@/lib/api/rezdy/models/ProductSearchResult";
+import {
+  isRezdyImage,
+  isRezdyProduct,
+  isRezdyProductSearchResult,
+  RezdyProduct,
+} from "@/lib/api/rezdy/models/ProductSearchResult";
 import { FareHarbourItem } from "@/lib/api/fareharbour/models/FareHarbourItem";
-import { useRouter } from 'next/navigation'
-
-
-
+import { useRouter } from "next/navigation";
+import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 
 const supportedPlatforms = [
   {
@@ -31,9 +35,8 @@ const supportedPlatforms = [
 ];
 
 export function ExperiencesForm() {
-  const router = useRouter()
+  const router = useRouter();
 
-  
   const [state, formAction, isPending] = useActionState(
     validateExperienceForm,
     {
@@ -71,6 +74,14 @@ export function ExperiencesForm() {
       }
     />
   );
+
+  if (isPending) {
+    return (
+      <div className="py-12">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -184,7 +195,7 @@ export function ExperiencesForm() {
         key={isRezdyProduct(listItem) ? listItem.name : listItem.pk}
         className="relative flex justify-between gap-x-6 py-5 cursor-pointer"
         onClick={() => {
-          router.push(`/experiences/create-waiver/expId`) //TODO: Update this in future PR with a valid Experience after storing in MongoDb
+          router.push(`/experiences/create-waiver/expId`); //TODO: Update this in future PR with a valid Experience after storing in MongoDb
         }}
       >
         <div className="flex min-w-0 gap-x-4">
@@ -192,7 +203,11 @@ export function ExperiencesForm() {
             width={100}
             height={100}
             className="h-12 w-12 flex-none rounded-full bg-gray-50"
-            src={isRezdyImage(listItem.images[0]) ? listItem.images[0].thumbnailUrl : listItem.images[0].image_cdn_url}
+            src={
+              isRezdyImage(listItem.images[0])
+                ? listItem.images[0].thumbnailUrl
+                : listItem.images[0].image_cdn_url
+            }
             alt="Experience Image"
           />
           <div className="min-w-0 flex-auto">
@@ -203,25 +218,22 @@ export function ExperiencesForm() {
               </p>
             </div>
             <div className="mt-1 flex text-xs leading-5 text-gray-500">
-              <p
-                className="relative truncate hover:underline"
-              >
-                {isRezdyProduct(listItem) ? listItem.shortDescription : listItem.description}
+              <p className="relative truncate hover:underline">
+                {isRezdyProduct(listItem)
+                  ? listItem.shortDescription
+                  : listItem.description}
               </p>
             </div>
           </div>
         </div>
         <div className="flex shrink-0 items-center gap-x-4">
-          <div className="hidden sm:flex sm:flex-col sm:items-end">
-          </div>
+          <div className="hidden sm:flex sm:flex-col sm:items-end"></div>
           <ChevronRightIcon
             className="h-5 w-5 flex-none text-gray-400"
             aria-hidden="true"
           />
-        </div> 
+        </div>
       </li>
     );
   }
-  
 }
-

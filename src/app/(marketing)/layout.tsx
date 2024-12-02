@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "../globals.css";
 import MarketingHeader from "@/components/MarketingHeader";
+import { APP_NAME, APP_DESCRIPTION } from "@/config/constants";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -15,8 +16,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Rush Ready",
-  description: "Adventure Awaits, Paperwork Doesn't",
+  title: APP_NAME,
+  description: APP_DESCRIPTION,
 };
 
 export default function RootLayout({

@@ -2,6 +2,8 @@ import ApplicationHeader from "@/components/ApplicationHeader";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "../globals.css";
+import { ErrorBoundary } from "@/components/common/ErrorBoundary";
+import { APP_NAME, APP_DESCRIPTION } from "@/config/constants";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -16,8 +18,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Rush Ready",
-  description: "Adventure Awaits, Paperwork Doesn't",
+  title: APP_NAME,
+  description: APP_DESCRIPTION,
 };
 
 export default function ApplicationLayout({
@@ -31,16 +33,18 @@ export default function ApplicationLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}
         suppressHydrationWarning
       >
-        <div className="min-h-full bg-gray-100">
-          <ApplicationHeader />
-          <main className="-mt-32">
-            <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-              <div className="rounded-lg bg-white px-5 py-6 shadow sm:px-6">
-                {children}
+        <ErrorBoundary>
+          <div className="min-h-full bg-gray-100">
+            <ApplicationHeader />
+            <main className="-mt-32">
+              <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+                <div className="rounded-lg bg-white px-5 py-6 shadow sm:px-6">
+                  {children}
+                </div>
               </div>
-            </div>
-          </main>
-        </div>
+            </main>
+          </div>
+        </ErrorBoundary>
       </body>
     </html>
   );
