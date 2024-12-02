@@ -1,5 +1,10 @@
 import { RezdyProductProductSearchResult } from "../models/ProductSearchResult";
 
+export const delay = (delayInms: number) => {
+  return new Promise(resolve => setTimeout(resolve, delayInms));
+};
+
+
 export async function GetRezdySearchResultsFromMarketPlace(
   searchTerm: string
 ): Promise<
@@ -12,6 +17,7 @@ export async function GetRezdySearchResultsFromMarketPlace(
       errorMessage: string;
     }
 > {
+  await delay(2000) //TODO: To simulate loading - Remove when app is completed
   //This currently returns test data
   if (searchTerm === "validRezdy") {
     return {

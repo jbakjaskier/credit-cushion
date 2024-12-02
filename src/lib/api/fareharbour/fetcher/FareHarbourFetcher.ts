@@ -1,3 +1,4 @@
+import { delay } from "../../rezdy/fetcher/RezdyFetcher";
 import { FareHarbourCompany } from "../models/FareHarbourCompany";
 import { FareHarbourItemsResult } from "../models/FareHarbourItem";
 
@@ -14,6 +15,8 @@ export async function GetFareHarbourItemsForCompany(shortName: string): Promise<
       errorMessage: string;
     }
 > {
+    
+  await delay(2000) //TODO: To simulate loading - Remove when app is completed
   if (shortName === "validFareHarbour") {
     return {
       isSuccessful: true,
