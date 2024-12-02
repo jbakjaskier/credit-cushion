@@ -6,18 +6,17 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
 import { navigation, userNavigation } from "@/config/navigation";
-import { useUser } from "@/contexts/UserContext";
 import { SearchBar } from "./header/SearchBar";
 import { ProfileMenu } from "./header/ProfileMenu";
-import { MobileMenu } from "./header/MobileMenu"; 
+import { MobileMenu } from "./header/MobileMenu";
+
+const defaultUser = {
+  name: "Guest User",
+  email: "guest@example.com",
+  imageUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+};
 
 export default function ApplicationHeader() {
-  const { user } = useUser();
-
-  if (!user) {
-    return null;
-  }
-
   return (
     <div className="bg-indigo-600 pb-32">
       <Disclosure
@@ -84,14 +83,14 @@ export default function ApplicationHeader() {
                       <span className="sr-only">View notifications</span>
                       <BellIcon className="h-6 w-6" aria-hidden="true" />
                     </button>
-                    <ProfileMenu user={user} />
+                    <ProfileMenu user={defaultUser} />
                   </div>
                 </div>
               </div>
             </div>
 
             <MobileMenu
-              user={user}
+              user={defaultUser}
               navigation={navigation}
               userNavigation={userNavigation}
             />
