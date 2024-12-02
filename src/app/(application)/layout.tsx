@@ -1,8 +1,7 @@
-
 import ApplicationHeader from "@/components/ApplicationHeader";
-
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { RootClientWrapper } from "@/components/providers/RootClientWrapper";
 import "../globals.css";
 
 const geistSans = localFont({
@@ -22,16 +21,18 @@ export const metadata: Metadata = {
   description: "Adventure Awaits, Paperwork Doesn't",
 };
 
-
-
-export default async function ApplicationLayout({
-    children,
-  }: Readonly<{
-    children: React.ReactNode;
-  }>) {
+export default function ApplicationLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html className="h-full bg-gray-100" lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}
+        suppressHydrationWarning
+      >
+        <RootClientWrapper>
           <div className="min-h-full bg-gray-100">
             <ApplicationHeader />
             <main className="-mt-32">
@@ -42,6 +43,7 @@ export default async function ApplicationLayout({
               </div>
             </main>
           </div>
+        </RootClientWrapper>
       </body>
     </html>
   );
