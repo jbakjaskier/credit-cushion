@@ -1,4 +1,3 @@
-import { MaybeString } from "@/lib/common";
 import { FareHarbourCompany } from "../../fareharbour/models/FareHarbourCompany";
 import {
   FareHarbourImage,
