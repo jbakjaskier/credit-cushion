@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ButtonSpinner } from "../common/ButtonSpinner";
 import { Experience } from "@/lib/db/models/Experience";
 
 interface PDFViewerProps {
@@ -56,9 +55,10 @@ export function PDFViewer({ experience }: PDFViewerProps) {
   return (
     <div className="space-y-4">
       {isGenerating && (
-        <div className="flex items-center justify-center py-12">
-          <ButtonSpinner />
-          <span className="ml-2">Generating PDF preview...</span>
+        <div className="flex items-center justify-center py-12 bg-gray-100 rounded-lg border border-gray-300">
+          <span className="ml-2 text-lg font-medium text-gray-700">
+            Generating PDF preview...
+          </span>
         </div>
       )}
 
