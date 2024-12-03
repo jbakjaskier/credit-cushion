@@ -1,11 +1,15 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
+import type { ChatCompletionMessageParam } from "openai/resources/chat/completions";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-async function fetchAI(messages: any, maxTokens: number) {
+async function fetchAI(
+  messages: ChatCompletionMessageParam[],
+  maxTokens: number
+) {
   try {
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",

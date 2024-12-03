@@ -22,7 +22,9 @@ export async function GET(
   context: { params: { experienceId: string } }
 ) {
   try {
-    const experienceId = await Promise.resolve(context.params.experienceId);
+    // Await the params object
+    const params = await context.params;
+    const experienceId = params.experienceId;
 
     // Try FareHarbour first
     const fareHarbourResult = await GetFareHarbourItemsForCompany(

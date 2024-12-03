@@ -58,6 +58,13 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      // Exclude html2pdf.js from server-side bundles
+      config.externals = [...(config.externals || []), "html2pdf.js"];
+    }
+    return config;
+  },
 };
 
 export default nextConfig;

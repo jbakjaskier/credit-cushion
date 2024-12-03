@@ -111,9 +111,15 @@ function WaiverContent({ experienceId }: { experienceId: string }) {
   return (
     <div className="space-y-8">
       <div className="prose max-w-none">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8 mt-4 px-4 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-          {experience.experienceTitle} Waiver
-        </h1>
+        <h2 className="mt-6 text-base font-semibold leading-6 text-gray-900">
+          Waiver for {experience.experienceTitle}
+        </h2>
+        <p className="mt-1 text-sm text-gray-500">
+          This is a preview of the waiver document that will be presented to
+          participants. The waiver outlines important terms, conditions, and
+          liability releases. Please review it carefully to ensure all necessary
+          information is included and accurately represented.
+        </p>
       </div>
 
       <PDFViewer>

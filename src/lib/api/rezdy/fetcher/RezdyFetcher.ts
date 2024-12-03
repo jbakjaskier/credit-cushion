@@ -124,7 +124,7 @@ export async function GetRezdySearchResultsFromMarketPlace(
       if (!searchItemResponse.ok) {
         return {
           isSuccessful: false,
-          errorMessage: `We were unable to get the products from FareHarbour. Please try again in a bit`,
+          errorMessage: `We were unable to get the products from rezdy. Please try again in a bit`,
         };
       }
 
@@ -134,14 +134,14 @@ export async function GetRezdySearchResultsFromMarketPlace(
       if (!searchItemResponseJson.requestStatus.success) {
         return {
           isSuccessful: false,
-          errorMessage: `We were unable to get the products from FareHarbour. Please try again in a bit`,
+          errorMessage: `We were unable to get the products from rezdy. Please try again in a bit`,
         };
       }
 
       if (searchItemResponseJson.products.length === 0) {
         return {
           isSuccessful: false,
-          errorMessage: `You don't seem to have any product to sell on FareHarbour`,
+          errorMessage: `You don't seem to have any product to sell on rezdy`,
         };
       }
 
@@ -164,7 +164,7 @@ export async function GetRezdySearchResultsFromMarketPlace(
 
       return {
         isSuccessful: false,
-        errorMessage: `We were unable to get the products from FareHarbour. Please try again in a bit`,
+        errorMessage: `We were unable to get the products from rezdy. Please try again in a bit`,
       };
     }
   }

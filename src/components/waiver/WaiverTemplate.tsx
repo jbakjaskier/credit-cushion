@@ -11,12 +11,12 @@ interface WaiverTemplateProps {
 
 export function WaiverTemplate({ experience, sections }: WaiverTemplateProps) {
   return (
-    <div className="max-w-4xl mx-auto p-8 bg-white font-sans">
+    <div className="max-w-4xl mx-auto p-8 bg-white">
       <header className="text-center mb-8 border-b pb-6">
-        <h1 className="text-3xl font-bold text-indigo-600 mb-2">
+        <h1 className="text-3xl font-bold text-indigo-600 mb-2 font-serif">
           {experience.experienceTitle}
         </h1>
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">
+        <h2 className="text-xl font-semibold text-gray-700 mb-4 font-serif">
           Liability Waiver & Release Form
         </h2>
         <p className="text-gray-600">{experience.experienceDescription}</p>
@@ -24,11 +24,11 @@ export function WaiverTemplate({ experience, sections }: WaiverTemplateProps) {
 
       {sections.map((section, index) => (
         <section key={section.key} className="mb-8">
-          <h2 className="text-xl font-semibold text-indigo-800 mb-4 pb-2 border-b border-indigo-100">
+          <h2 className="text-xl font-semibold text-indigo-800 mb-4 pb-2 border-b border-indigo-100 font-serif">
             {section.title}
           </h2>
           <div
-            className="prose prose-indigo max-w-none"
+            className="prose prose-indigo max-w-none  text-gray-600 mb-4"
             dangerouslySetInnerHTML={{ __html: section.content }}
           />
           {index < sections.length - 1 && (

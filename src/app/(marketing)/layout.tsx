@@ -9,19 +9,15 @@ export const metadata: Metadata = {
   description: APP_DESCRIPTION,
 };
 
-export default function RootLayout({
+export default function MarketingLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={getFontClasses()} suppressHydrationWarning>
-        <div className="bg-white">
-          <MarketingHeader />
-          {children}
-        </div>
-      </body>
-    </html>
+    <div className={`${getFontClasses()} bg-white`}>
+      <MarketingHeader />
+      {children}
+    </div>
   );
 }

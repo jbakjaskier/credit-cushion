@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import html2pdf from "html2pdf.js";
 import { ButtonSpinner } from "../common/ButtonSpinner";
 
 interface PDFViewerProps {
@@ -30,6 +29,9 @@ export function PDFViewer({ children }: PDFViewerProps) {
           jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
         };
 
+        // Dynamic import of html2pdf.js
+        const html2pdf = (await import("html2pdf.js")).default;
+        
         const pdfAsString = await html2pdf()
           .set(opt)
           .from(contentRef.current)
@@ -74,3 +76,4 @@ export function PDFViewer({ children }: PDFViewerProps) {
     </div>
   );
 }
+
