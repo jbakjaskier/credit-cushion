@@ -1,45 +1,40 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { ButtonSpinner } from "../common/ButtonSpinner";
+import { Experience } from "@/lib/db/models/Experience";
 
 interface PDFViewerProps {
-  children: React.ReactNode;
+  experience: Experience;
 }
 
-export function PDFViewer({ children }: PDFViewerProps) {
-  const contentRef = useRef<HTMLDivElement>(null);
-  const pdfRef = useRef<HTMLIFrameElement>(null);
+export function PDFViewer({ experience }: PDFViewerProps) {
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function generatePDF() {
-      if (!contentRef.current || !pdfRef.current) return;
-
       try {
         setIsGenerating(true);
         setError(null);
 
-        const opt = {
-          margin: 1,
-          filename: "waiver.pdf",
-          image: { type: "jpeg", quality: 0.98 },
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
-        };
+        const response = await fetch("/api/waiver/generate-pdf", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ experience }),
+        });
 
-        // Dynamic import of html2pdf.js
-        const html2pdf = (await import("html2pdf.js")).default;
-        
-        const pdfAsString = await html2pdf()
-          .set(opt)
-          .from(contentRef.current)
-          .output("datauristring");
-
-        if (pdfRef.current) {
-          pdfRef.current.src = pdfAsString;
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Failed to generate PDF");
         }
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        setPdfUrl(url);
       } catch (err) {
         console.error("Error generating PDF:", err);
         setError("Failed to generate PDF preview");
@@ -49,14 +44,17 @@ export function PDFViewer({ children }: PDFViewerProps) {
     }
 
     generatePDF();
-  }, [children]);
+
+    // Cleanup function to revoke the object URL
+    return () => {
+      if (pdfUrl) {
+        URL.revokeObjectURL(pdfUrl);
+      }
+    };
+  }, [experience]);
 
   return (
     <div className="space-y-4">
-      <div className="hidden">
-        <div ref={contentRef}>{children}</div>
-      </div>
-
       {isGenerating && (
         <div className="flex items-center justify-center py-12">
           <ButtonSpinner />
@@ -66,9 +64,9 @@ export function PDFViewer({ children }: PDFViewerProps) {
 
       {error && <div className="text-center text-red-600 py-4">{error}</div>}
 
-      {!isGenerating && !error && (
+      {!isGenerating && !error && pdfUrl && (
         <iframe
-          ref={pdfRef}
+          src={pdfUrl}
           className="w-full h-[800px] border border-gray-200 rounded-lg"
           title="Waiver PDF Preview"
         />
@@ -76,4 +74,3 @@ export function PDFViewer({ children }: PDFViewerProps) {
     </div>
   );
 }
-

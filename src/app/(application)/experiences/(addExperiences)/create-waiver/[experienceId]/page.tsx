@@ -5,7 +5,6 @@ import {
   generateWaiverSections,
   generateWaiverContent,
 } from "@/lib/api/waiver/WaiverGenerator";
-import { WaiverTemplate } from "@/components/waiver/WaiverTemplate";
 import { PDFViewer } from "@/components/pdf/PDFViewer";
 import { Experience } from "@/lib/db/models/Experience";
 import { WaiverSection } from "@/lib/types/waiver";
@@ -122,9 +121,7 @@ function WaiverContent({ experienceId }: { experienceId: string }) {
         </p>
       </div>
 
-      <PDFViewer>
-        <WaiverTemplate experience={experience} sections={waiverSections} />
-      </PDFViewer>
+      <PDFViewer experience={experience} />
     </div>
   );
 }

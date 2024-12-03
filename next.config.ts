@@ -46,7 +46,7 @@ const nextConfig: NextConfig = {
               "img-src 'self' data: https: blob:",
               "font-src 'self' data:",
               "connect-src 'self' https://api.openai.com",
-              "frame-src 'self' data: blob:",
+              "frame-src 'self' blob: data:",
               "worker-src 'self' blob:",
             ].join("; "),
           },
@@ -60,8 +60,8 @@ const nextConfig: NextConfig = {
   },
   webpack: (config, { isServer }) => {
     if (isServer) {
-      // Exclude html2pdf.js from server-side bundles
-      config.externals = [...(config.externals || []), "html2pdf.js"];
+      // Exclude Puppeteer from client-side bundles
+      config.externals.push('puppeteer')
     }
     return config;
   },
