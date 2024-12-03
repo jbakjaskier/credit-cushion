@@ -18,7 +18,7 @@ export default function ExperiencesStepPanel() {
 }
 
 function StepPanelContent() {
-  const pathname = usePathname();
+  const pathname = usePathname() || "";
 
   const addingExperienceSteps: StepDefinition[] = [
     {
@@ -31,13 +31,13 @@ function StepPanelContent() {
       displayId: "02",
       name: "Review",
       description: "Review your waiver",
-      status: "upcoming",
+      status: pathname.includes("review-waiver") ? "current" : "upcoming",
     },
     {
       displayId: "03",
       name: "Publish",
       description: "Publish your waiver on DocuSign",
-      status: "upcoming",
+      status: pathname.includes("publish-waiver") ? "current" : "upcoming",
     },
   ];
 

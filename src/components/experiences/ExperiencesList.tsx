@@ -1,4 +1,8 @@
-import { RezdyProductProductSearchResult, isRezdyProduct, isRezdyProductSearchResult } from "@/lib/api/rezdy/models/ProductSearchResult";
+import {
+  RezdyProductProductSearchResult,
+  isRezdyProduct,
+  isRezdyProductSearchResult,
+} from "@/lib/api/rezdy/models/ProductSearchResult";
 import { FareHarbourCompany } from "@/lib/api/fareharbour/models/FareHarbourCompany";
 import { FareHarbourItemsResult } from "@/lib/api/fareharbour/models/FareHarbourItem";
 import { ExperienceListItem } from "@/components/experiences/ExperienceListItem";
@@ -32,11 +36,15 @@ export function ExperiencesList({
     <ul role="list" className="divide-y divide-gray-100 mt-4">
       {experiences.map((experience) => (
         <ExperienceListItem
-          key={isRezdyProduct(experience) ? experience.name : experience.pk}
+          key={
+            isRezdyProduct(experience) ? experience.productCode : experience.pk
+          }
           experience={experience}
           onClick={() =>
             onExperienceSelect(
-              isRezdyProduct(experience) ? experience.name : experience.pk.toString()
+              isRezdyProduct(experience)
+                ? experience.productCode
+                : experience.pk.toString()
             )
           }
         />

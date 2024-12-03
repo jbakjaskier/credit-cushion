@@ -3,7 +3,11 @@ import { FareHarbourCompany } from "../models/FareHarbourCompany";
 import { FareHarbourItemsResult } from "../models/FareHarbourItem";
 import { API_ENDPOINTS } from "@/config/constants";
 
-export async function GetFareHarbourItemsForCompany(companyShortname: string): Promise<
+const FAREHARBOUR_API_KEY = process.env.FAREHARBOUR_API_KEY;
+
+export async function GetFareHarbourItemsForCompany(
+  companyShortname: string
+): Promise<
   | {
       isSuccessful: true;
       data: {
@@ -16,8 +20,14 @@ export async function GetFareHarbourItemsForCompany(companyShortname: string): P
       errorMessage: string;
     }
 > {
-    
-  await delay(2000) //TODO: To simulate loading - Remove when app is completed
+  if (!FAREHARBOUR_API_KEY) {
+    return {
+      isSuccessful: false,
+      errorMessage: "FareHarbour API key not configured",
+    };
+  }
+
+  await delay(2000); //TODO: To simulate loading - Remove when app is completed
   if (companyShortname === "validFareHarbour") {
     return {
       isSuccessful: true,
