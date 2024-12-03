@@ -1,4 +1,5 @@
 import { RezdyProductProductSearchResult } from "../models/ProductSearchResult";
+import { API_ENDPOINTS } from "@/config/constants";
 
 export const delay = (delayInms: number) => {
   return new Promise(resolve => setTimeout(resolve, delayInms));
@@ -102,7 +103,7 @@ export async function GetRezdySearchResultsFromMarketPlace(
   } else {
     try {
       const searchItemResponse = await fetch(
-        `${process.env.REZDY_BASE_URL}/v1/products/marketplace?` +
+        `${API_ENDPOINTS.REZDY.BASE}${API_ENDPOINTS.REZDY.MARKETPLACE}?` +
           new URLSearchParams({
             apiKey: process.env.REZDY_API_KEY!,
             search: searchTerm,

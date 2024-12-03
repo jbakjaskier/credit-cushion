@@ -1,8 +1,9 @@
 import { delay } from "../../rezdy/fetcher/RezdyFetcher";
 import { FareHarbourCompany } from "../models/FareHarbourCompany";
 import { FareHarbourItemsResult } from "../models/FareHarbourItem";
+import { API_ENDPOINTS } from "@/config/constants";
 
-export async function GetFareHarbourItemsForCompany(shortName: string): Promise<
+export async function GetFareHarbourItemsForCompany(companyShortname: string): Promise<
   | {
       isSuccessful: true;
       data: {
@@ -17,7 +18,7 @@ export async function GetFareHarbourItemsForCompany(shortName: string): Promise<
 > {
     
   await delay(2000) //TODO: To simulate loading - Remove when app is completed
-  if (shortName === "validFareHarbour") {
+  if (companyShortname === "validFareHarbour") {
     return {
       isSuccessful: true,
       data: {
@@ -121,44 +122,44 @@ export async function GetFareHarbourItemsForCompany(shortName: string): Promise<
 
   //Get company
   try {
-    const fareHarbourCompanyResponse = await fetch(
-      `${process.env.FAREHARBOUR_BASE_URL}/v1/companies/${shortName}`,
+    const companyResponse = await fetch(
+      `${API_ENDPOINTS.FAREHARBOUR.BASE}${API_ENDPOINTS.FAREHARBOUR.COMPANIES}/${companyShortname}`,
       {
         method: "GET",
         headers: getHeaders(),
       }
     );
 
-    if (!fareHarbourCompanyResponse.ok) {
+    if (!companyResponse.ok) {
       return {
         isSuccessful: false,
         errorMessage: `We were not able to get a company registered with FareHarbour with that short name`,
       };
     }
 
-    const fareHarbourCompanyJsonResult =
-      (await fareHarbourCompanyResponse.json()) as FareHarbourCompany;
+    const companyJsonResult =
+      (await companyResponse.json()) as FareHarbourCompany;
 
     //Make an item call
-    const fareHarbourItemsResponse = await fetch(
-      `${process.env.FAREHARBOUR_BASE_URL}/v1/companies/${shortName}/items?detailed=yes&require_future_availabilities=no`,
+    const itemsResponse = await fetch(
+      `${API_ENDPOINTS.FAREHARBOUR.BASE}${API_ENDPOINTS.FAREHARBOUR.COMPANIES}/${companyShortname}${API_ENDPOINTS.FAREHARBOUR.ITEMS}`,
       {
         method: "GET",
         headers: getHeaders(),
       }
     );
 
-    if (!fareHarbourItemsResponse.ok) {
+    if (!itemsResponse.ok) {
       return {
         isSuccessful: false,
         errorMessage: `We were unable to get any items that your company is currently selling on FareHarbour`,
       };
     }
 
-    const fareHarbourJsonResult =
-      (await fareHarbourItemsResponse.json()) as FareHarbourItemsResult;
+    const itemsJsonResult =
+      (await itemsResponse.json()) as FareHarbourItemsResult;
 
-    if (fareHarbourJsonResult.items.length === 0) {
+    if (itemsJsonResult.items.length === 0) {
       return {
         isSuccessful: false,
         errorMessage: `There are no items that your company currently sells on FareHarbour`,
@@ -168,8 +169,8 @@ export async function GetFareHarbourItemsForCompany(shortName: string): Promise<
     return {
       isSuccessful: true,
       data: {
-        company: fareHarbourCompanyJsonResult,
-        items: fareHarbourJsonResult,
+        company: companyJsonResult,
+        items: itemsJsonResult,
       },
     };
   } catch (error: unknown) {

@@ -1,7 +1,9 @@
+import { API_ENDPOINTS } from "@/config/constants";
+
 // DocuSign OAuth configuration
 export const DOCUSIGN_CONFIG = {
-  authorizationUrl: "https://account-d.docusign.com/oauth/auth",
-  tokenUrl: "https://account-d.docusign.com/oauth/token",
+  authorizationUrl: API_ENDPOINTS.DOCUSIGN.AUTH,
+  tokenUrl: API_ENDPOINTS.DOCUSIGN.TOKEN,
   clientId: process.env.DOCUSIGN_CLIENT_ID,
   clientSecret: process.env.DOCUSIGN_CLIENT_SECRET,
   redirectUri: process.env.DOCUSIGN_REDIRECT_URI,
