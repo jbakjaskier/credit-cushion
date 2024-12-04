@@ -2,8 +2,22 @@
 
 import { GetFareHarbourItemsForCompany } from "@/lib/api/fareharbour/fetcher/FareHarbourFetcher";
 import { GetRezdySearchResultsFromMarketPlace } from "@/lib/api/rezdy/fetcher/RezdyFetcher";
-import { UrlValidationResult } from "./types";
 import { SelectableExperience } from "@/lib/api/rezdy/models/ProductSearchResult";
+
+export type UrlValidationResult =
+  | {
+      mode: "success";
+      data: SelectableExperience[];
+    }
+  | {
+      mode: "error";
+      input?: string;
+      errorMessage: string;
+    }
+  | {
+      mode: "initial";
+    };
+
 
 const createErrorResult = (
   input: string | undefined,

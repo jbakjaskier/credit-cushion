@@ -1,6 +1,6 @@
 import { ExclamationCircleIcon } from "@heroicons/react/20/solid";
 import { ButtonSpinner } from "@/components/common/ButtonSpinner";
-import { UrlValidationResult } from "@/app/(application)/experiences/(addExperiences)/types";
+import { UrlValidationResult } from "@/app/(application)/experiences/(addExperiences)/actions";
 
 interface SearchInputProps {
   selectedPlatform: string;

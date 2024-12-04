@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 
+//TODO: This should also have company details
 export interface Experience {
   _id: ObjectId; //This is mongoDb Id
   experiencePlatformId: string;

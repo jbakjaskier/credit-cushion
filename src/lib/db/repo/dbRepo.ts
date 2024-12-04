@@ -5,7 +5,7 @@ import {
   SelectableExperience,
 } from "@/lib/api/rezdy/models/ProductSearchResult";
 import clientPromise from "../mongodb";
-import { Db } from "mongodb";
+import { Db, ObjectId } from "mongodb";
 import { Experience } from "../models/Experience";
 
 type DbMutationOperationResult =
@@ -18,7 +18,15 @@ type DbMutationOperationResult =
       errorMessage: string;
     };
 
-export default async function upsertExperienceInDatabase(
+type DbReadOperation<T> = {
+  isSuccessful: true;
+  data: T
+} | {
+  isSuccessful: false;
+  errorMessage: string;
+}
+
+export async function upsertExperienceInDatabase(
   experience: SelectableExperience
 ): Promise<DbMutationOperationResult> {
   try {
@@ -59,6 +67,48 @@ export default async function upsertExperienceInDatabase(
     return {
       isSuccessful: false,
       errorMessage: `We were unable to load that experience. Try again in a bit`,
+    };
+  }
+}
+
+export async function getExperienceFromDb(_id: string) : Promise<DbReadOperation<Experience>> {
+  try {
+    const mongoDatabase = await getMongoDatabase();
+    const experiencesCollection = mongoDatabase.collection<Experience>("experiences");
+
+    const experienceDocumentInDb = await experiencesCollection.findOne({
+      _id: new ObjectId(_id)
+    })
+
+    if(experienceDocumentInDb === null) {
+      return {
+        isSuccessful: false,
+        errorMessage: `Unable to find Experience in the database`
+      }
+    }
+
+    return {
+      isSuccessful: true,
+      data: experienceDocumentInDb
+    }
+
+
+  } catch (error : unknown) {
+    if (typeof error === "string") {
+      return {
+        isSuccessful: false,
+        errorMessage: error,
+      };
+    } else if (error instanceof Error) {
+      return {
+        isSuccessful: false,
+        errorMessage: error.message,
+      };
+    }
+
+    return {
+      isSuccessful: false,
+      errorMessage: `We were unable to find that experience. Try again in a bit`,
     };
   }
 }
