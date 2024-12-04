@@ -2,9 +2,10 @@ import { RezdyProductProductSearchResult } from "../models/ProductSearchResult";
 import { API_ENDPOINTS } from "@/config/constants";
 
 export const delay = (delayInms: number) => {
-  return new Promise(resolve => setTimeout(resolve, delayInms));
+  return new Promise((resolve) => setTimeout(resolve, delayInms));
 };
 
+const REZDY_API_KEY = process.env.REZDY_API_KEY;
 
 export async function GetRezdySearchResultsFromMarketPlace(
   searchTerm: string
@@ -18,7 +19,14 @@ export async function GetRezdySearchResultsFromMarketPlace(
       errorMessage: string;
     }
 > {
-  await delay(2000) //TODO: To simulate loading - Remove when app is completed
+  if (!REZDY_API_KEY) {
+    return {
+      isSuccessful: false,
+      errorMessage: "Rezdy API key not configured",
+    };
+  }
+
+  await delay(2000); //TODO: To simulate loading - Remove when app is completed
   //This currently returns test data
   if (searchTerm === "validRezdy") {
     return {
@@ -105,7 +113,7 @@ export async function GetRezdySearchResultsFromMarketPlace(
       const searchItemResponse = await fetch(
         `${API_ENDPOINTS.REZDY.BASE}${API_ENDPOINTS.REZDY.MARKETPLACE}?` +
           new URLSearchParams({
-            apiKey: process.env.REZDY_API_KEY!,
+            apiKey: REZDY_API_KEY!,
             search: searchTerm,
           }),
         {
@@ -116,7 +124,7 @@ export async function GetRezdySearchResultsFromMarketPlace(
       if (!searchItemResponse.ok) {
         return {
           isSuccessful: false,
-          errorMessage: `We were unable to get the products from FareHarbour. Please try again in a bit`,
+          errorMessage: `We were unable to get the products from rezdy. Please try again in a bit`,
         };
       }
 
@@ -126,14 +134,14 @@ export async function GetRezdySearchResultsFromMarketPlace(
       if (!searchItemResponseJson.requestStatus.success) {
         return {
           isSuccessful: false,
-          errorMessage: `We were unable to get the products from FareHarbour. Please try again in a bit`,
+          errorMessage: `We were unable to get the products from rezdy. Please try again in a bit`,
         };
       }
 
       if (searchItemResponseJson.products.length === 0) {
         return {
           isSuccessful: false,
-          errorMessage: `You don't seem to have any product to sell on FareHarbour`,
+          errorMessage: `You don't seem to have any product to sell on rezdy`,
         };
       }
 
@@ -156,7 +164,7 @@ export async function GetRezdySearchResultsFromMarketPlace(
 
       return {
         isSuccessful: false,
-        errorMessage: `We were unable to get the products from FareHarbour. Please try again in a bit`,
+        errorMessage: `We were unable to get the products from rezdy. Please try again in a bit`,
       };
     }
   }

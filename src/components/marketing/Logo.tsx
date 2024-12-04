@@ -14,6 +14,12 @@ export function Logo({ width = 150, height = 150 }: LogoProps) {
         priority
         width={width}
         height={height}
+        style={{
+          width: "auto",
+          height: "auto",
+          maxWidth: width,
+          maxHeight: height,
+        }}
         src="/rush_ready_logo.png"
         alt="Rush Ready Logo"
       />

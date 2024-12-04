@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { ErrorBoundary } from "@/components/common/ErrorBoundary";
 import { APP_NAME, APP_DESCRIPTION } from "@/config/constants";
+import { ToastProvider } from "@/components/providers/ToastProvider";
 import { getFontClasses } from "@/config/fonts";
 
 // Metadata configuration
@@ -18,22 +19,19 @@ export default function ApplicationLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className="h-full bg-gray-100" lang="en">
-      <body className={`${getFontClasses()} h-full`} suppressHydrationWarning>
-        <ErrorBoundary>
-          <div className="min-h-full bg-gray-100">
-            <ApplicationHeader />
-            
-            <main className="-mt-32">
-              <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-                <div className="rounded-lg bg-white px-5 py-6 shadow sm:px-6">
-                  {children}
-                </div>
-              </div>
-            </main>
+    <ErrorBoundary>
+      <div className={`${getFontClasses()} min-h-full bg-gray-100`}>
+        <ApplicationHeader />
+
+        <main className="-mt-32">
+          <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+            <div className="rounded-lg bg-white px-5 py-6 shadow sm:px-6">
+              {children}
+            </div>
           </div>
-        </ErrorBoundary>
-      </body>
-    </html>
+        </main>
+      </div>
+      <ToastProvider />
+    </ErrorBoundary>
   );
 }
