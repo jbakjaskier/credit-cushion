@@ -1,6 +1,9 @@
+"use client"
+
 import {
   RezdyProductProductSearchResult,
-  isRezdyProduct,
+  SelectableExperience,
+  isFareHarbourItem,
   isRezdyProductSearchResult,
 } from "@/lib/api/rezdy/models/ProductSearchResult";
 import { FareHarbourCompany } from "@/lib/api/fareharbour/models/FareHarbourCompany";
@@ -11,16 +14,19 @@ interface ExperiencesListProps {
   data:
     | RezdyProductProductSearchResult
     | { company: FareHarbourCompany; items: FareHarbourItemsResult };
-  onExperienceSelect: (experienceId: string) => void;
+  onExperienceSelect: (selectedExperience: SelectableExperience) => Promise<void>;
 }
 
 export function ExperiencesList({
   data,
   onExperienceSelect,
 }: ExperiencesListProps) {
-  const experiences = isRezdyProductSearchResult(data)
+  const experiences : SelectableExperience[] = isRezdyProductSearchResult(data)
     ? data.products
-    : data.items.items;
+    : data.items.items.map(pk => ({
+      item: pk,
+      currency: data.company.currency
+    }));
 
   if (experiences.length === 0) {
     return (
@@ -37,15 +43,11 @@ export function ExperiencesList({
       {experiences.map((experience) => (
         <ExperienceListItem
           key={
-            isRezdyProduct(experience) ? experience.productCode : experience.pk
+            isFareHarbourItem(experience) ? experience.item.pk : experience.productCode
           }
           experience={experience}
-          onClick={() =>
-            onExperienceSelect(
-              isRezdyProduct(experience)
-                ? experience.productCode
-                : experience.pk.toString()
-            )
+          onClick={async () =>
+            await onExperienceSelect(experience)
           }
         />
       ))}

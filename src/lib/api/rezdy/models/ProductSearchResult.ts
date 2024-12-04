@@ -22,6 +22,23 @@ export function isRezdyProduct(
   return (input as RezdyProduct).productType !== undefined;
 }
 
+export function isFareHarbourItem(input: SelectableExperience) : input is {
+  item: FareHarbourItem,
+  currency: string
+} {
+  const castedInput = input as {
+    item: FareHarbourItem,
+    currency: string
+  }
+  
+  return castedInput.item !== undefined && castedInput.currency !== undefined;
+}
+
+export type SelectableExperience = RezdyProduct | {
+  item: FareHarbourItem,
+  currency: string
+}
+
 export function isRezdyImage(
   image: RezdyImage | FareHarbourImage
 ): image is RezdyImage {

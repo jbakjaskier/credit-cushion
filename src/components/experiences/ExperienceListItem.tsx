@@ -2,15 +2,13 @@
 
 import Image from "next/image";
 import {
-  RezdyProduct,
-  isRezdyProduct,
-  isRezdyImage,
+  SelectableExperience,
+  isFareHarbourItem,
 } from "@/lib/api/rezdy/models/ProductSearchResult";
-import { FareHarbourItem } from "@/lib/api/fareharbour/models/FareHarbourItem";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 
 interface ExperienceListItemProps {
-  experience: RezdyProduct | FareHarbourItem;
+  experience: SelectableExperience;
   onClick: () => void;
 }
 
@@ -29,20 +27,18 @@ export function ExperienceListItem({
           height={100}
           className="h-12 w-12 flex-none rounded-full bg-gray-50"
           src={
-            isRezdyImage(experience.images[0])
-              ? experience.images[0].thumbnailUrl
-              : experience.images[0].image_cdn_url
+            isFareHarbourItem(experience) ? experience.item.images[0].image_cdn_url : experience.images[0].thumbnailUrl
           }
           alt="Experience Image"
         />
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-900">
-            {isRezdyProduct(experience) ? experience.name : experience.headline}
+            {isFareHarbourItem(experience) ? experience.item.headline : experience.name}
           </p>
           <p className="mt-1 text-xs leading-5 text-gray-500 truncate">
-            {isRezdyProduct(experience)
-              ? experience.shortDescription
-              : experience.description}
+            {isFareHarbourItem(experience)
+              ? experience.item.description
+              : experience.shortDescription}
           </p>
         </div>
       </div>

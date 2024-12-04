@@ -7,6 +7,10 @@ import { useRouter } from "next/navigation";
 import { PlatformSelector } from "@/components/experiences/PlatformSelector";
 import { SearchInput } from "@/components/experiences/SearchInput";
 import { ExperiencesList } from "@/components/experiences/ExperiencesList";
+import { PageLoader } from "../common/PageLoader";
+import upsertExperienceInDatabase from "@/lib/db/repo/dbRepo";
+
+
 
 const INITIAL_STATE: UrlValidationResult = {
   mode: "initial",
@@ -19,6 +23,8 @@ export function ExperiencesForm() {
     INITIAL_STATE
   );
   const [selectedPlatform, setSelectedPlatform] = useState("rezdy");
+
+  const [isSelectedExperienceLoading, setIsSelectedExperienceLoading] = useState<boolean>(false);
 
   return (
     <>
@@ -37,11 +43,23 @@ export function ExperiencesForm() {
       {state.mode === "success" && (
         <ExperiencesList
           data={state.data}
-          onExperienceSelect={(experienceId) => {
-            router.push(`/experiences/create-waiver/${experienceId}`);
+          onExperienceSelect={async (selectedExperience) => {
+            //Add the item to the database. 
+            setIsSelectedExperienceLoading(true)
+            const mutationResult = await upsertExperienceInDatabase(selectedExperience)
+            if(mutationResult.isSuccessful) {
+              router.push(`/experiences/create-waiver/${mutationResult._id}`);
+            } else {
+              
+            }
+            
           }}
         />
       )}
+
+      {
+        isSelectedExperienceLoading && <PageLoader />
+      }
     </>
   );
 }

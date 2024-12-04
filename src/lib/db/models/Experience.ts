@@ -1,7 +1,8 @@
-import { MaybeString } from "@/lib/common";
+import { ObjectId } from "mongodb";
 
-export type Experience = {
-  experienceId: string;
+export interface Experience {
+  _id: ObjectId; //This is mongoDb Id
+  experiencePlatformId: string;
   experienceTitle: string;
   experienceDescription: string;
   experienceExtendedDescription: string;
@@ -10,13 +11,14 @@ export type Experience = {
   })[];
   experiencesImages: string[];
   experienceLocation: Address;
+  experiencePlatform: "rezdy" | "fareharbour";
 };
 
 type Address = {
-  city: MaybeString;
-  country: MaybeString;
-  postCode: MaybeString;
-  addressLine: MaybeString;
+  city?: string | null;
+  country?: string | null;
+  postCode?: string | null;
+  addressLine?: string | null;
   latitude: number;
   longitude: number;
 };
