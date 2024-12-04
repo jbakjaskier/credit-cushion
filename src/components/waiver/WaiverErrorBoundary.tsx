@@ -1,10 +1,9 @@
 "use client";
 
-import { Component, ErrorInfo, ReactNode } from "react";
-import Button from "@/components/common/Button";
+import React, { Component, ErrorInfo, ReactNode } from "react";
 
 interface Props {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 interface State {
@@ -12,7 +11,7 @@ interface State {
   error?: Error;
 }
 
-export class WaiverErrorBoundary extends Component<Props, State> {
+class WaiverErrorBoundary extends Component<Props, State> {
   public state: State = {
     hasError: false,
   };
@@ -22,28 +21,16 @@ export class WaiverErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error("Waiver generation error:", error, errorInfo);
+    console.error("PDF Error:", error);
+    console.error("Error Info:", errorInfo);
   }
 
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="text-center py-12">
-          <h2 className="text-2xl font-bold text-red-600 mb-4">
-            Error Generating Waiver
-          </h2>
-          <p className="text-gray-600 mb-6">
-            {this.state.error?.message ||
-              "An unexpected error occurred while generating your waiver"}
-          </p>
-          <Button
-            onClick={() => {
-              this.setState({ hasError: false });
-              window.location.reload();
-            }}
-          >
-            Try Again
-          </Button>
+        <div className="p-4 text-red-600">
+          <h2>Sorry, there was a problem loading the PDF.</h2>
+          <p>{this.state.error?.message}</p>
         </div>
       );
     }
@@ -51,3 +38,5 @@ export class WaiverErrorBoundary extends Component<Props, State> {
     return this.props.children;
   }
 }
+
+export default WaiverErrorBoundary;

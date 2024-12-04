@@ -1,20 +1,19 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
   images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "img.rezdy*.com", //THis is for rezdy
+        hostname: "img.rezdy*.com",
       },
       {
         protocol: "https",
-        hostname: "*.cloudfront.*", //This is for FareHarbour
+        hostname: "*.cloudfront.*",
       },
       {
         protocol: "https",
-        hostname: "images.unsplash.com", //This is for UnSplash
+        hostname: "images.unsplash.com",
       },
     ],
   },
@@ -41,11 +40,11 @@ const nextConfig: NextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
-              "style-src 'self' 'unsafe-inline'",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.tiny.cloud",
+              "style-src 'self' 'unsafe-inline' https://cdn.tiny.cloud",
               "img-src 'self' data: https: blob:",
               "font-src 'self' data:",
-              "connect-src 'self' https://api.openai.com",
+              "connect-src 'self' https://api.openai.com https://cdn.tiny.cloud",
               "frame-src 'self' blob: data:",
               "worker-src 'self' blob:",
             ].join("; "),
@@ -59,12 +58,13 @@ const nextConfig: NextConfig = {
     ];
   },
   webpack: (config, { isServer }) => {
+    config.resolve.alias.canvas = false;
+    
     if (isServer) {
-      // Exclude Puppeteer from client-side bundles
-      config.externals.push('puppeteer')
+      config.externals.push("puppeteer");
     }
     return config;
-  },
+  }
 };
 
-export default nextConfig;
+export default nextConfig; 

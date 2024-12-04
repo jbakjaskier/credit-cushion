@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { Experience } from "@/lib/db/models/Experience";
+import { useRouter } from "next/navigation";
+import Button from "@/components/common/Button";
 
 interface PDFViewerProps {
   experience: Experience;
 }
 
 export function PDFViewer({ experience }: PDFViewerProps) {
+  const router = useRouter();
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -50,7 +53,14 @@ export function PDFViewer({ experience }: PDFViewerProps) {
         URL.revokeObjectURL(pdfUrl);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [experience]);
+
+  const handleReviewClick = () => {
+    if (pdfUrl) {
+      router.push(`/experiences/review-waiver/${experience.experienceId}`);
+    }
+  };
 
   return (
     <div className="space-y-4">
@@ -65,11 +75,16 @@ export function PDFViewer({ experience }: PDFViewerProps) {
       {error && <div className="text-center text-red-600 py-4">{error}</div>}
 
       {!isGenerating && !error && pdfUrl && (
-        <iframe
-          src={pdfUrl}
-          className="w-full h-[800px] border border-gray-200 rounded-lg"
-          title="Waiver PDF Preview"
-        />
+        <>
+          <iframe
+            src={pdfUrl}
+            className="w-full h-[800px] border border-gray-200 rounded-lg"
+            title="Waiver PDF Preview"
+          />
+          <div className="flex justify-end">
+            <Button onClick={handleReviewClick}>Review Waiver</Button>
+          </div>
+        </>
       )}
     </div>
   );
