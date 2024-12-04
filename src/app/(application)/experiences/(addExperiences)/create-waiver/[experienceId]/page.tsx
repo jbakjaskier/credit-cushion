@@ -11,7 +11,7 @@ import { WaiverSection } from "@/lib/types/waiver";
 import { PageLoader } from "@/components/common/PageLoader";
 import { ErrorBoundary } from "@/components/common/ErrorBoundary";
 import { useParams } from "next/navigation";
-import { WaiverErrorBoundary } from "@/components/waiver/WaiverErrorBoundary";
+import WaiverErrorBoundary from "@/components/waiver/WaiverErrorBoundary";
 
 async function fetchExperience(experienceId: string): Promise<Experience> {
   const response = await fetch(`/api/experiences/${experienceId}`, {
