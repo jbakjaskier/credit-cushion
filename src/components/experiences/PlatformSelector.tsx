@@ -1,9 +1,10 @@
+"use client"
 import Image from "next/image";
 import { supportedPlatforms } from "@/config/platforms";
 
 interface PlatformSelectorProps {
   selectedPlatform: string;
-  onPlatformChange: (platform: string) => void;
+  onPlatformChange: (platform: "rezdy" | "fareharbour") => void;
 }
 
 export function PlatformSelector({
@@ -28,7 +29,7 @@ export function PlatformSelector({
                 type="radio"
                 value={platform.radioValue}
                 checked={selectedPlatform === platform.radioValue}
-                onChange={(event) => onPlatformChange(event.target.value)}
+                onChange={(event) => onPlatformChange(event.target.value === "rezdy" ? "rezdy" : "fareharbour")}
                 className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
               />
               <div className="flex min-w-0 flex-1 items-center space-x-3">

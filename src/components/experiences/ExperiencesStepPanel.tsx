@@ -23,21 +23,15 @@ function StepPanelContent() {
   const addingExperienceSteps: StepDefinition[] = [
     {
       displayId: "01",
-      name: "Create",
-      description: "Create Waiver for your experience",
-      status: pathname.includes("create-waiver") ? "current" : "upcoming",
+      name: "Waiver",
+      description: "Review your waiver generated with AI",
+      status: pathname.includes("waiver") ? "current" : pathname.includes("publish") ? "complete" :  "upcoming",
     },
     {
       displayId: "02",
-      name: "Review",
-      description: "Review your waiver",
-      status: pathname.includes("review-waiver") ? "current" : "upcoming",
-    },
-    {
-      displayId: "03",
       name: "Publish",
       description: "Publish your waiver on DocuSign",
-      status: pathname.includes("publish-waiver") ? "current" : "upcoming",
+      status: pathname.includes("publish") ? "current" : "upcoming",
     },
   ];
 

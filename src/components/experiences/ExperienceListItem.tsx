@@ -3,7 +3,7 @@
 import Image from "next/image";
 import {
   SelectableExperience,
-  isFareHarbourItem,
+  isFareHarbourExperience,
 } from "@/lib/api/rezdy/models/ProductSearchResult";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 
@@ -27,18 +27,18 @@ export function ExperienceListItem({
           height={100}
           className="h-12 w-12 flex-none rounded-full bg-gray-50"
           src={
-            isFareHarbourItem(experience) ? experience.item.images[0].image_cdn_url : experience.images[0].thumbnailUrl
+            isFareHarbourExperience(experience) ? experience.experience.images[0].image_cdn_url : experience.experience.images[0].thumbnailUrl
           }
           alt="Experience Image"
         />
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-900">
-            {isFareHarbourItem(experience) ? experience.item.headline : experience.name}
+            {isFareHarbourExperience(experience) ? experience.experience.headline : experience.experience.name}
           </p>
           <p className="mt-1 text-xs leading-5 text-gray-500 truncate">
-            {isFareHarbourItem(experience)
-              ? experience.item.description
-              : experience.shortDescription}
+            {isFareHarbourExperience(experience)
+              ? experience.experience.description
+              : experience.experience.shortDescription}
           </p>
         </div>
       </div>

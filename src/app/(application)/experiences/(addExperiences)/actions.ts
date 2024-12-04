@@ -2,7 +2,8 @@
 
 import { GetFareHarbourItemsForCompany } from "@/lib/api/fareharbour/fetcher/FareHarbourFetcher";
 import { GetRezdySearchResultsFromMarketPlace } from "@/lib/api/rezdy/fetcher/RezdyFetcher";
-import { UrlValidationResult, ExperienceData } from "./types";
+import { UrlValidationResult } from "./types";
+import { SelectableExperience } from "@/lib/api/rezdy/models/ProductSearchResult";
 
 const createErrorResult = (
   input: string | undefined,
@@ -13,7 +14,7 @@ const createErrorResult = (
   errorMessage: message,
 });
 
-const createSuccessResult = (data: ExperienceData): UrlValidationResult => ({
+const createSuccessResult = (data: SelectableExperience[]): UrlValidationResult => ({
   mode: "success",
   data,
 });

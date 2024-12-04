@@ -10,7 +10,8 @@ export const API_ENDPOINTS = {
   },
   REZDY: {
     BASE: process.env.REZDY_BASE_URL,
-    MARKETPLACE: "/v1/products/marketplace",
+    MARKETPLACE: "v1/products/marketplace",
+    COMPANY: "v1/companies/name"
   },
 } as const;
 

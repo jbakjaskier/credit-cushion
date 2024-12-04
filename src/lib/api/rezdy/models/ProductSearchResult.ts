@@ -4,6 +4,7 @@ import {
   FareHarbourItem,
   FareHarbourItemsResult,
 } from "../../fareharbour/models/FareHarbourItem";
+import { RezdyCompany } from "./RezdyCompanyResult";
 
 export function isRezdyProductSearchResult(
   input:
@@ -22,22 +23,27 @@ export function isRezdyProduct(
   return (input as RezdyProduct).productType !== undefined;
 }
 
-export function isFareHarbourItem(input: SelectableExperience) : input is {
-  item: FareHarbourItem,
-  currency: string
-} {
-  const castedInput = input as {
-    item: FareHarbourItem,
-    currency: string
-  }
-  
-  return castedInput.item !== undefined && castedInput.currency !== undefined;
+export function isFareHarbourExperience(input: SelectableExperience) : input is FareHarbourSelectableExperience {
+  return input.provider === "fareharbour";
 }
 
-export type SelectableExperience = RezdyProduct | {
-  item: FareHarbourItem,
-  currency: string
+
+export type FareHarbourSelectableExperience = {
+  provider: "fareharbour",
+  experience: FareHarbourItem,
+  company: FareHarbourCompany,
 }
+
+export type RezdySelectableExperience = {
+  provider: "rezdy",
+  experience: RezdyProduct,
+  company: RezdyCompany
+}
+
+
+export type SelectableExperience = 
+  FareHarbourSelectableExperience | 
+  RezdySelectableExperience;
 
 export function isRezdyImage(
   image: RezdyImage | FareHarbourImage
@@ -92,7 +98,7 @@ type RezdyPrice = {
   productCode: string;
 };
 
-type RequestStatus = {
+export type RequestStatus = {
   success: boolean;
   version: string;
 };

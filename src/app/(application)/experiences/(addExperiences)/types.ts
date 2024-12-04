@@ -1,22 +1,15 @@
-import { FareHarbourCompany } from "@/lib/api/fareharbour/models/FareHarbourCompany";
-import { FareHarbourItemsResult } from "@/lib/api/fareharbour/models/FareHarbourItem";
-import { RezdyProductProductSearchResult } from "@/lib/api/rezdy/models/ProductSearchResult";
+import { SelectableExperience } from "@/lib/api/rezdy/models/ProductSearchResult";
 
-export type ExperienceData =
-  | {
-      company: FareHarbourCompany;
-      items: FareHarbourItemsResult;
-    }
-  | RezdyProductProductSearchResult;
+
 
 export type UrlValidationResult =
   | {
       mode: "success";
-      data: ExperienceData;
+      data: SelectableExperience[];
     }
   | {
       mode: "error";
-      input: string | undefined;
+      input?: string;
       errorMessage: string;
     }
   | {

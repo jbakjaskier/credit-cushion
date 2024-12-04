@@ -1,5 +1,9 @@
-import { RezdyProductProductSearchResult } from "../models/ProductSearchResult";
+import {
+  RezdyProductProductSearchResult,
+  RezdySelectableExperience,
+} from "../models/ProductSearchResult";
 import { API_ENDPOINTS } from "@/config/constants";
+import { RezdyCompanyResult } from "../models/RezdyCompanyResult";
 
 export const delay = (delayInms: number) => {
   return new Promise((resolve) => setTimeout(resolve, delayInms));
@@ -12,7 +16,7 @@ export async function GetRezdySearchResultsFromMarketPlace(
 ): Promise<
   | {
       isSuccessful: true;
-      data: RezdyProductProductSearchResult;
+      data: RezdySelectableExperience[];
     }
   | {
       isSuccessful: false;
@@ -31,13 +35,10 @@ export async function GetRezdySearchResultsFromMarketPlace(
   if (searchTerm === "validRezdy") {
     return {
       isSuccessful: true,
-      data: {
-        requestStatus: {
-          success: true,
-          version: "v1",
-        },
-        products: [
-          {
+      data: [
+        {
+          provider: "rezdy",
+          experience: {
             productType: "TICKET",
             name: "National Park pass",
             shortDescription: "National park multiday pass",
@@ -105,13 +106,38 @@ export async function GetRezdySearchResultsFromMarketPlace(
             latitude: 28.2062873,
             longitude: 85.62292959999999,
           },
-        ],
-      },
+          company: {
+            alias: "apispecificationdemosupplierdonotedit",
+            companyName: "API specification demo supplier (DO NOT EDIT)",
+            firstName: "Dusan",
+            lastName: "Zahoransky",
+            address: {
+              addressLine: "123 CommonwWealth Street",
+              postCode: "2000",
+              city: "Sydney",
+              state: "NSW",
+              countryCode: "au",
+              latitude: -33.880562,
+              longitude: 151.2106793,
+            },
+            destinationName: "Sydney",
+            destinationCountryCode: "au",
+            destinationPath: "South Pacific,Australia,New South Wales,Sydney",
+            currency: "AUD",
+            locale: "en_au",
+            timezone: "Australia/Sydney",
+            category: "Eco-Tours",
+            companyDescription: "Rezdy API demo supplier.",
+            phone: "+61484123456",
+            mobile: "+61484123456",
+          },
+        },
+      ],
     };
   } else {
     try {
       const searchItemResponse = await fetch(
-        `${API_ENDPOINTS.REZDY.BASE}${API_ENDPOINTS.REZDY.MARKETPLACE}?` +
+        `${API_ENDPOINTS.REZDY.BASE}/${API_ENDPOINTS.REZDY.MARKETPLACE}?` +
           new URLSearchParams({
             apiKey: REZDY_API_KEY!,
             search: searchTerm,
@@ -145,9 +171,39 @@ export async function GetRezdySearchResultsFromMarketPlace(
         };
       }
 
+      const selectableExperiences: RezdySelectableExperience[] =
+        await Promise.all(
+          searchItemResponseJson.products.map(async (rezdyProduct) => {
+            const rezdyCompanyNetworkResult = await fetch(
+              `${API_ENDPOINTS.REZDY.BASE}/${API_ENDPOINTS.REZDY.COMPANY}/${rezdyProduct.supplierName}?` +
+                new URLSearchParams({
+                  apiKey: REZDY_API_KEY!,
+                }),
+              {
+                method: "GET",
+              }
+            );
+
+            if (!rezdyCompanyNetworkResult.ok) {
+              throw new Error(
+                `Unable to get the company result for experience`
+              );
+            }
+
+            const rezdyCompanyResult =
+              (await rezdyCompanyNetworkResult.json()) as RezdyCompanyResult;
+
+            return {
+              provider: "rezdy",
+              experience: rezdyProduct,
+              company: rezdyCompanyResult.companies[0],
+            };
+          })
+        );
+
       return {
         isSuccessful: true,
-        data: searchItemResponseJson,
+        data: selectableExperiences,
       };
     } catch (error: unknown) {
       if (typeof error === "string") {

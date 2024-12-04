@@ -1,24 +1,10 @@
-import { RezdyProductProductSearchResult } from "@/lib/api/rezdy/models/ProductSearchResult";
-import { FareHarbourCompany } from "@/lib/api/fareharbour/models/FareHarbourCompany";
-import { FareHarbourItemsResult } from "@/lib/api/fareharbour/models/FareHarbourItem";
 import { ExclamationCircleIcon } from "@heroicons/react/20/solid";
 import { ButtonSpinner } from "@/components/common/ButtonSpinner";
-
-type FormState = {
-  mode: "initial" | "error" | "success";
-  input?: string;
-  errorMessage?: string;
-  data?:
-    | RezdyProductProductSearchResult
-    | {
-        company: FareHarbourCompany;
-        items: FareHarbourItemsResult;
-      };
-};
+import { UrlValidationResult } from "@/app/(application)/experiences/(addExperiences)/types";
 
 interface SearchInputProps {
   selectedPlatform: string;
-  state: FormState;
+  state: UrlValidationResult;
   isPending: boolean;
 }
 
@@ -51,7 +37,7 @@ export function SearchInput({
               placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 
               sm:text-sm sm:leading-6`}
             placeholder={placeholder}
-            defaultValue={state.input}
+            defaultValue={state.mode === "error" ? state.input : undefined}
             aria-invalid={state.mode === "error"}
             aria-describedby={state.mode === "error" ? "url-error" : undefined}
             disabled={isPending}
