@@ -21,7 +21,7 @@ export const ROUTES = {
   CREATE_WAIVER: "/experiences/create-waiver",
   REVIEW_WAIVER: "/experiences/review-waiver",
   PUBLISH_WAIVER: "/experiences/publish-waiver",
-  INTEGRATIONS: "#",
+  HARDSHIPS: "#",
   PROFILE: "#",
   SETTINGS: "#",
   SIGNOUT: "#",
@@ -50,7 +50,7 @@ export const USER_NAVIGATION = [
 
 export const APPLICATION_NAVIGATION = [
   { name: "Products", href: ROUTES.PRODUCTS, current: true },
-  { name: "Integrations", href: ROUTES.INTEGRATIONS, current: false },
+  { name: "Hardships", href: ROUTES.HARDSHIPS, current: false },
 ] as const;
 
 
