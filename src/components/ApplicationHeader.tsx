@@ -35,10 +35,10 @@ export default function ApplicationHeader() {
                   <Link href="/" className="flex-shrink-0">
                     <Image
                       priority
-                      width={80}
-                      height={80}
+                      width={50}
+                      height={50}
                       className="block"
-                      src="/rush_ready_white_logo.png"
+                      src="/credit-cushion-dark-logo.png"
                       alt="Rush Ready"
                     />
                   </Link>

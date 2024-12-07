@@ -58,5 +58,5 @@ export const APPLICATION_NAVIGATION = [
 export type Route = (typeof ROUTES)[keyof typeof ROUTES];
 
 // App Constants
-export const APP_NAME = "Rush Ready";
-export const APP_DESCRIPTION = "Adventure Awaits, Paperwork Doesn't";
+export const APP_NAME = "Credit Cushion";
+export const APP_DESCRIPTION = "Hardship Made Human";

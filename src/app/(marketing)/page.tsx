@@ -55,10 +55,10 @@ export default async function Home() {
             <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
               <div className="relative w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
                 <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                  {`Adventure Awaits, Paperwork Doesn't`}
+                  {`Hardship Made Human`}
                 </h1>
                 <p className="mt-6 text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">
-                  {`RushReady streamlines the entire adventure documentation process, from generating legally-sound waivers to securing DocuSign signatures, transforming a complex workflow into a swift, reliable system that gets customers into experiences faster.`}
+                  {`Credit Cushion transforms financial hardship management into a smooth journey. With built-in DocuSign integration, we help financial providers deliver faster resolutions while building customer trust.`}
                 </p>
                 <div className="mt-10 flex items-center gap-x-6">
                   <Link

@@ -6,7 +6,7 @@ interface LogoProps {
   height?: number;
 }
 
-export function Logo({ width = 150, height = 150 }: LogoProps) {
+export function Logo({ width = 100, height = 100 }: LogoProps) {
   return (
     <Link href="/" className="-m-1.5 p-1.5">
       <span className="sr-only">Rush Ready</span>
@@ -20,7 +20,7 @@ export function Logo({ width = 150, height = 150 }: LogoProps) {
           maxWidth: width,
           maxHeight: height,
         }}
-        src="/rush_ready_logo.png"
+        src="/credit-cushion-light-logo.png"
         alt="Rush Ready Logo"
       />
     </Link>
