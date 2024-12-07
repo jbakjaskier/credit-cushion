@@ -1,7 +1,7 @@
 "use client";
 
-import { validateExperienceForm } from "@/app/(application)/experiences/(addExperiences)/actions";
-import { UrlValidationResult } from "@/app/(application)/experiences/(addExperiences)/types";
+import { validateExperienceForm } from "@/app/(application)/products/(addExperiences)/actions";
+import { UrlValidationResult } from "@/app/(application)/products/(addExperiences)/types";
 import { useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PlatformSelector } from "@/components/experiences/PlatformSelector";

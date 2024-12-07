@@ -17,7 +17,7 @@ export const API_ENDPOINTS = {
 // Route Constants
 export const ROUTES = {
   HOME: "/",
-  EXPERIENCES: "/experiences",
+  PRODUCTS: "/products",
   CREATE_WAIVER: "/experiences/create-waiver",
   REVIEW_WAIVER: "/experiences/review-waiver",
   PUBLISH_WAIVER: "/experiences/publish-waiver",
@@ -29,7 +29,7 @@ export const ROUTES = {
 
 // Route Groups
 export const EXPERIENCE_ROUTES = {
-  BASE: ROUTES.EXPERIENCES,
+  BASE: ROUTES.PRODUCTS,
   CREATE: ROUTES.CREATE_WAIVER,
   REVIEW: ROUTES.REVIEW_WAIVER,
   PUBLISH: ROUTES.PUBLISH_WAIVER,
@@ -38,7 +38,7 @@ export const EXPERIENCE_ROUTES = {
 // Navigation Items
 export const MARKETING_NAVIGATION = [
   { name: "Home", href: ROUTES.HOME },
-  { name: "Try It Out", href: ROUTES.EXPERIENCES },
+  { name: "Try It Out", href: ROUTES.PRODUCTS },
   { name: "FAQ", href: "#" },
 ] as const;
 
@@ -49,7 +49,7 @@ export const USER_NAVIGATION = [
 ] as const;
 
 export const APPLICATION_NAVIGATION = [
-  { name: "Experiences", href: ROUTES.EXPERIENCES, current: true },
+  { name: "Products", href: ROUTES.PRODUCTS, current: true },
   { name: "Integrations", href: ROUTES.INTEGRATIONS, current: false },
 ] as const;
 

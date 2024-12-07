@@ -3,7 +3,7 @@
 import { ExperiencesForm } from "@/components/experiences/ExperiencesForm";
 import { ErrorBoundary } from "@/components/common/ErrorBoundary";
 
-export default async function ExperiencesPage() {
+export default async function ProductsPage() {
   return (
     <div className="mx-auto max-w-lg">
       <ErrorBoundary>
