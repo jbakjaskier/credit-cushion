@@ -10,14 +10,14 @@ export type RezdyCompany = {
     alias?: string | null;
     companyName: string;
     firstName: string;
-    lastName: String;
+    lastName: string;
     address: RezdyLocationAddress;
     destinationName: string;
     destinationCountryCode: string;
-    destinationPath: String;
+    destinationPath: string;
     currency: string;
     locale: string;
-    timezone: String;
+    timezone: string;
     category: string;
     companyDescription: string;
     phone?: string | null;
