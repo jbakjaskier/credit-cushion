@@ -35,10 +35,10 @@ export default function ApplicationHeader() {
                   <Link href="/" className="flex-shrink-0">
                     <Image
                       priority
-                      width={80}
-                      height={80}
+                      width={50}
+                      height={50}
                       className="block"
-                      src="/rush_ready_white_logo.png"
+                      src="/credit-cushion-dark-logo.png"
                       alt="Rush Ready"
                     />
                   </Link>
@@ -104,7 +104,7 @@ export default function ApplicationHeader() {
       <header className="py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight text-white">
-            Experiences
+            Products
           </h1>
         </div>
       </header>
