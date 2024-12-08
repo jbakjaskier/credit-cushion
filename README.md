@@ -4,6 +4,20 @@
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Application Wireframes
+
+1. Provider Selection Page
+
+   ![image](https://github.com/user-attachments/assets/7aa1a924-84e3-48a9-b756-df310b846699)
+
+2. Products Application Page
+
+   ![image](https://github.com/user-attachments/assets/ee9144aa-4ed8-4771-ab5b-d5d9a03ccd57)
+
+
+
+
+
 ## Getting Started
 
 First, run the development server:
