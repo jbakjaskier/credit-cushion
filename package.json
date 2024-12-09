@@ -19,7 +19,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
-    "@tinymce/tinymce-react": "^4.3.2"
+    "@tinymce/tinymce-react": "^4.3.2",
+    "react-hook-form": "^7.0.0"
   },
   "devDependencies": {
     "@types/node": "^20",
