@@ -5,7 +5,7 @@ export function PageLoader() {
     <div className="fixed inset-0 bg-white/50 backdrop-blur-sm flex items-center justify-center z-50">
       <div className="animate-spin">
         <Image
-          src="/rush_ready_logo.png"
+          src="/credit-cushion-light-logo.png"
           alt="Loading..."
           width={100}
           height={100}
