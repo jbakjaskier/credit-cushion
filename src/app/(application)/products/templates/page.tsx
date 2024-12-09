@@ -125,35 +125,43 @@ export default function TemplatesPage() {
         {/* Templates grid with scrollable container */}
         <div className="max-h-[60vh] overflow-y-auto rounded-lg border border-gray-200">
           <div className="grid gap-4 p-4 sm:grid-cols-2">
-            {filteredTemplates.map((template) => (
-              <div
-                key={template.id}
-                className={`relative rounded-lg border p-4 cursor-pointer transition-colors ${
-                  selectedTemplate?.id === template.id
-                    ? "border-indigo-600 bg-indigo-50"
-                    : "border-gray-300 hover:border-indigo-400"
-                }`}
-                onClick={() => setSelectedTemplate(template)}
-              >
-                <div className="flex items-start gap-4">
-                  <DocumentTextIcon
-                    className={`h-6 w-6 ${
-                      selectedTemplate?.id === template.id
-                        ? "text-indigo-600"
-                        : "text-gray-400"
-                    }`}
-                  />
-                  <div>
-                    <h3 className="font-medium text-gray-900">
-                      {template.name}
-                    </h3>
-                    <p className="mt-1 text-sm text-gray-500">
-                      {template.description}
-                    </p>
+            {filteredTemplates.length === 0 ? (
+              <div className="col-span-2 py-8">
+                <p className="text-center text-gray-500">
+                  No templates match your search criteria
+                </p>
+              </div>
+            ) : (
+              filteredTemplates.map((template) => (
+                <div
+                  key={template.id}
+                  className={`relative rounded-lg border p-4 cursor-pointer transition-colors ${
+                    selectedTemplate?.id === template.id
+                      ? "border-indigo-600 bg-indigo-50"
+                      : "border-gray-300 hover:border-indigo-400"
+                  }`}
+                  onClick={() => setSelectedTemplate(template)}
+                >
+                  <div className="flex items-start gap-4">
+                    <DocumentTextIcon
+                      className={`h-6 w-6 ${
+                        selectedTemplate?.id === template.id
+                          ? "text-indigo-600"
+                          : "text-gray-400"
+                      }`}
+                    />
+                    <div>
+                      <h3 className="font-medium text-gray-900">
+                        {template.name}
+                      </h3>
+                      <p className="mt-1 text-sm text-gray-500">
+                        {template.description}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </div>
@@ -178,11 +186,11 @@ export default function TemplatesPage() {
           <Dialog.Panel className="mx-auto max-w-lg rounded-lg bg-white p-6">
             <CustomerDetailsForm
               onSubmit={(data) => {
+                // TODO: Call the actual onSubmit handler
                 console.log("Submit with data:", {
                   template: selectedTemplate,
                   customer: data,
                 });
-                setIsModalOpen(false);
               }}
               onCancel={() => setIsModalOpen(false)}
             />

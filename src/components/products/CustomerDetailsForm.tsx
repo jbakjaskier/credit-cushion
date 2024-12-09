@@ -1,5 +1,8 @@
 import { useForm } from "react-hook-form";
 import Button from "@/components/common/Button";
+import { useState } from "react";
+import MailAnimation from "@/components/common/MailAnimation";
+import { ButtonSpinner } from "@/components/common/ButtonSpinner";
 
 interface CustomerDetails {
   legalName: string;
@@ -17,6 +20,9 @@ export function CustomerDetailsForm({
   onSubmit,
   onCancel,
 }: CustomerDetailsFormProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -25,8 +31,42 @@ export function CustomerDetailsForm({
     mode: "onBlur",
   });
 
+  const handleFormSubmit = async (data: CustomerDetails) => {
+    setIsSubmitting(true);
+
+    try {
+      // Simulate API delay
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      //TODO: Call the actual onSubmit handler
+      await onSubmit(data);
+
+      // Show success state
+      setIsSuccess(true);
+    } catch (error) {
+      console.error("Failed to send contract:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (isSuccess) {
+    return (
+      <div className="text-center py-6">
+        <MailAnimation />
+        <h3 className="text-lg font-semibold text-gray-900 mt-4">
+          Contract Sent Successfully!
+        </h3>
+        <p className="text-sm text-gray-600 mt-2">
+          The contract will be mailed to the customer shortly. You will be
+          notified of further correspondence under the notifications section.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
       <div>
         <h2 className="text-2xl font-semibold text-gray-900 mb-2">
           Customer Details
@@ -181,11 +221,27 @@ export function CustomerDetailsForm({
       </div>
 
       <div className="flex justify-end gap-3">
-        <Button type="button" variant="secondary" onClick={onCancel}>
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={onCancel}
+          disabled={isSubmitting}
+        >
           Cancel
         </Button>
-        <Button type="submit" disabled={Object.keys(errors).length > 0}>
-          Send
+        <Button
+          type="submit"
+          disabled={Object.keys(errors).length > 0 || isSubmitting}
+          className="flex items-center gap-2"
+        >
+          {isSubmitting ? (
+            <>
+              <ButtonSpinner />
+              <span>Sending...</span>
+            </>
+          ) : (
+            "Send"
+          )}
         </Button>
       </div>
     </form>
