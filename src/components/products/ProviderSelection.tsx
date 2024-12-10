@@ -1,4 +1,4 @@
-// Server Component
+"use server"
 import { ProviderSelectionClient } from "./ProviderSelectionClient";
 import { getProviders } from "@/lib/services/providerService";
 
