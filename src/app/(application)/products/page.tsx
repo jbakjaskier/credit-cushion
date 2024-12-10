@@ -8,8 +8,8 @@ import { verifySession } from "@/lib/auth/session";
 import { UserAccount } from "@/lib/auth/models";
 
 async function getAccounts() : Promise<UserAccount[]> {
-  const sessionDetails = verifySession()
-  return (await sessionDetails).sessionPayload.userInfo.accounts;
+  const sessionDetails = await verifySession()
+  return sessionDetails.sessionPayload.userInfo.accounts;
 }
 
 

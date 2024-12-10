@@ -6,10 +6,13 @@ import { useState } from "react";
 import Button from "@/components/common/Button";
 import { Dialog } from "@headlessui/react";
 import { CustomerDetailsForm } from "./CustomerDetailsForm";
+import { sendEnvelopeToCustomer } from "@/lib/fetcher/envelope";
 
 export default function TemplateListView({
   templates,
+  accountId,
 }: {
+  accountId: string;
   templates: EnvelopeTemplate[];
 }) {
   const [selectedTemplate, setSelectedTemplate] = useState<EnvelopeTemplate>(
@@ -89,13 +92,7 @@ export default function TemplateListView({
       <div className="fixed inset-0 flex items-center justify-center p-4">
         <Dialog.Panel className="mx-auto max-w-lg rounded-lg bg-white p-6">
           <CustomerDetailsForm
-            onSubmit={(data) => {
-              // TODO: Call the actual onSubmit handler
-              console.log("Submit with data:", {
-                template: selectedTemplate,
-                customer: data,
-              });
-            }}
+            onSubmit={async (data) => sendEnvelopeToCustomer( accountId, selectedTemplate.templateId, data)}
             onCancel={() => setIsModalOpen(false)}
           />
         </Dialog.Panel>

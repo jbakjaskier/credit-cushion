@@ -119,7 +119,6 @@ async function getAccessToken(
     );
 
     if (!authFetchResult.ok) {
-      console.info(`authFetchResult status`, authFetchResult.status);
       return {
         errorMessage: `We weren't able to successfully authenticate you. Please try again in a bit`,
       };

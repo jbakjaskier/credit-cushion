@@ -25,7 +25,7 @@ export async function fetchEnvelopeTemplates(
 ): Promise<EnvelopeTemplate[] | FetcherError> {
   try {
 
-    const session = verifySession();
+    const session = await verifySession();
 
     const envelopeTemplatesResult = await fetch(
       `${process.env.DOCUSIGN_ESIG_BASE_URL}/v2.1/accounts/${accountId}/templates`,
@@ -34,7 +34,7 @@ export async function fetchEnvelopeTemplates(
         headers: {
           Authorization: `Bearer ${
             (
-              await session
+              session
             ).sessionPayload.accessTokenResponse.access_token
           }`,
         },
@@ -49,8 +49,7 @@ export async function fetchEnvelopeTemplates(
 
     const envelopeJsonResult =
       (await envelopeTemplatesResult.json()) as EnvelopeTemplateResult;
-
-    console.info(`envelopeJsonResult`, envelopeJsonResult);
+      
 
     if (
       parseInt(envelopeJsonResult.totalSetSize.trim()) === 0 ||

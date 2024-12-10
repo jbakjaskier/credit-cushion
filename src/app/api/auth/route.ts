@@ -15,7 +15,7 @@ export async function GET(
         return NextResponse.redirect(new URL(`/`, request.url))
     }
 
-    console.info(`authCode`, authCode);
+    
 
     const authenticatedSessionPayload = await getAuthenticatedSessionPayload(authCode);
     if (isAuthErrorResponse(authenticatedSessionPayload)) {

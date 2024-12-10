@@ -30,7 +30,7 @@ export default async function TemplatesPage({
   
   return (
     <div className="max-w-4xl mx-auto space-y-8 p-6">
-      <TemplateListView templates={templatesResult} />
+      <TemplateListView accountId={accountId} templates={templatesResult} />
     </div>
   );
 }

@@ -3,8 +3,9 @@ import Button from "@/components/common/Button";
 import { useState } from "react";
 import MailAnimation from "@/components/common/MailAnimation";
 import { ButtonSpinner } from "@/components/common/ButtonSpinner";
+import { FetcherError, isFetcherError } from "@/lib/fetcher/common";
 
-interface CustomerDetails {
+export type CustomerDetails = {
   legalName: string;
   email: string;
   phone: string;
@@ -12,7 +13,9 @@ interface CustomerDetails {
 }
 
 interface CustomerDetailsFormProps {
-  onSubmit: (data: CustomerDetails) => void;
+  onSubmit: (data: CustomerDetails) => Promise<FetcherError | {
+    envelopeSent : true
+}>;
   onCancel: () => void;
 }
 
@@ -35,14 +38,15 @@ export function CustomerDetailsForm({
     setIsSubmitting(true);
 
     try {
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      
+      const submitFormResult = await onSubmit(data);
 
-      //TODO: Call the actual onSubmit handler
-      await onSubmit(data);
-
-      // Show success state
-      setIsSuccess(true);
+      if(isFetcherError(submitFormResult)) {
+        setIsSuccess(false)
+      } else {
+        setIsSuccess(true)
+      }
+      
     } catch (error) {
       console.error("Failed to send contract:", error);
     } finally {
