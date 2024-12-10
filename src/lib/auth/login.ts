@@ -46,7 +46,8 @@ export async function getAuthenticatedSessionPayload(authCode: string) : Promise
 
   return {
     accessTokenResponse: accessTokenResponse,
-    userInfo: userInfoResponse
+    userInfo: userInfoResponse,
+    createdOn: Date.now()
   };
 
 }

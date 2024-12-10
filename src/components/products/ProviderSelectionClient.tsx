@@ -4,25 +4,22 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ProviderList } from "./ProviderList";
 import Button from "@/components/common/Button";
+import { UserAccount } from "@/lib/auth/models";
 
-interface Provider {
-  id: number;
-  name: string;
-}
 
-interface ProviderSelectionClientProps {
-  providers: Provider[];
+interface AccountSelectionClientProps {
+  providers: UserAccount[];
 }
 
 export function ProviderSelectionClient({
   providers,
-}: ProviderSelectionClientProps) {
-  const [selected, setSelected] = useState<Provider | null>(null);
+}: AccountSelectionClientProps) {
+  const [selected, setSelected] = useState<UserAccount | null>(null);
   const router = useRouter();
 
   const handleNext = () => {
     if (selected) {
-      router.push(`/products/templates?provider=${selected.id}`);
+      router.push(`/products/templates?accountId=${selected.account_id}`);
     }
   };
 

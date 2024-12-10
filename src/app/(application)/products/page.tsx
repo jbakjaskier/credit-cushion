@@ -1,37 +1,28 @@
 "use server";
 
-import { ProviderSelection } from "@/components/products/ProviderSelection";
 import { ErrorBoundary } from "@/components/common/ErrorBoundary";
 import { Suspense } from "react";
 import { PageLoader } from "@/components/common/PageLoader";
-import { getAuthenticatedSessionPayload } from "@/lib/auth/login";
-import { isAuthErrorResponse } from "@/lib/auth/models";
+import { ProviderSelectionClient } from "@/components/products/ProviderSelectionClient";
+import { verifySession } from "@/lib/auth/session";
+import { UserAccount } from "@/lib/auth/models";
 
-export default async function ProductsPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
-  //see if there is a code / if not check if they are logged in
-  const authCode = (await searchParams).code as string | undefined;
+async function getAccounts() : Promise<UserAccount[]> {
+  const sessionDetails = verifySession()
+  return (await sessionDetails).sessionPayload.userInfo.accounts;
+}
 
-  if (authCode !== undefined) {
-    const authenticatedSessionPayload = await getAuthenticatedSessionPayload(authCode);
-    if (isAuthErrorResponse(authenticatedSessionPayload)) {
-      throw new Error(authenticatedSessionPayload.errorMessage);
-    } else {
-      //Store the access token in cookies
-      
-    }
-  } else {
-    //Check if this guy is authenticated already from cookies
-  }
 
+
+export default async function ProductsPage() {
+
+  const accounts = await getAccounts();
+  
   return (
     <div className="mx-auto max-w-3xl py-8">
       <ErrorBoundary>
         <Suspense fallback={<PageLoader />}>
-          <ProviderSelection />
+          <ProviderSelectionClient providers={accounts} />
         </Suspense>
       </ErrorBoundary>
     </div>

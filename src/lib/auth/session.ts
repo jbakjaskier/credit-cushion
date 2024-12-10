@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 const secretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
 
-export async function encrypt(payload: SessionPayload) {
+async function encrypt(payload: SessionPayload) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
@@ -74,5 +74,5 @@ export const verifySession = cache(async () => {
     redirect('/')
   }
  
-  return { isAuth: true, userId: session.userInfo.sub }
+  return { isAuth: true, sessionPayload: session as SessionPayload }
 })

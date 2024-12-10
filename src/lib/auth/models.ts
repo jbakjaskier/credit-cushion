@@ -1,6 +1,7 @@
 export type SessionPayload = {
   accessTokenResponse: AccessTokenResponse;
   userInfo: UserInfo;
+  createdOn: number;
 }
 
 export type AccessTokenResponse = {
@@ -14,10 +15,10 @@ export type AccessTokenResponse = {
     sub: string;
     name: string;
     email: string;
-    accounts: Account[];
+    accounts: UserAccount[];
   }
 
-  export type Account = {
+  export type UserAccount = {
     account_id: string;
     is_default: boolean;
     account_name: string;
