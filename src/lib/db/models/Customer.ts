@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 
 
-
+//@typescript-eslint/no-unused-vars
 type Customer = {
   _id: ObjectId;
   legalName: string;

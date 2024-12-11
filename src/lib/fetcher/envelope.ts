@@ -49,13 +49,7 @@ export async function sendEnvelopeToCustomer(
 
     const envelopeCreatedJsonResult =
       (await sendEnvelopeResult.json()) as EnvelopeCreatedResult;
-
-    //Make a call to the database
-    
-    
-
-
-
+      
     return envelopeCreatedJsonResult;
   } catch (error: unknown) {
     if (typeof error === "string") {

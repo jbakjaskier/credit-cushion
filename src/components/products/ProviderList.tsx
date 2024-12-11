@@ -5,10 +5,6 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { UserAccount } from "@/lib/auth/models";
 
-interface Provider {
-  id: number;
-  name: string;
-}
 
 interface ProviderListProps {
   providers: UserAccount[];
