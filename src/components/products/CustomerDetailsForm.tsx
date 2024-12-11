@@ -1,28 +1,29 @@
+"use client";
+
 import { useForm } from "react-hook-form";
 import Button from "@/components/common/Button";
 import { useState } from "react";
 import MailAnimation from "@/components/common/MailAnimation";
 import { ButtonSpinner } from "@/components/common/ButtonSpinner";
-import { FetcherError, isFetcherError } from "@/lib/fetcher/common";
+import { isFetcherError } from "@/lib/fetcher/common";
+import { sendEnvelopeToCustomer } from "@/lib/fetcher/envelope";
 
 export type CustomerDetails = {
   legalName: string;
   email: string;
   phone: string;
   address: string;
-}
-
-interface CustomerDetailsFormProps {
-  onSubmit: (data: CustomerDetails) => Promise<FetcherError | {
-    envelopeSent : true
-}>;
-  onCancel: () => void;
-}
+};
 
 export function CustomerDetailsForm({
-  onSubmit,
+  selectedAccountId,
+  selectedTemplateId,
   onCancel,
-}: CustomerDetailsFormProps) {
+}: {
+  selectedAccountId: string;
+  selectedTemplateId: string;
+  onCancel: () => void;
+}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -37,21 +38,19 @@ export function CustomerDetailsForm({
   const handleFormSubmit = async (data: CustomerDetails) => {
     setIsSubmitting(true);
 
-    try {
-      
-      const submitFormResult = await onSubmit(data);
+    const submitFormResult = await sendEnvelopeToCustomer(
+      selectedAccountId,
+      selectedTemplateId,
+      data
+    );
 
-      if(isFetcherError(submitFormResult)) {
-        setIsSuccess(false)
-      } else {
-        setIsSuccess(true)
-      }
-      
-    } catch (error) {
-      console.error("Failed to send contract:", error);
-    } finally {
-      setIsSubmitting(false);
+    if (isFetcherError(submitFormResult)) {
+      setIsSuccess(false);
+    } else {
+      setIsSuccess(true);
     }
+
+    setIsSubmitting(false);
   };
 
   if (isSuccess) {

@@ -52,6 +52,28 @@ export async function getAuthenticatedSessionPayload(authCode: string) : Promise
 
 }
 
+export async function getAuthenticatedRefreshTokenSessionPayload(refreshToken: string) : Promise<SessionPayload | AuthErrorResponse> {
+  const refreshTokenResult = await getAccessTokenWithRefreshToken(refreshToken);
+
+  if(isAuthErrorResponse(refreshTokenResult)) {
+    return refreshTokenResult;
+  }
+
+  //TODO: Don't make a network call to get user info when refreshing token as that endpoint has got a rate limit
+  const userInfoResponse = await getUserInfo(refreshTokenResult.access_token);
+
+  if(isAuthErrorResponse(userInfoResponse)) {
+    return userInfoResponse
+  }
+  
+  return {
+    accessTokenResponse: refreshTokenResult,
+    userInfo: userInfoResponse,
+    createdOn: Date.now()
+  }
+  
+}
+
 async function getUserInfo(accessToken: string): Promise<UserInfo | AuthErrorResponse> {
   try {
     const userInfoResult = await fetch(
@@ -91,6 +113,56 @@ async function getUserInfo(accessToken: string): Promise<UserInfo | AuthErrorRes
     return {
       errorMessage: `We weren't able to successfully authenticate you. Please try again in a bit`,
     };
+  }
+}
+
+async function getAccessTokenWithRefreshToken(refreshToken: string) : Promise<AccessTokenResponse | AuthErrorResponse> {
+  try {
+    const refreshTokenFetchResult = await fetch(
+      process.env.NODE_ENV === "development"
+        ? `https://account-d.docusign.com/oauth/token`
+        : `https://account.docusign.com/oauth/token`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Basic ${btoa(
+            `${process.env.DOCUSIGN_INTEGRATION_KEY!}:${process.env
+              .DOCUSIGN_SECRET_KEY!}`
+          )}`,
+          'Content-Type': `application/x-www-form-urlencoded`
+        },
+        body: new URLSearchParams({
+          grant_type: `refresh_token`,
+          refresh_token: refreshToken,
+        }).toString(),
+      }
+    );
+
+    if(!refreshTokenFetchResult.ok) {
+      return {
+        errorMessage: `We were unable to authenticate you successfully. Please try signing in again`
+      }
+    }
+    
+    const tokenResponse = (await refreshTokenFetchResult.json()) as AccessTokenResponse;
+
+    return tokenResponse;
+  } catch (error: unknown) {
+    if(typeof error === "string") {
+      return {
+        errorMessage: error
+      }
+    } 
+
+    if(error instanceof Error) {
+      return {
+        errorMessage: error.message
+      }
+    }
+
+    return {
+      errorMessage: `We were unable to authenticate you successfully. Please try signing in again`
+    }
   }
 }
 

@@ -4,51 +4,42 @@ import { CustomerDetails } from "@/components/products/CustomerDetailsForm";
 import { FetcherError } from "./common";
 import { verifySession } from "../auth/session";
 
-type EnvelopeCreatedResult = {
-    envelopeId: string;
-    uri: string;
-    status: string;
-}
-
-export type EnvelopeSentResult = { envelopeSent: true };
+export type EnvelopeCreatedResult = {
+  envelopeId: string;
+  uri: string;
+  status: string;
+};
 
 export async function sendEnvelopeToCustomer(
   accountId: string,
   templateId: string,
   customerDetails: CustomerDetails
-): Promise<FetcherError | EnvelopeSentResult> {
+): Promise<FetcherError | EnvelopeCreatedResult> {
   try {
     const session = await verifySession();
 
+    //TODO: This should be also have tabs loaded
     const sendEnvelopeResult = await fetch(
       `${process.env.DOCUSIGN_ESIG_BASE_URL}/v2.1/accounts/${accountId}/envelopes`,
       {
         method: "POST",
         headers: {
-            Authorization: `Bearer ${session.sessionPayload.accessTokenResponse.access_token}`,
-            'Content-Type': 'application/json',
+          Authorization: `Bearer ${session.sessionPayload.accessTokenResponse.access_token}`,
+          "Content-Type": "application/json",
         },
-        
         body: JSON.stringify({
-          envelopeDefinition: {
-            sender: {
-              templateId: templateId,
+          templateId: templateId,
+          templateRoles: [
+            {
+              email: customerDetails.email,
+              roleName: "Customer",
+              name: customerDetails.legalName,
             },
-            templateRoles: [
-              {
-                email: customerDetails.email,
-                emailNotification: {
-                  name: customerDetails.legalName,
-                },
-              },
-            ],
-          },
+          ],
+          status: "sent",
         }),
       }
     );
-
-    console.error(`sendEnvelopeResult`, sendEnvelopeResult)
-
 
     if (!sendEnvelopeResult.ok) {
       return {
@@ -56,13 +47,10 @@ export async function sendEnvelopeToCustomer(
       };
     }
 
-    const envelopeCreatedJsonResult = await sendEnvelopeResult.json() as EnvelopeCreatedResult;
+    const envelopeCreatedJsonResult =
+      (await sendEnvelopeResult.json()) as EnvelopeCreatedResult;
 
-
-
-    return {
-      envelopeSent: true,
-    };
+    return envelopeCreatedJsonResult;
   } catch (error: unknown) {
     if (typeof error === "string") {
       return {

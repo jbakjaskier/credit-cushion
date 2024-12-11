@@ -6,7 +6,7 @@ import { useState } from "react";
 import Button from "@/components/common/Button";
 import { Dialog } from "@headlessui/react";
 import { CustomerDetailsForm } from "./CustomerDetailsForm";
-import { sendEnvelopeToCustomer } from "@/lib/fetcher/envelope";
+
 
 export default function TemplateListView({
   templates,
@@ -92,7 +92,8 @@ export default function TemplateListView({
       <div className="fixed inset-0 flex items-center justify-center p-4">
         <Dialog.Panel className="mx-auto max-w-lg rounded-lg bg-white p-6">
           <CustomerDetailsForm
-            onSubmit={async (data) => sendEnvelopeToCustomer( accountId, selectedTemplate.templateId, data)}
+            selectedAccountId={accountId}
+            selectedTemplateId={selectedTemplate.templateId}
             onCancel={() => setIsModalOpen(false)}
           />
         </Dialog.Panel>
