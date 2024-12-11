@@ -52,23 +52,16 @@ export async function getAuthenticatedSessionPayload(authCode: string) : Promise
 
 }
 
-export async function getAuthenticatedRefreshTokenSessionPayload(refreshToken: string) : Promise<SessionPayload | AuthErrorResponse> {
+export async function getAuthenticatedRefreshTokenSessionPayload(refreshToken: string, userInfo: UserInfo) : Promise<SessionPayload | AuthErrorResponse> {
   const refreshTokenResult = await getAccessTokenWithRefreshToken(refreshToken);
 
   if(isAuthErrorResponse(refreshTokenResult)) {
     return refreshTokenResult;
   }
-
-  //TODO: Don't make a network call to get user info when refreshing token as that endpoint has got a rate limit
-  const userInfoResponse = await getUserInfo(refreshTokenResult.access_token);
-
-  if(isAuthErrorResponse(userInfoResponse)) {
-    return userInfoResponse
-  }
   
   return {
     accessTokenResponse: refreshTokenResult,
-    userInfo: userInfoResponse,
+    userInfo: userInfo,
     createdOn: Date.now()
   }
   

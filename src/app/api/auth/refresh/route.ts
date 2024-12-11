@@ -22,7 +22,8 @@ async function handleRoute(request: NextRequest) {
 
   //use refresh token
   const refreshTokenResult = await getAuthenticatedRefreshTokenSessionPayload(
-    session.sessionPayload.accessTokenResponse.refresh_token
+    session.sessionPayload.accessTokenResponse.refresh_token,
+    session.sessionPayload.userInfo
   );
 
   if (isAuthErrorResponse(refreshTokenResult)) {
