@@ -30,15 +30,15 @@ export default async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL(`/api/auth/refresh?redirectPath=${encodeURIComponent(req.nextUrl.pathname)}&redirectPathSearchParams=${encodeURIComponent(req.nextUrl.search)}`, req.nextUrl))
     }
   
-  //TODO: Reenable redirection on exit
+    
   // 6. Redirect to /products if the user is authenticated
-  // if (
-  //   isPublicRoute &&
-  //   session?.userInfo?.sub &&
-  //   !req.nextUrl.pathname.startsWith('/products')
-  // ) {
-  //   return NextResponse.redirect(new URL('/products', req.nextUrl))
-  // }
+  if (
+    isPublicRoute &&
+    session?.userInfo?.sub &&
+    !req.nextUrl.pathname.startsWith('/products')
+  ) {
+    return NextResponse.redirect(new URL('/products', req.nextUrl))
+  }
  
   return NextResponse.next()
 }
