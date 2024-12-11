@@ -18,7 +18,7 @@ export async function sendEnvelopeToCustomer(
   try {
     const session = await verifySession();
 
-    //TODO: This should be also have tabs loaded
+    //TODO: This should be also have tabs loaded so that eSign is preloaded
     const sendEnvelopeResult = await fetch(
       `${process.env.DOCUSIGN_ESIG_BASE_URL}/v2.1/accounts/${accountId}/envelopes`,
       {
@@ -49,6 +49,12 @@ export async function sendEnvelopeToCustomer(
 
     const envelopeCreatedJsonResult =
       (await sendEnvelopeResult.json()) as EnvelopeCreatedResult;
+
+    //Make a call to the database
+    
+    
+
+
 
     return envelopeCreatedJsonResult;
   } catch (error: unknown) {
