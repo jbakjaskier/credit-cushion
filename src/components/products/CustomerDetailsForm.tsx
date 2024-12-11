@@ -1,25 +1,29 @@
+"use client";
+
 import { useForm } from "react-hook-form";
 import Button from "@/components/common/Button";
 import { useState } from "react";
 import MailAnimation from "@/components/common/MailAnimation";
 import { ButtonSpinner } from "@/components/common/ButtonSpinner";
+import { isFetcherError } from "@/lib/fetcher/common";
+import { sendEnvelopeToCustomer } from "@/lib/fetcher/envelope";
 
-interface CustomerDetails {
+export type CustomerDetails = {
   legalName: string;
   email: string;
   phone: string;
   address: string;
-}
-
-interface CustomerDetailsFormProps {
-  onSubmit: (data: CustomerDetails) => void;
-  onCancel: () => void;
-}
+};
 
 export function CustomerDetailsForm({
-  onSubmit,
+  selectedAccountId,
+  selectedTemplateId,
   onCancel,
-}: CustomerDetailsFormProps) {
+}: {
+  selectedAccountId: string;
+  selectedTemplateId: string;
+  onCancel: () => void;
+}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -34,20 +38,19 @@ export function CustomerDetailsForm({
   const handleFormSubmit = async (data: CustomerDetails) => {
     setIsSubmitting(true);
 
-    try {
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+    const submitFormResult = await sendEnvelopeToCustomer(
+      selectedAccountId,
+      selectedTemplateId,
+      data
+    );
 
-      //TODO: Call the actual onSubmit handler
-      await onSubmit(data);
-
-      // Show success state
+    if (isFetcherError(submitFormResult)) {
+      setIsSuccess(false);
+    } else {
       setIsSuccess(true);
-    } catch (error) {
-      console.error("Failed to send contract:", error);
-    } finally {
-      setIsSubmitting(false);
     }
+
+    setIsSubmitting(false);
   };
 
   if (isSuccess) {

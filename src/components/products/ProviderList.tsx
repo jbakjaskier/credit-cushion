@@ -3,16 +3,13 @@
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import { UserAccount } from "@/lib/auth/models";
 
-interface Provider {
-  id: number;
-  name: string;
-}
 
 interface ProviderListProps {
-  providers: Provider[];
-  selected: Provider | null;
-  onSelect: (provider: Provider) => void;
+  providers: UserAccount[];
+  selected: UserAccount | null;
+  onSelect: (provider: UserAccount) => void;
 }
 
 export function ProviderList({
@@ -25,7 +22,7 @@ export function ProviderList({
       <div className="relative mt-1">
         <Listbox.Button className="relative w-full cursor-default rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
           <span className="block truncate text-gray-900 text-left">
-            {selected ? selected.name : "Select a provider"}
+            {selected ? selected.account_name : "Select a provider"}
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <ChevronUpDownIcon
@@ -43,7 +40,7 @@ export function ProviderList({
           <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
             {providers.map((provider) => (
               <Listbox.Option
-                key={provider.id}
+                key={provider.account_id}
                 value={provider}
                 className={({ active }) =>
                   `relative cursor-default select-none py-2 pl-10 pr-4 ${
@@ -58,7 +55,7 @@ export function ProviderList({
                         selected ? "font-medium" : "font-normal"
                       }`}
                     >
-                      {provider.name}
+                      {provider.account_name}
                     </span>
                     {selected ? (
                       <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-indigo-600">
