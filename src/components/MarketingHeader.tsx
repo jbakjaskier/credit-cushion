@@ -16,7 +16,9 @@ export default function MarketingHeader() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <Logo />
+          <Logo
+          width={80}
+          height={80} />
         </div>
 
         <div className="flex lg:hidden">

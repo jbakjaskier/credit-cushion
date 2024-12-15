@@ -42,6 +42,8 @@ async function handleRequest(request: NextRequest) {
         })
     }
 
+    console.info(`The Webhook Request has been successfully authenticated`);
+
     try {
         const requestBody = await request.json() as EventPayload;
         //Update it to the database

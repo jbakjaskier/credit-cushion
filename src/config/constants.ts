@@ -17,6 +17,7 @@ export const API_ENDPOINTS = {
 // Route Constants
 export const ROUTES = {
   HOME: "/",
+  HARDSHIP: "/hardship",
   PRODUCTS: "/products",
   CREATE_WAIVER: "/experiences/create-waiver",
   REVIEW_WAIVER: "/experiences/review-waiver",
@@ -38,7 +39,7 @@ export const EXPERIENCE_ROUTES = {
 // Navigation Items
 export const MARKETING_NAVIGATION = [
   { name: "Home", href: ROUTES.HOME },
-  { name: "Try It Out", href: ROUTES.PRODUCTS },
+  { name: "Hardship", href: ROUTES.HARDSHIP },
   { name: "FAQ", href: "#" },
 ] as const;
 
