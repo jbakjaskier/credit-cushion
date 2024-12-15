@@ -183,7 +183,7 @@ function getLoanFromEventPayload(payload: EventPayload) : Omit<Loan, "_id"> {
                     emailBlurb: payload.data.envelopeSummary.emailBlurb,
                     emailSubject: payload.data.envelopeSummary.emailSubject
                 },
-                status: "loan-sent-to-customer",
+                status: "loan-signed-by-customer",
                 representative: {
                     email: loanProviderSigner === undefined ? payload.data.envelopeSummary.sender.email : loanProviderSigner.email,
                     name: loanProviderSigner === undefined ? payload.data.envelopeSummary.sender.userName : loanProviderSigner.name
