@@ -32,13 +32,13 @@ export default async function middleware(req: NextRequest) {
   
     
   // 6. Redirect to /products if the user is authenticated
-  // if (
-  //   isPublicRoute &&
-  //   session?.userInfo?.sub &&
-  //   !req.nextUrl.pathname.startsWith('/products')
-  // ) {
-  //   return NextResponse.redirect(new URL('/products', req.nextUrl))
-  // }
+  if (
+    isPublicRoute &&
+    session?.userInfo?.sub &&
+    !req.nextUrl.pathname.startsWith('/products')
+  ) {
+    return NextResponse.redirect(new URL('/products', req.nextUrl))
+  }
  
   return NextResponse.next()
 }
