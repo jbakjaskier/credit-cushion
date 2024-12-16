@@ -37,8 +37,27 @@ export interface Loan {
     }
     customerDateSigned?: Date;   
     lastUpdated: Date;
+    hardship?: CustomerHardship
 }
 
+type CustomerHardship = {
+    circumstanceReason: string;
+    circumstanceExplanation: string;
+    idealArrangement: string;
+    supportingDocument: string;
+    processingStatus: "toBeProcessed" | "processing" | "processed";
+    conversations? : HardshipConversation[];
+}
+
+type ConversationAuthor = "customer" | "bankRep"
+
+type HardshipConversation = {
+    from: string;
+    to: string;
+    fromType: ConversationAuthor;
+    toType: ConversationAuthor;
+    messageContent: string;
+}
 
 
 type Money = {

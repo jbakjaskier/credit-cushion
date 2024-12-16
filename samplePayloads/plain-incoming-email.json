@@ -1,0 +1,195 @@
+{
+    "FromName": "Jason Bakthakumar",
+    "MessageStream": "inbound",
+    "From": "jasonbakthakumar@live.com",
+    "FromFull": {
+      "Email": "jasonbakthakumar@live.com",
+      "Name": "Jason Bakthakumar",
+      "MailboxHash": ""
+    },
+    "To": "\"cac0731fa0b48a89b6bb9d12bca81e59+17a62211a0272f70320431e80e273f94@inbound.postmarkapp.com\" <cac0731fa0b48a89b6bb9d12bca81e59+17a62211a0272f70320431e80e273f94@inbound.postmarkapp.com>",
+    "ToFull": [
+      {
+        "Email": "cac0731fa0b48a89b6bb9d12bca81e59+17a62211a0272f70320431e80e273f94@inbound.postmarkapp.com",
+        "Name": "cac0731fa0b48a89b6bb9d12bca81e59+17a62211a0272f70320431e80e273f94@inbound.postmarkapp.com",
+        "MailboxHash": "17a62211a0272f70320431e80e273f94"
+      }
+    ],
+    "Cc": "",
+    "CcFull": [],
+    "Bcc": "",
+    "BccFull": [],
+    "OriginalRecipient": "cac0731fa0b48a89b6bb9d12bca81e59+17a62211a0272f70320431e80e273f94@inbound.postmarkapp.com",
+    "Subject": "Testing an email that I'm sending to my postmark account.",
+    "MessageID": "e7f2b33f-a050-4d8a-8822-2f57f534e676",
+    "ReplyTo": "",
+    "MailboxHash": "17a62211a0272f70320431e80e273f94",
+    "Date": "Mon, 16 Dec 2024 04:12:54 +0000",
+    "TextBody": "Making sure that items are working as expected.\n\n\n",
+    "HtmlBody": "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">\n<style type=\"text/css\" style=\"display:none;\"> P {margin-top:0;margin-bottom:0;} </style>\n</head>\n<body dir=\"ltr\">\n<div class=\"elementToProof\" style=\"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\">\nMaking sure that items are working as expected.&nbsp;</div>\n<div class=\"elementToProof\" style=\"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\">\n<br>\n</div>\n<div class=\"elementToProof\" style=\"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);\">\n<br>\n</div>\n</body>\n</html>\n",
+    "StrippedTextReply": "",
+    "Tag": "",
+    "Headers": [
+      {
+        "Name": "Return-Path",
+        "Value": "<jasonbakthakumar@live.com>"
+      },
+      {
+        "Name": "Received",
+        "Value": "by p-pm-inboundg03a-aws-useast1a.inbound.postmarkapp.com (Postfix, from userid 996)\tid BF452453CA4; Mon, 16 Dec 2024 04:12:56 +0000 (UTC)"
+      },
+      {
+        "Name": "X-Spam-Checker-Version",
+        "Value": "SpamAssassin 3.4.0 (2014-02-07) on\tp-pm-inboundg03a-aws-useast1a"
+      },
+      {
+        "Name": "X-Spam-Status",
+        "Value": "No"
+      },
+      {
+        "Name": "X-Spam-Score",
+        "Value": "-1.3"
+      },
+      {
+        "Name": "X-Spam-Tests",
+        "Value": "DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,HTML_MESSAGE,\tRCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,RCVD_IN_ZEN_BLOCKED_OPENDNS,\tSPF_HELO_PASS,SPF_PASS"
+      },
+      {
+        "Name": "Received-SPF",
+        "Value": "pass (live.com: Sender is authorized to use 'jasonbakthakumar@live.com' in 'mfrom' identity (mechanism 'include:spf-b.hotmail.com' matched)) receiver=p-pm-inboundg03a-aws-useast1a; identity=mailfrom; envelope-from=\"jasonbakthakumar@live.com\"; helo=NAM10-BN7-obe.outbound.protection.outlook.com; client-ip=40.92.40.96"
+      },
+      {
+        "Name": "Received",
+        "Value": "from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10olkn2096.outbound.protection.outlook.com [40.92.40.96])\t(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))\t(No client certificate requested)\tby p-pm-inboundg03a-aws-useast1a.inbound.postmarkapp.com (Postfix) with ESMTPS id 73DB3453CA2\tfor <cac0731fa0b48a89b6bb9d12bca81e59+17a62211a0272f70320431e80e273f94@inbound.postmarkapp.com>; Mon, 16 Dec 2024 04:12:56 +0000 (UTC)"
+      },
+      {
+        "Name": "ARC-Seal",
+        "Value": "i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none; b=iBdbXJkYiz5TruFtyeG9nhRhWJfQrfjYwyNQIOhGLVQud4yhNldaDwONdiEPuLzIPDN860nqY4C3rH7Y54IKuHh6MEvuWu7ZTL6c6vQgIyAgZaGWJ/MjcvnZsArnkXO+JBl2rD1kcicEo5gFoEhu/GNmM7Bzu8M7ku6HPe072I3vPTNGGUINHQDYeR9mw7eJf2AkNIt0i3jr3l6Lmn9WAw6huDI2LVD1A4GvhP1wijBEk4CLNXf4kCKosmRybhbK1ktasgDv/BZwg/liRStsHImYtFCZVVAUG3DDz7TUiWUZJYQr2K/O5KUiXEI+X2jyiC7AOAhiFr3/LHT56RTIaA=="
+      },
+      {
+        "Name": "ARC-Message-Signature",
+        "Value": "i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; s=arcselector10001; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1; bh=J/VqZ5x31wjqJtpxfZjg1LITrqnBsHxym5cXZ7gR0Cc=; b=X/Y+KtqVZpYpi+pKRyhY9pGMyg0XnpQ/9Kt4myocj9lnwV4sKXb4bD9OUPS9DZxFfK0Dg6nApd5xPK5at42utJhXK4uikibHyZK+psoYZxwUNEo+Qhz3fwN7G/nh/UXiPqA39Mcz0XpMPULR3Po1S/Myb5WoXonXAmS1MrYhSkowcYPki2Nld3KVMbWtZ6hKybbySkAhQb0gav4IxNAaxwq2xIZA/0hpFJlqgo6tj4vpK3N+ncqCufzQPLHeaMwxYge4WNLFIpSU4hHzQyFZjsL6hDzM/R/aToVGIM6n7/morvOFMWaX/q/ANQcqMLIjYZfgYZ2GSTVyFlBpl47ypg=="
+      },
+      {
+        "Name": "ARC-Authentication-Results",
+        "Value": "i=1; mx.microsoft.com 1; spf=none; dmarc=none; dkim=none; arc=none"
+      },
+      {
+        "Name": "DKIM-Signature",
+        "Value": "v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck; bh=J/VqZ5x31wjqJtpxfZjg1LITrqnBsHxym5cXZ7gR0Cc=; b=ItcvtqqkJ31iOg+yuJl+SfM4c/81C5Ymw1cAL8IohGHvBHnRAd6MABFpW2EGkE11hdtBYy0E787n5mdhMMQPAJL0AL4fKUjvJvXt3DrMy7XJtB+ebshy1bhJT4tOAHg6tb00+osceKltCoNBQfJEjsDPESfYF8tf4LO5MsvkyKdnnaQIvQ3YV0Ti8AVa8OUrubw3obgUI/5UwTJyMF2V6az8IEyB0FoS0EVqp4ngeMUe6DS+NB0xVDmPm/d+Q0/L9oqykpcHg2sdtSOnhGYaVdGqv5I4ge+N86xAiCuY7yov1IKxeGzU85MU1LfK5lsTh1ikhuVdSqeSb+l82R5sjA=="
+      },
+      {
+        "Name": "Received",
+        "Value": "from IA0PR14MB6816.namprd14.prod.outlook.com (2603:10b6:208:408::22) by DM6PR14MB4009.namprd14.prod.outlook.com (2603:10b6:5:219::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.21; Mon, 16 Dec 2024 04:12:55 +0000"
+      },
+      {
+        "Name": "Received",
+        "Value": "from IA0PR14MB6816.namprd14.prod.outlook.com ([fe80::781c:32da:f9df:978f]) by IA0PR14MB6816.namprd14.prod.outlook.com ([fe80::781c:32da:f9df:978f%4]) with mapi id 15.20.8251.015; Mon, 16 Dec 2024 04:12:54 +0000"
+      },
+      {
+        "Name": "Thread-Topic",
+        "Value": "Testing an email that I'm sending to my postmark account."
+      },
+      {
+        "Name": "Thread-Index",
+        "Value": "AQHbT3C0ui3N6iSbT02upah//2F36A=="
+      },
+      {
+        "Name": "Message-ID",
+        "Value": "<IA0PR14MB68165AD4FEF1F9E9147C6CD1AF3B2@IA0PR14MB6816.namprd14.prod.outlook.com>"
+      },
+      {
+        "Name": "Accept-Language",
+        "Value": "en-US"
+      },
+      {
+        "Name": "X-MS-Has-Attach",
+        "Value": ""
+      },
+      {
+        "Name": "X-MS-TNEF-Correlator",
+        "Value": ""
+      },
+      {
+        "Name": "msip_labels",
+        "Value": ""
+      },
+      {
+        "Name": "x-ms-exchange-messagesentrepresentingtype",
+        "Value": "1"
+      },
+      {
+        "Name": "x-ms-publictraffictype",
+        "Value": "Email"
+      },
+      {
+        "Name": "x-ms-traffictypediagnostic",
+        "Value": "IA0PR14MB6816:EE_|DM6PR14MB4009:EE_"
+      },
+      {
+        "Name": "x-ms-office365-filtering-correlation-id",
+        "Value": "7ff017eb-497f-4a6c-3980-08dd1d87ea60"
+      },
+      {
+        "Name": "x-microsoft-antispam",
+        "Value": "BCL:0;ARA:14566002|19110799003|8060799006|8062599003|15030799003|7092599003|461199028|15080799006|102099032|3412199025|440099028;"
+      },
+      {
+        "Name": "x-microsoft-antispam-message-info",
+        "Value": "4Pau7cjXsjRC688puHgFHAuYVStzeSRQeY2Idahkdl5uDDfH7taHJZN5cnynZjGjtl31vJxuNHQOtyQw6euZ1Kh9y8JRvjYNKlmpg6geJp8scdjNvBUwrXhLkjCJmXWuIEzUlPwznQCK2CS5hLSyXxwkOlB1bFdMOxAAidMhYpPUKipfCyKgnW7fRyPcn3ihgyf2PXUmPTJVXiuqG2GFxoQWoiEy820LZ4+p647TpTkrdIa9hKfDKy8EDEjUMxUWTB8Og/WZ2eU2GCwBZnX5WtV528SHCdxHXWEU/x1Cgaq7IICZ0p2VWbcEoNBKchiFghwyMFYC0HI1COSHFKVJShcny1AgjQHqy6Z6YG1D+SeP/rGSzi7biK4Azi9yLUSy0WmiEFkQ4nTNSpt3gUoUhwBMGYcwPA1l518bbltBSjYQU4J+58fDlMpcCsMl8f0q9VXicTC+LG2/jqB/Z5b5mxeST0uAxeyad+qZXetcAl6+kM9WYGxjxC7zAHVAxwSMJ7+Tlu0mebXJJHh52SRXO4XTVEr3ZQOKW/mnOZicojQsQTMXqFab4xBuxvfrQetkLP2Dp7doSrwvNM49lfn6su/F/rYCNCCowpRzl7F1TZAlBz5Fd9UHCGDUM6l/FMmd5l2RKelzD8URO7WAn1XAYs+5FkRV+/HOmgNdY/Ph7ybm8becRtbKAN/EucGvdsIGBCSEJJm+za0nyYduuUyq1tNIVL+FGvu2vGywoytd0e8o0o26h7xRTMyUSzwUcfLu60Qg7ZsnX1r5CnhKZ1g/C0MUaCJ8RTGTJ5655ZocLF3OXhbGezlzVzZdq/7lENVdAsChDZDDN2BwgNR6HxhWCOy4wwhcmLA1J8q2fjRUUMen9whQ0G29MXTYdVHMU+Qvm66a89s27QXJ86Lg116/rKa02ztFM788tLbbZHWnsTuto82lcoV96foc7LSnQcUuuG+Ruf/B7qCwRrHdDVCJevrDfIsH/DHjEhmja8ERzpkVAebP/z7vIAW+NPMMWDeyUa965kwXF6r+MC5TE0DF7zy7q+qWw34KCH/aM29r7P+6g74iX0gj1L9KTHxUwF3O"
+      },
+      {
+        "Name": "x-ms-exchange-antispam-messagedata-chunkcount",
+        "Value": "1"
+      },
+      {
+        "Name": "x-ms-exchange-antispam-messagedata-0",
+        "Value": "lNtz1Cnm6Pc2SNdF8bLA1agceH71Oyzf44OowfZWwJLQZ0RLDpXuTZ0AVXNCxLdA+nVcUFuY9mp4XnMd2Yonfmr/vvK7VeW7TvscGI6OBlic9mmWYhPR5m2hkzDB36faOTKMJMw5c9sHCWb7lt9lga7n3gKFeKXoIWy1peA+naYgpk5dc6i7PWIUAESbGwEhxBFlz/vI56DN81FHD3/LF/2vMhK3D1Ez+qMUfFCnyyRlyyfavnQlrU/bLszzEeKwMTysaBrQ0J3NygcXSnwMon2GsZxm2oDM5QT2JvO7Zn8vzH/6C3XHtpTaOlO3bfhK3HranMqzT26ywdEpZIh/w59bJ9+BfRODWfLLpUu+uUPMPrPPyT8R3+X2WbNQVdGAIbhTZvcEO8kjHZX2BC5oSBbgO5QCHGJXW52mBhUsfiE9bGr/Xs0NL9p4N8PXyPgbeXQTeHwgKoiWNkaPrXAQFbuOPuxC7I0QYYb1WvshLRGjbQIdBl7uiLiAgP1k6ibECx1hPsc5YTjd1f89ouoQhVTEkd5cCDXiEVeMINvfVzbS1avYmBO2sQoQr+7Cw4gipXS88UcXvp5rCGyzbxD7siXBim7E1SrP0JkMe4/8z175Slrsw5GGkZUIzRySE+dbud8M7e4DGK+GSaRvErTSd9vVxnCVSN80BvPyoNH0Zpi1fX7beFDBD9rXD70hBwEh7LIcoHcVa2BB1yOvL0XQtO1J/T2Ksfka11ZUiMw2gnXI7EuPE+YCtTelRTM7mHFcfMiGrcUMhm7/yiIbOXvi6VyiM6mL57PehFEsp0QcDzrVcT5Yl/i40LXBruEf7ULoxM3KYiRv9pK8MJAYrUJTZeqwhP1BJ0xwmq2K2zOu9aADyA3S+VjWalbizOxuW9JvuwEEAniQZwbSkhOjocV6l0mfPAytmiyrKv91wxVb0NTyePDH3j6+BVTUwjFEQxyn2e7AFSdMY8i3zsV8td3wD2ZioqPHlT4v4vsaiIHiTW87k7mkWhqkb/LiOMXRpeWeGbIyL+C1HXoKQ3RQMVEIEFhSJVYzCgfqOzgTurLXSgq29o+1k2xhqpjxwh1X24XwCc95gVQIIIsGGrGqSwvQOTbIDZZ0OnLM1d6DK43XsoBfMce6RjPPa1WFIew0aS0tocWMhlZRiGuokORi95cRm95HcJiIOgzAECs2Uj+PbKOOEX8LAb8XppDBBnoBYGGP+Sdfkz4DmIO/JZjfJxstNmqqmww/hnFniI7ujEWwtx8="
+      },
+      {
+        "Name": "MIME-Version",
+        "Value": "1.0"
+      },
+      {
+        "Name": "X-OriginatorOrg",
+        "Value": "sct-15-20-7719-19-msonline-outlook-e4812.templateTenant"
+      },
+      {
+        "Name": "X-MS-Exchange-CrossTenant-AuthAs",
+        "Value": "Internal"
+      },
+      {
+        "Name": "X-MS-Exchange-CrossTenant-AuthSource",
+        "Value": "IA0PR14MB6816.namprd14.prod.outlook.com"
+      },
+      {
+        "Name": "X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg",
+        "Value": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "Name": "X-MS-Exchange-CrossTenant-Network-Message-Id",
+        "Value": "7ff017eb-497f-4a6c-3980-08dd1d87ea60"
+      },
+      {
+        "Name": "X-MS-Exchange-CrossTenant-originalarrivaltime",
+        "Value": "16 Dec 2024 04:12:54.5958 (UTC)"
+      },
+      {
+        "Name": "X-MS-Exchange-CrossTenant-fromentityheader",
+        "Value": "Hosted"
+      },
+      {
+        "Name": "X-MS-Exchange-CrossTenant-id",
+        "Value": "84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa"
+      },
+      {
+        "Name": "X-MS-Exchange-CrossTenant-rms-persistedconsumerorg",
+        "Value": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "Name": "X-MS-Exchange-Transport-CrossTenantHeadersStamped",
+        "Value": "DM6PR14MB4009"
+      }
+    ],
+    "Attachments": []
+  }
