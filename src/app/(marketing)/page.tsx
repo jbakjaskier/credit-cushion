@@ -4,13 +4,11 @@ import { createAuthUrl } from "@/lib/auth/login";
 import Image from "next/image";
 import Link from "next/link";
 
-
 export default async function Home() {
-  
   const loginAuthUrl = await createAuthUrl();
 
   return (
-    <main>
+    <div>
       <div className="relative isolate">
         <svg
           className="absolute inset-x-0 top-0 -z-10 h-[64rem] w-full stroke-gray-200 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)]"
@@ -53,8 +51,6 @@ export default async function Home() {
             }}
           />
         </div>
-
-        {/* Home Section */}
         <div className="overflow-hidden">
           <div className="mx-auto max-w-7xl px-6 pb-32 pt-36 sm:pt-60 lg:px-8 lg:pt-32">
             <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
@@ -67,10 +63,16 @@ export default async function Home() {
                 </p>
                 <div className="mt-10 flex items-center gap-x-6">
                   <Link
-                    href={loginAuthUrl}
+                    href="/hardship"
                     className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
-                    Login with DocuSign
+                    {`I'm going through something`}
+                  </Link>
+                  <Link
+                    href={loginAuthUrl}
+                    className="text-sm font-semibold leading-6 text-gray-900"
+                  >
+                    {`Bank Login`} <span aria-hidden="true">→</span>
                   </Link>
                 </div>
               </div>
@@ -136,6 +138,6 @@ export default async function Home() {
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

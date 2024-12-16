@@ -5,7 +5,7 @@ import { decrypt } from './lib/auth/session'
  
 // 1. Specify protected and public routes
 const protectedRoutes = ['/products', '/customers', '/api/auth/refresh']
-const publicRoutes = ['/']
+const publicRoutes = ['/', '/hardship']
  
 export default async function middleware(req: NextRequest) {
   // 2. Check if the current route is protected or public

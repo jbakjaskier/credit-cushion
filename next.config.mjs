@@ -1,6 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '11mb' //This is for hardship form submission
+    }
+  },
   images: {
     remotePatterns: [
       {

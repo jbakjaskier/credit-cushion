@@ -19,5 +19,4 @@ export const fonts = {
   mono: geistMono,
 };
 
-export const getFontClasses = () =>
-  `${fonts.sans.variable} ${fonts.mono.variable} antialiased`;
+export const fontClasses = `${fonts.sans.variable} ${fonts.mono.variable} antialiased`;
