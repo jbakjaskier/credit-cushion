@@ -109,6 +109,7 @@ function getLoanFromEventPayload(payload: EventPayload) : Omit<Loan, "_id"> {
             return {
                 createdDateTime: new Date(payload.data.envelopeSummary.createdDateTime!),
                 envelopeId: payload.data.envelopeId,
+                envelopeUri: payload.data.envelopeSummary.envelopeUri,
                 emailDetails: {
                     emailBlurb: payload.data.envelopeSummary.emailBlurb,
                     emailSubject: payload.data.envelopeSummary.emailSubject
@@ -127,6 +128,7 @@ function getLoanFromEventPayload(payload: EventPayload) : Omit<Loan, "_id"> {
                 sentDateTime: new Date(payload.data.envelopeSummary.sentDateTime!),
                 createdDateTime: new Date(payload.data.envelopeSummary.createdDateTime!),
                 envelopeId: payload.data.envelopeId,
+                envelopeUri: payload.data.envelopeSummary.envelopeUri,
                 emailDetails: {
                     emailBlurb: payload.data.envelopeSummary.emailBlurb,
                     emailSubject: payload.data.envelopeSummary.emailSubject
@@ -179,6 +181,7 @@ function getLoanFromEventPayload(payload: EventPayload) : Omit<Loan, "_id"> {
                 createdDateTime: new Date(payload.data.envelopeSummary.createdDateTime!),
                 completedDateTime: new Date(payload.data.envelopeSummary.completedDateTime!),
                 envelopeId: payload.data.envelopeId,
+                envelopeUri: payload.data.envelopeSummary.envelopeUri,
                 emailDetails: {
                     emailBlurb: payload.data.envelopeSummary.emailBlurb,
                     emailSubject: payload.data.envelopeSummary.emailSubject
@@ -255,6 +258,7 @@ type EventData = {
 
 type EnvelopeSummary = {
     status: string;
+    envelopeUri: string;
     emailBlurb: string;
     emailSubject: string;
     sentDateTime?: string;

@@ -8,6 +8,7 @@ export interface Loan {
     createdDateTime: Date;
     completedDateTime?: Date;
     envelopeId: string;
+    envelopeUri: string;
     emailDetails : {
         emailBlurb: string;
         emailSubject: string;
@@ -45,20 +46,9 @@ type CustomerHardship = {
     circumstanceExplanation: string;
     idealArrangement: string;
     supportingDocument: string;
-    processingStatus: "toBeProcessed" | "processing" | "processed";
-    conversations? : HardshipConversation[];
+    loanVariationStatus: "needsAttention" | "variationGenerated" | "variationSentToCustomer" | "hardshipEvaluated";
+    variatedContractContent?: string;
 }
-
-type ConversationAuthor = "customer" | "bankRep"
-
-type HardshipConversation = {
-    from: string;
-    to: string;
-    fromType: ConversationAuthor;
-    toType: ConversationAuthor;
-    messageContent: string;
-}
-
 
 type Money = {
     value: number;
