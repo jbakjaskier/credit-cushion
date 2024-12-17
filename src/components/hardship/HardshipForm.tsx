@@ -17,16 +17,19 @@ export type HardshipFormErrorDetail = {
 
 export type HardshipFormState =
   | {
-      mode: "success";
-    }
-  | {
       mode: "error";
       errorDetails: HardshipFormErrorDetail;
     }
   | {
       mode: "initial";
+    } | {
+      mode: "emailSentToRepresentative"
+    } | {
+      mode: "contractVariatedSuccessfully"
     };
 
+
+//TODO: emailSentToRepresentative and contractVariatedSuccessfully should be implemented
 export default function HardshipForm() {
   const [state, formAction, isPending] = useActionState(
     createCustomerHardship,
@@ -43,13 +46,12 @@ export default function HardshipForm() {
 
   const [fileSelected, setFileSelected] = useState<File | null>(null);
 
-  return state.mode === "success" ? (
+  return state.mode === "contractVariatedSuccessfully" ? (
     <div className="mt-4 w-full max-w-2xl">
       <CheckCircleIcon width={50} height={50} stroke="green" />
       <h1 className="text-2xl text-gray-900">Thank you</h1>
       <p className="text-sm text-gray-900">
-        Thanks for telling us about your hardship. We're evaluating it and will
-        be with you shortly. Please have an eye on your email
+        {`Congratulations 🎉. We've successfully variated your contract. You should be recieving the variation of contract in your inbox to sign`}
       </p>
     </div>
   ) : (
@@ -218,10 +220,10 @@ export default function HardshipForm() {
               >
                 What would be your ideal arrangement
                 <span className="block text-gray-500 text-sm">
-                  Let us know what your ideal arrangement be ? Give us details
+                  {`Let us know what your ideal arrangement be ? Give us details
                   like the amount you're wanting to variate, and the period
                   you're wanting to variate it for. Entering this does not mean
-                  your contract is altered. The original agreement still stands.
+                  your contract is altered. The original agreement still stands.`}
                 </span>
               </label>
               <div className="mt-2">
@@ -292,7 +294,7 @@ export default function HardshipForm() {
                     <p className="pl-1">to support your case</p>
                   </div>
                   <p className="text-xs leading-5 text-center text-gray-600">
-                    Make sure it's in PDF format and below 4MB
+                    {`Make sure it's in PDF format and below 4MB`}
                   </p>
                 </div>
               </div>

@@ -17,8 +17,7 @@ export async function sendEnvelopeToCustomer(
 ): Promise<FetcherError | EnvelopeCreatedResult> {
   try {
     const session = await verifySession();
-
-    //TODO: This should be also have tabs loaded so that eSign is preloaded
+    
     const sendEnvelopeResult = await fetch(
       `${process.env.DOCUSIGN_ESIG_BASE_URL}/v2.1/accounts/${accountId}/envelopes`,
       {
