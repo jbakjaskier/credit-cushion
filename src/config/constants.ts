@@ -18,23 +18,14 @@ export const API_ENDPOINTS = {
 export const ROUTES = {
   HOME: "/",
   HARDSHIP: "/hardship",
-  PRODUCTS: "/products",
-  CREATE_WAIVER: "/experiences/create-waiver",
-  REVIEW_WAIVER: "/experiences/review-waiver",
-  PUBLISH_WAIVER: "/experiences/publish-waiver",
   CUSTOMERS: "/customers",
+  PRODUCTS: "/products",
   PROFILE: "#",
   SETTINGS: "#",
-  SIGNOUT: "#",
+  SIGNOUT: "/api/auth/logout",
 } as const;
 
-// Route Groups
-export const EXPERIENCE_ROUTES = {
-  BASE: ROUTES.PRODUCTS,
-  CREATE: ROUTES.CREATE_WAIVER,
-  REVIEW: ROUTES.REVIEW_WAIVER,
-  PUBLISH: ROUTES.PUBLISH_WAIVER,
-} as const;
+
 
 // Navigation Items
 export const MARKETING_NAVIGATION = [
@@ -45,7 +36,6 @@ export const MARKETING_NAVIGATION = [
 
 export const USER_NAVIGATION = [
   { name: "Your Profile", href: ROUTES.PROFILE },
-  { name: "Settings", href: ROUTES.SETTINGS },
   { name: "Sign out", href: ROUTES.SIGNOUT },
 ] as const;
 

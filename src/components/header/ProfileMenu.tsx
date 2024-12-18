@@ -3,9 +3,9 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import Image from "next/image";
-import Link from "next/link";
 import { USER_NAVIGATION } from "@/config/constants";
 import { classNames } from "@/lib/classUtils";
+import Link from "next/link";
 
 interface User {
   name: string;
@@ -42,11 +42,11 @@ export function ProfileMenu({ user }: { user: User }) {
             <Menu.Item key={item.name}>
               {({ active }) => (
                 <Link
-                  href={item.href}
                   className={classNames(
                     active ? "bg-gray-100" : "",
                     "block px-4 py-2 text-sm text-gray-700"
                   )}
+                  href={`${item.href}?logoutUri=home`}
                 >
                   {item.name}
                 </Link>

@@ -6,6 +6,9 @@ import { useState } from "react";
 import Button from "@/components/common/Button";
 import { Dialog } from "@headlessui/react";
 import { CustomerDetailsForm } from "./CustomerDetailsForm";
+import { getLoanFromDbAsync } from "@/lib/db/dbFetcher";
+import { sendEnvelopeVariationToCustomer, sendVariationOfContractToCustomer } from "@/lib/fetcher/envelope";
+import { isDbFetcherError } from "@/lib/db/models/loans";
 
 
 export default function TemplateListView({
@@ -75,7 +78,9 @@ export default function TemplateListView({
 
     <div className="flex justify-end sticky bottom-0 bg-white py-4 border-t">
       <Button
-        onClick={handleSendEnvelope}
+        onClick={async () => {
+          await sendEnvelopeVariationToCustomer()
+        }}
         disabled={!selectedTemplate}
         className="min-w-[200px]"
       >
@@ -102,3 +107,5 @@ export default function TemplateListView({
   </>
   )
 }
+
+

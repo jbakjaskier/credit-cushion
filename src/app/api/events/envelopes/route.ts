@@ -44,6 +44,8 @@ async function handleRequest(request: NextRequest) {
 
     console.info(`The Webhook Request has been successfully authenticated`);
 
+    //TODO: Check if it's a hardship envelope if not send it over to hardship
+
     try {
         const requestBody = await request.json() as EventPayload;
         //Update it to the database

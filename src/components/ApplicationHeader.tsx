@@ -39,7 +39,7 @@ export default function ApplicationHeader() {
                       height={50}
                       className="block"
                       src="/credit-cushion-dark-logo.png"
-                      alt="Rush Ready"
+                      alt="Credit Cushion"
                     />
                   </Link>
                   <nav className="hidden lg:ml-10 lg:block">

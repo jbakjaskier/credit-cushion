@@ -41,7 +41,7 @@ export interface Loan {
     hardship?: CustomerHardship
 }
 
-type CustomerHardship = {
+export type CustomerHardship = {
     circumstanceReason: string;
     circumstanceExplanation: string;
     idealArrangement: string;
@@ -54,3 +54,14 @@ type Money = {
     value: number;
     currency: "aud"; //Currently we only support AUD financial providers. Must be updated later
 }
+
+
+
+export type DbFetcherError = {
+    errorMessage: string;
+  };
+
+
+  export function isDbFetcherError(input: DbFetcherError | Loan | Loan[] | null) : input is DbFetcherError {
+    return (input as DbFetcherError).errorMessage !== undefined;
+  }
