@@ -5,6 +5,11 @@ import { useActionState, useEffect, useState } from "react";
 import { PhotoIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
 import ProgressLoader from "../common/ProgressLoader";
 
+//This is so that the server action that evaluates the hardship has enough time to call LLMs
+//Optimise as required
+export const maxDuration = 300;
+
+
 export type HardshipFormErrorDetail = {
   fullLegalName?: string;
   emailAddress?: string;
