@@ -3,7 +3,8 @@ const nextConfig = {
   reactStrictMode: true,
   experimental: {
     serverActions: {
-      bodySizeLimit: '5mb' //This is for hardship form submission
+      bodySizeLimit: '5mb', //This is for hardship form submission
+      timeout: 300 //Can be tweaked later. Currently for LLMs
     }
   },
   images: {
