@@ -2,7 +2,6 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 
 const apiKey = process.env.GOOGLE_GEMINI_API_KEY as string; // your api key
-const options = {};
 
 declare global {
   // eslint-disable-next-line no-var
