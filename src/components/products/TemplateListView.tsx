@@ -6,6 +6,7 @@ import { useState } from "react";
 import Button from "@/components/common/Button";
 import { Dialog } from "@headlessui/react";
 import { CustomerDetailsForm } from "./CustomerDetailsForm";
+import { sendEnvelopeVariationToCustomerAndSaveItInDatabase } from "@/lib/fetcher/envelope";
 
 
 export default function TemplateListView({
@@ -75,7 +76,9 @@ export default function TemplateListView({
 
     <div className="flex justify-end sticky bottom-0 bg-white py-4 border-t">
       <Button
-        onClick={handleSendEnvelope}
+        onClick={async () => {
+          await sendEnvelopeVariationToCustomerAndSaveItInDatabase()
+        }}
         disabled={!selectedTemplate}
         className="min-w-[200px]"
       >
@@ -102,3 +105,5 @@ export default function TemplateListView({
   </>
   )
 }
+
+

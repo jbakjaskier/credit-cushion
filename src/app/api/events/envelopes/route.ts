@@ -44,11 +44,34 @@ async function handleRequest(request: NextRequest) {
 
     console.info(`The Webhook Request has been successfully authenticated`);
 
+    //TODO: Check if it's a hardship envelope if not send it over to hardship
+
     try {
         const requestBody = await request.json() as EventPayload;
         //Update it to the database
         const mongoClient = await clientPromise;
         const loanCollection = mongoClient.db(dbName).collection<Loan>(loanCollectionName);
+
+        // Check if it's an update for a hardship variation application that was sent to the customer
+        const hardshipEnvelopeInDb = await loanCollection.findOne<Loan>({
+            'hardship.envelopeDetails.envelopeId': requestBody.data.envelopeId
+        })
+
+        if(hardshipEnvelopeInDb !== null) {
+            await loanCollection.updateOne({
+                'hardship.envelopeDetails.envelopeId': requestBody.data.envelopeId
+            }, {
+                'hardship.envelopeDetails.envelopeStatus': requestBody.data.envelopeSummary.status,
+                'hardship.envelopeDetails.lastUpdated': new Date()
+            })
+
+            
+            return NextResponse.json({
+                isSuccessful: true
+            }, {
+                status: 201
+            })
+        }
 
         const loanInDb = await loanCollection.findOne<Loan>({
             envelopeId: requestBody.data.envelopeId

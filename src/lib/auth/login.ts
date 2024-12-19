@@ -1,8 +1,16 @@
 "use server";
 
-import { AccessTokenResponse, AuthErrorResponse, isAuthErrorResponse, SessionPayload, UserInfo } from "./models";
-
-const docuSignAuthScopes = ["signature", "openid", "cors", "extended"];
+import { redirect } from "next/navigation";
+import getSupportedAccountInfo from "../../../accountConfig";
+import {
+  AccessTokenResponse,
+  AuthErrorResponse,
+  docuSignAuthScopes,
+  isAuthErrorResponse,
+  SessionPayload,
+  UserInfo,
+} from "./models";
+import { isDevelopmentEnvironment } from "../db/mongodb";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function generateOAuthState(): string {
@@ -13,7 +21,7 @@ function generateOAuthState(): string {
 
 export async function createAuthUrl(): Promise<string> {
   const loginUrl = new URL(
-    process.env.NODE_ENV === "development"
+    isDevelopmentEnvironment()
       ? `https://account-d.docusign.com/oauth/auth`
       : `https://account.docusign.com/oauth/auth`
   );
@@ -31,46 +39,60 @@ export async function createAuthUrl(): Promise<string> {
   return loginUrl.toString();
 }
 
-export async function getAuthenticatedSessionPayload(authCode: string) : Promise<SessionPayload | AuthErrorResponse> {
+export async function getAuthenticatedSessionPayload(
+  authCode: string
+): Promise<SessionPayload | AuthErrorResponse> {
   const accessTokenResponse = await getAccessToken(authCode);
 
-  if(isAuthErrorResponse(accessTokenResponse)) {
+  if (isAuthErrorResponse(accessTokenResponse)) {
     return accessTokenResponse;
   }
 
   const userInfoResponse = await getUserInfo(accessTokenResponse.access_token);
 
-  if(isAuthErrorResponse(userInfoResponse)) {
-    return userInfoResponse
+  if (isAuthErrorResponse(userInfoResponse)) {
+    return userInfoResponse;
+  }
+
+  const isSupportedAccount =
+    userInfoResponse.accounts.find(
+      (ac) => getSupportedAccountInfo(ac.account_id) !== undefined
+    ) !== undefined;
+
+  if (!isSupportedAccount) {
+    redirect("/api/auth/logout?logoutUri=unsupportedAccount");
   }
 
   return {
     accessTokenResponse: accessTokenResponse,
     userInfo: userInfoResponse,
-    createdOn: Date.now()
+    createdOn: Date.now(),
   };
-
 }
 
-export async function getAuthenticatedRefreshTokenSessionPayload(refreshToken: string, userInfo: UserInfo) : Promise<SessionPayload | AuthErrorResponse> {
+export async function getAuthenticatedRefreshTokenSessionPayload(
+  refreshToken: string,
+  userInfo: UserInfo
+): Promise<SessionPayload | AuthErrorResponse> {
   const refreshTokenResult = await getAccessTokenWithRefreshToken(refreshToken);
 
-  if(isAuthErrorResponse(refreshTokenResult)) {
+  if (isAuthErrorResponse(refreshTokenResult)) {
     return refreshTokenResult;
   }
-  
+
   return {
     accessTokenResponse: refreshTokenResult,
     userInfo: userInfo,
-    createdOn: Date.now()
-  }
-  
+    createdOn: Date.now(),
+  };
 }
 
-async function getUserInfo(accessToken: string): Promise<UserInfo | AuthErrorResponse> {
+async function getUserInfo(
+  accessToken: string
+): Promise<UserInfo | AuthErrorResponse> {
   try {
     const userInfoResult = await fetch(
-      process.env.NODE_ENV === "development"
+      isDevelopmentEnvironment()
         ? `https://account-d.docusign.com/oauth/userinfo`
         : `https://account.docusign.com/oauth/userinfo`,
       {
@@ -86,7 +108,7 @@ async function getUserInfo(accessToken: string): Promise<UserInfo | AuthErrorRes
         errorMessage: `We weren't able to successfully authenticate you. Please try again in a bit`,
       };
     }
-    
+
     const userInfoResponse = (await userInfoResult.json()) as UserInfo;
 
     return userInfoResponse;
@@ -109,10 +131,12 @@ async function getUserInfo(accessToken: string): Promise<UserInfo | AuthErrorRes
   }
 }
 
-async function getAccessTokenWithRefreshToken(refreshToken: string) : Promise<AccessTokenResponse | AuthErrorResponse> {
+async function getAccessTokenWithRefreshToken(
+  refreshToken: string
+): Promise<AccessTokenResponse | AuthErrorResponse> {
   try {
     const refreshTokenFetchResult = await fetch(
-      process.env.NODE_ENV === "development"
+      isDevelopmentEnvironment()
         ? `https://account-d.docusign.com/oauth/token`
         : `https://account.docusign.com/oauth/token`,
       {
@@ -122,7 +146,7 @@ async function getAccessTokenWithRefreshToken(refreshToken: string) : Promise<Ac
             `${process.env.DOCUSIGN_INTEGRATION_KEY!}:${process.env
               .DOCUSIGN_SECRET_KEY!}`
           )}`,
-          'Content-Type': `application/x-www-form-urlencoded`
+          "Content-Type": `application/x-www-form-urlencoded`,
         },
         body: new URLSearchParams({
           grant_type: `refresh_token`,
@@ -131,31 +155,32 @@ async function getAccessTokenWithRefreshToken(refreshToken: string) : Promise<Ac
       }
     );
 
-    if(!refreshTokenFetchResult.ok) {
+    if (!refreshTokenFetchResult.ok) {
       return {
-        errorMessage: `We were unable to authenticate you successfully. Please try signing in again`
-      }
+        errorMessage: `We were unable to authenticate you successfully. Please try signing in again`,
+      };
     }
-    
-    const tokenResponse = (await refreshTokenFetchResult.json()) as AccessTokenResponse;
+
+    const tokenResponse =
+      (await refreshTokenFetchResult.json()) as AccessTokenResponse;
 
     return tokenResponse;
   } catch (error: unknown) {
-    if(typeof error === "string") {
+    if (typeof error === "string") {
       return {
-        errorMessage: error
-      }
-    } 
+        errorMessage: error,
+      };
+    }
 
-    if(error instanceof Error) {
+    if (error instanceof Error) {
       return {
-        errorMessage: error.message
-      }
+        errorMessage: error.message,
+      };
     }
 
     return {
-      errorMessage: `We were unable to authenticate you successfully. Please try signing in again`
-    }
+      errorMessage: `We were unable to authenticate you successfully. Please try signing in again`,
+    };
   }
 }
 
@@ -164,7 +189,7 @@ async function getAccessToken(
 ): Promise<AccessTokenResponse | AuthErrorResponse> {
   try {
     const authFetchResult = await fetch(
-      process.env.NODE_ENV === "development"
+      isDevelopmentEnvironment()
         ? `https://account-d.docusign.com/oauth/token`
         : `https://account.docusign.com/oauth/token`,
       {
@@ -174,7 +199,7 @@ async function getAccessToken(
             `${process.env.DOCUSIGN_INTEGRATION_KEY!}:${process.env
               .DOCUSIGN_SECRET_KEY!}`
           )}`,
-          'Content-Type': `application/x-www-form-urlencoded`
+          "Content-Type": `application/x-www-form-urlencoded`,
         },
         body: new URLSearchParams({
           grant_type: `authorization_code`,
@@ -188,7 +213,7 @@ async function getAccessToken(
         errorMessage: `We weren't able to successfully authenticate you. Please try again in a bit`,
       };
     }
-    
+
     const tokenResponse = (await authFetchResult.json()) as AccessTokenResponse;
 
     return tokenResponse;

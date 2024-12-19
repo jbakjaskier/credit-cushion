@@ -5,8 +5,6 @@ import Button from "@/components/common/Button";
 import { useState } from "react";
 import MailAnimation from "@/components/common/MailAnimation";
 import { ButtonSpinner } from "@/components/common/ButtonSpinner";
-import { isFetcherError } from "@/lib/fetcher/common";
-import { sendEnvelopeToCustomer } from "@/lib/fetcher/envelope";
 
 export type CustomerDetails = {
   legalName: string;
@@ -38,17 +36,19 @@ export function CustomerDetailsForm({
   const handleFormSubmit = async (data: CustomerDetails) => {
     setIsSubmitting(true);
 
-    const submitFormResult = await sendEnvelopeToCustomer(
-      selectedAccountId,
-      selectedTemplateId,
-      data
-    );
+    // const submitFormResult = await sendEnvelopeToCustomer(
+    //   selectedAccountId,
+    //   selectedTemplateId,
+    //   data
+    // );
 
-    if (isFetcherError(submitFormResult)) {
-      setIsSuccess(false);
-    } else {
-      setIsSuccess(true);
-    }
+    // if (isFetcherError(submitFormResult)) {
+    //   setIsSuccess(false);
+    // } else {
+      
+    // }
+
+    setIsSuccess(true);
 
     setIsSubmitting(false);
   };

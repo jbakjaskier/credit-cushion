@@ -41,16 +41,45 @@ export interface Loan {
     hardship?: CustomerHardship
 }
 
-type CustomerHardship = {
+export type CustomerHardship = {
     circumstanceReason: string;
     circumstanceExplanation: string;
     idealArrangement: string;
     supportingDocument: string;
     loanVariationStatus: "needsAttention" | "variationGenerated" | "variationSentToCustomer" | "hardshipEvaluated";
     variatedContractContent?: string;
+    envelopeDetails? : CustomerHardshipEnvelope;
+}
+
+
+export type CustomerHardshipEnvelope = {
+    envelopeId: string;
+    envelopeUri: string;
+    envelopeStatus: string,
+    lastUpdated: Date;
 }
 
 type Money = {
     value: number;
     currency: "aud"; //Currently we only support AUD financial providers. Must be updated later
 }
+
+
+export type DbWriteOperationSuccessResult = {
+    mode: "success"
+} 
+
+
+export type DbWriteOperationErrorResult = {
+    mode: "error",
+    errorMessage: string;
+}
+
+export type DbFetcherError = {
+    errorMessage: string;
+  };
+
+
+  export function isDbFetcherError(input: DbFetcherError | Loan | Loan[] | null) : input is DbFetcherError {
+    return (input as DbFetcherError).errorMessage !== undefined;
+  }

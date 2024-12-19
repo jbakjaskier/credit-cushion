@@ -382,6 +382,14 @@ function getHTMLForContractVariation(content: string): string {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Variation of Loan</title>
                 <style>
+                    @media print {
+                        html, body {
+                            width: 100%;
+                            margin: 0;
+                            box-sizing: border-box;
+                        }
+                    }
+
                     * {
                         margin: 0;
                         padding: 0;
@@ -391,6 +399,8 @@ function getHTMLForContractVariation(content: string): string {
                     body {
                         font-family: Arial, sans-serif;
                         line-height: 1.6;
+                        width: 210mm; /* A4 width */
+                        max-width: 794px; /* Pixel equivalent of A4 width */
                     }
 
                     header {
