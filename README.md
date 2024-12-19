@@ -50,3 +50,19 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+# Remaining TODOs: 
+
+1. Hardship Form State UI
+   - For the `emailSentToRepresentative` state - a UI must be implemented
+
+2. Adding a UI for the loan interface
+
+3. Ability to view and edit Variation Generated Before Sending to Customer
+   - This also involves updating the Db status
+
+
+# Nice to Have / Phase Two
+
+4. Embedding the WebForm UI 

@@ -28,9 +28,9 @@ export type HardshipFormState =
   | {
       mode: "initial";
     } | {
-      mode: "emailSentToRepresentative"
+      mode: "emailSentToRepresentative" //TODO: THis state needs a UI
     } | {
-      mode: "contractVariatedSuccessfully"
+      mode: "contractVariatedSuccessfully" //can look into improving the UI
     };
 
 

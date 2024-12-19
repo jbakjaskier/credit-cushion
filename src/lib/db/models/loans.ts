@@ -46,7 +46,11 @@ export type CustomerHardship = {
     circumstanceExplanation: string;
     idealArrangement: string;
     supportingDocument: string;
-    loanVariationStatus: "needsAttention" | "variationGenerated" | "variationSentToCustomer" | "hardshipEvaluated";
+    loanVariationStatus: 
+    "hardshipResolved" |
+    "needsAttention" |
+     "variationGenerated" | 
+     "variationSentToCustomer" 
     variatedContractContent?: string;
     envelopeDetails? : CustomerHardshipEnvelope;
 }
