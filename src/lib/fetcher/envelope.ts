@@ -1,27 +1,33 @@
 "use server";
 
-import { FetcherError } from "./common";
+import { FetcherError, isFetcherError } from "./common";
 import { verifySession } from "../auth/session";
 import { isDbFetcherError, Loan } from "../db/models/loans";
 import getSupportedAccountInfo from "../../../accountConfig";
 import { redirect } from "next/navigation";
-import { getLoanFromDbAsync } from "../db/dbFetcher";
+import { addEnvelopeToHardship, getLoanFromDbAsync } from "../db/dbFetcher";
 import { ObjectId } from "mongodb";
 
 export type EnvelopeCreatedResult = {
   envelopeId: string;
   uri: string;
-  status: string;
+  status: "sent" | "created";
 };
 
 //TODO: This specifically is a test method and must be removed later
-export async function sendEnvelopeVariationToCustomer(
+export async function sendEnvelopeVariationToCustomerAndSaveItInDatabase(
   loanId: ObjectId = new ObjectId("675fbcf5646fe311c24b19b9")
 ) {
   const loanInDb = await getLoanFromDbAsync(loanId);
 
   if (!isDbFetcherError(loanInDb)) {
-    await sendVariationOfContractToCustomer(loanInDb!);
+    const envelopCreatedCustomer = await sendVariationOfContractToCustomer(
+      loanInDb!
+    );
+
+    if (!isFetcherError(envelopCreatedCustomer)) {
+      await addEnvelopeToHardship(loanId, envelopCreatedCustomer);
+    }
   }
 }
 

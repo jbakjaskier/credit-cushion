@@ -48,6 +48,15 @@ export type CustomerHardship = {
     supportingDocument: string;
     loanVariationStatus: "needsAttention" | "variationGenerated" | "variationSentToCustomer" | "hardshipEvaluated";
     variatedContractContent?: string;
+    envelopeDetails? : CustomerHardshipEnvelope;
+}
+
+
+export type CustomerHardshipEnvelope = {
+    envelopeId: string;
+    envelopeUri: string;
+    envelopeStatus: string,
+    lastUpdated: Date;
 }
 
 type Money = {
@@ -56,6 +65,15 @@ type Money = {
 }
 
 
+export type DbWriteOperationSuccessResult = {
+    mode: "success"
+} 
+
+
+export type DbWriteOperationErrorResult = {
+    mode: "error",
+    errorMessage: string;
+}
 
 export type DbFetcherError = {
     errorMessage: string;

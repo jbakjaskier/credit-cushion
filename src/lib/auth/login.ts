@@ -1,6 +1,5 @@
 "use server";
 
-
 import { redirect } from "next/navigation";
 import getSupportedAccountInfo from "../../../accountConfig";
 import {
@@ -11,8 +10,7 @@ import {
   SessionPayload,
   UserInfo,
 } from "./models";
-
-
+import { isDevelopmentEnvironment } from "../db/mongodb";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function generateOAuthState(): string {
@@ -23,7 +21,7 @@ function generateOAuthState(): string {
 
 export async function createAuthUrl(): Promise<string> {
   const loginUrl = new URL(
-    process.env.NODE_ENV === "development"
+    isDevelopmentEnvironment()
       ? `https://account-d.docusign.com/oauth/auth`
       : `https://account.docusign.com/oauth/auth`
   );
@@ -56,9 +54,10 @@ export async function getAuthenticatedSessionPayload(
     return userInfoResponse;
   }
 
-  const isSupportedAccount = userInfoResponse.accounts.find(
-    (ac) => getSupportedAccountInfo(ac.account_id) !== undefined
-  ) !== undefined;
+  const isSupportedAccount =
+    userInfoResponse.accounts.find(
+      (ac) => getSupportedAccountInfo(ac.account_id) !== undefined
+    ) !== undefined;
 
   if (!isSupportedAccount) {
     redirect("/api/auth/logout?logoutUri=unsupportedAccount");
@@ -93,7 +92,7 @@ async function getUserInfo(
 ): Promise<UserInfo | AuthErrorResponse> {
   try {
     const userInfoResult = await fetch(
-      process.env.NODE_ENV === "development"
+      isDevelopmentEnvironment()
         ? `https://account-d.docusign.com/oauth/userinfo`
         : `https://account.docusign.com/oauth/userinfo`,
       {
@@ -132,14 +131,12 @@ async function getUserInfo(
   }
 }
 
-
-
 async function getAccessTokenWithRefreshToken(
   refreshToken: string
 ): Promise<AccessTokenResponse | AuthErrorResponse> {
   try {
     const refreshTokenFetchResult = await fetch(
-      process.env.NODE_ENV === "development"
+      isDevelopmentEnvironment()
         ? `https://account-d.docusign.com/oauth/token`
         : `https://account.docusign.com/oauth/token`,
       {
@@ -192,7 +189,7 @@ async function getAccessToken(
 ): Promise<AccessTokenResponse | AuthErrorResponse> {
   try {
     const authFetchResult = await fetch(
-      process.env.NODE_ENV === "development"
+      isDevelopmentEnvironment()
         ? `https://account-d.docusign.com/oauth/token`
         : `https://account.docusign.com/oauth/token`,
       {

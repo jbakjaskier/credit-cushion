@@ -15,7 +15,7 @@ class MongoSingleton {
   private constructor() {
     this.client = new MongoClient(uri, options);
     this.clientPromise = this.client.connect();
-    if (process.env.NODE_ENV === 'development') {
+    if (isDevelopmentEnvironment()) {
       // In development mode, use a global variable so that the value
       // is preserved across module reloads caused by HMR (Hot Module Replacement).
       global._mongoClientPromise = this.clientPromise;
@@ -36,3 +36,8 @@ const clientPromise = MongoSingleton.instance;
 export default clientPromise;
 
 export const dbName = "credit-cushion";
+
+
+export function isDevelopmentEnvironment() : boolean {
+  return process.env.NODE_ENV === "development" || process.env.VERCEL_ENV === "development"
+}
