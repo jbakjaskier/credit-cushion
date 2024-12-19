@@ -5,12 +5,12 @@ import { DocumentTextIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import Button from "@/components/common/Button";
 import { Dialog } from "@headlessui/react";
-import { CustomerDetailsForm } from "./CustomerDetailsForm";
 import { sendEnvelopeVariationToCustomerAndSaveItInDatabase } from "@/lib/fetcher/envelope";
 
 
 export default function TemplateListView({
   templates,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   accountId,
 }: {
   accountId: string;
@@ -20,14 +20,7 @@ export default function TemplateListView({
     templates[0]
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleSendEnvelope = () => {
-    if (!selectedTemplate) {
-      alert("Please select a template first");
-      return;
-    }
-    setIsModalOpen(true);
-  };
+  
 
   return (
     <>
@@ -94,11 +87,7 @@ export default function TemplateListView({
       <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
       <div className="fixed inset-0 flex items-center justify-center p-4">
         <Dialog.Panel className="mx-auto max-w-lg rounded-lg bg-white p-6">
-          <CustomerDetailsForm
-            selectedAccountId={accountId}
-            selectedTemplateId={selectedTemplate.templateId}
-            onCancel={() => setIsModalOpen(false)}
-          />
+          <p>Modal</p>
         </Dialog.Panel>
       </div>
     </Dialog>
