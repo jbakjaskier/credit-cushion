@@ -19,6 +19,7 @@ export default function VariationOfContractEditor({
   loanId: string;
   generatedContent: string;
 }) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editorRef = useRef<any>(null);
 
   const [state, setState] = useState<

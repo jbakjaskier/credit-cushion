@@ -1,11 +1,11 @@
 "use server";
 
-import { FetcherError, isFetcherError } from "./common";
+import { FetcherError } from "./common";
 import { verifySession } from "../auth/session";
-import { isDbFetcherError, Loan } from "../db/models/loans";
+import { isDbFetcherError } from "../db/models/loans";
 import getSupportedAccountInfo from "../../../accountConfig";
 import { redirect } from "next/navigation";
-import { addEnvelopeToHardship, getLoanFromDbAsync } from "../db/dbFetcher";
+import { getLoanFromDbAsync } from "../db/dbFetcher";
 import { ObjectId } from "mongodb";
 
 export type EnvelopeCreatedResult = {
@@ -13,24 +13,6 @@ export type EnvelopeCreatedResult = {
   uri: string;
   status: "sent" | "created";
 };
-
-//TODO: This specifically is a test method and must be removed later
-// Feel free to use the objectId of the loan that you're wanting to test the sending of the VoC
-// export async function sendEnvelopeVariationToCustomerAndSaveItInDatabase(
-//   loanId: ObjectId = new ObjectId("675fbcf5646fe311c24b19b9")
-// ) {
-//   const loanInDb = await getLoanFromDbAsync(loanId);
-
-//   if (!isDbFetcherError(loanInDb)) {
-//     const envelopCreatedCustomer = await sendVariationOfContractToCustomer(
-//       loanInDb!
-//     );
-
-//     if (!isFetcherError(envelopCreatedCustomer)) {
-//       await addEnvelopeToHardship(loanId, envelopCreatedCustomer);
-//     }
-//   }
-// }
 
 export async function sendVariationOfContractToCustomer(
   loanId: string

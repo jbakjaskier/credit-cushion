@@ -265,9 +265,7 @@ export async function createCustomerHardship(
         },
       };
     }
-
-    //TODO: send an email to representative. cause a hardship already exists
-
+    
     let variationGenerated: string | undefined = undefined;
     if (parsedResponse.canVariateAgreementAutomatically) {
       // We have to create a newer model instance because the older one only returns a structured JSON

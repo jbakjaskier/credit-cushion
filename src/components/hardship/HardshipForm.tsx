@@ -18,14 +18,14 @@ export type HardshipFormErrorDetail = {
 export type HardshipFormState =
   | {
       mode: "error";
-      errorDetails: HardshipFormErrorDetail;
+      errorDetails: HardshipFormErrorDetail; //TODO: This state needs an update so that HardshipFormDetail also returns the formValues along with the errorMessage so that the entered value is retained when an error occurs
     }
   | {
       mode: "initial";
     } | {
       mode: "emailSentToRepresentative" //TODO: THis state needs a UI
     } | {
-      mode: "contractVariatedSuccessfully" //can look into improving the UI
+      mode: "contractVariatedSuccessfully" //TODO: This state needs a UI Betterment
     };
 
 

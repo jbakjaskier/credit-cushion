@@ -302,8 +302,8 @@ export default async function LoanDetailsPage({
                           </Link>
                         </div>
                       </li>
-                      {loanInDb.hardship.loanVariationStatus === //TODO: Update to variationGenerated
-                        "variationSentToCustomer" && (
+                      {loanInDb.hardship.loanVariationStatus === 
+                        "variationGenerated" && (
                         <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
                           <div className="flex w-0 flex-1 items-center">
                             <DocumentIcon
