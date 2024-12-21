@@ -74,3 +74,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 8. Add UI for when `hardship.loanVariationStatus` is `needsAttention` and have the UI to `resolve` it as well.. 
    - The `needsAttention` can resolve by going to `hardshipResolved`, however for the other two states -  for `variationGenerated` and `variationSent` - we will leave it as it is as it does not need resolving and the UI has hardship envelope details as well. 
+
+9. Update Docusign Connect Endpoints for envelope Created, sent and completed events with tab information

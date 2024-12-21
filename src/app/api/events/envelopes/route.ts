@@ -44,8 +44,6 @@ async function handleRequest(request: NextRequest) {
 
     console.info(`The Webhook Request has been successfully authenticated`);
 
-    //TODO: Check if it's a hardship envelope if not send it over to hardship
-
     try {
         const requestBody = await request.json() as EventPayload;
         //Update it to the database
@@ -165,8 +163,8 @@ function getLoanFromEventPayload(payload: EventPayload) : Omit<Loan, "_id"> {
                     name: loanProviderSigner === undefined ? payload.data.envelopeSummary.sender.userName : loanProviderSigner.name
                 },
                 customer: {
-                    customerEmail: loanProviderSigner!.tabs!.emailAddressTabs![0].value,
-                    customerFullName: loanProviderSigner!.tabs!.fullNameTabs![0].value,
+                    customerEmail: customerSigner!.tabs!.emailAddressTabs![0].value,
+                    customerFullName: customerSigner!.tabs!.fullNameTabs![0].value,
                     customerPhoneNumber: loanProviderSigner!.tabs!.textTabs!.find(x => x.tabLabel === "Customer Phone Number")!.value,
                     customerDateOfBirth: loanProviderSigner!.tabs!.textTabs!.find(x => x.tabLabel === "Customer Date of Birth")!.value,
                     customerAddress: loanProviderSigner!.tabs!.textTabs!.find(x => x.tabLabel === "Customer Address")!.value
@@ -219,8 +217,8 @@ function getLoanFromEventPayload(payload: EventPayload) : Omit<Loan, "_id"> {
                     name: loanProviderSigner === undefined ? payload.data.envelopeSummary.sender.userName : loanProviderSigner.name
                 },
                 customer: {
-                    customerEmail: loanProviderSigner!.tabs!.emailAddressTabs![0].value,
-                    customerFullName: loanProviderSigner!.tabs!.fullNameTabs![0].value,
+                    customerEmail: customerSigner!.tabs!.emailAddressTabs![0].value,
+                    customerFullName: customerSigner!.tabs!.fullNameTabs![0].value,
                     customerPhoneNumber: loanProviderSigner!.tabs!.textTabs!.find(x => x.tabLabel === "Customer Phone Number")!.value,
                     customerDateOfBirth: loanProviderSigner!.tabs!.textTabs!.find(x => x.tabLabel === "Customer Date of Birth")!.value,
                     customerAddress: loanProviderSigner!.tabs!.textTabs!.find(x => x.tabLabel === "Customer Address")!.value
@@ -350,7 +348,3 @@ type TextTab = {
     tabLabel:  "Customer Date of Birth" | "Customer Phone Number" | "Loan Start Date" | "Loan End Date" | "Repayment Start Date" | "Repayment End Date" | "Customer Address";
     value: string;
 }
-
-
-
-//TODO: There is only one template currently - when templates get updated this webhook handler must also be updated
