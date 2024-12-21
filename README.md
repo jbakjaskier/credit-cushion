@@ -58,19 +58,14 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
    - For the `emailSentToRepresentative` state - a UI must be implemented
    - When there is an error all the entered information is lost. To fix this send back the field info from the server action in the error state apart from just the message for each component. 
 
-2. Adding a UI for the loan interface - this has be completed ✅
-
-3. Ability to view and edit Variation Generated Before Sending to Customer - this has been completed ✅
-   - This also involves updating the Db status
-
-4. Update application routing in the top 
+2. Update application routing in the top 
    - Currently it says Products and Customers when in reality it should be saying "Loans" and "Products"
 
-5. Add warning and notification label when a variation of contract is generated but needs to be sent to customer
+3. Add warning and notification label when a variation of contract is generated but needs to be sent to customer
 
-7. Add Products so that we can view the available products and then load it as a template and also add footer. 
+4. Add Products so that we can view the available products and then load it as a template onto Docusign and also add footer. 
 
-8. Add UI for when `hardship.loanVariationStatus` is `needsAttention` and have the UI to `resolve` it as well.. 
+5. Add UI for when `hardship.loanVariationStatus` is `needsAttention` and have the UI to `resolve` it as well.
    - The `needsAttention` can resolve by going to `hardshipResolved`, however for the other two states -  for `variationGenerated` and `variationSent` - we will leave it as it is as it does not need resolving and the UI has hardship envelope details as well. So no UI or logic updates are required for those two states
 
-9. Update Docusign Connect Endpoints for envelope Created, sent and completed events with created template information
+6. Update Docusign Connect Endpoints for envelope Created, sent and completed events with created template information 
