@@ -36,9 +36,9 @@ export default async function middleware(req: NextRequest) {
   if (
     isPublicRoute &&
     session?.userInfo?.sub &&
-    !req.nextUrl.pathname.startsWith('/products')
+    !req.nextUrl.pathname.startsWith('/loans')
   ) {
-    return NextResponse.redirect(new URL('/products', req.nextUrl))
+    return NextResponse.redirect(new URL('/loans', req.nextUrl))
   }
  
   return NextResponse.next()
