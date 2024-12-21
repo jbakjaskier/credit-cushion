@@ -189,7 +189,7 @@ export default function VariationOfContractEditor({
         state.mode === "loading") && (
         <Editor
           onInit={(evt, editor) => (editorRef.current = editor)} // Set the editor instance
-          apiKey="obtsruyl7062su88vo5loyt3lvdw86v8bhrcqn6nyk7dngri"
+          apiKey={process.env.TINY_MCE_API_KEY}
           init={{
             plugins: [
               // Core editing features
