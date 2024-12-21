@@ -11,7 +11,7 @@ import { put } from "@vercel/blob";
 import genAiInstance from "@/lib/ai/gemini";
 import { SchemaType } from "@google/generative-ai";
 
-export const maxDuration = 300
+
 
 
 export async function createCustomerHardship(
