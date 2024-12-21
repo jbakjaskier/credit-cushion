@@ -18,7 +18,7 @@ export const API_ENDPOINTS = {
 export const ROUTES = {
   HOME: "/",
   HARDSHIP: "/hardship",
-  CUSTOMERS: "/customers",
+  LOANS: "/loans",
   PRODUCTS: "/products",
   PROFILE: "#",
   SETTINGS: "#",
@@ -41,7 +41,7 @@ export const USER_NAVIGATION = [
 
 export const APPLICATION_NAVIGATION = [
   { name: "Products", href: ROUTES.PRODUCTS, current: true },
-  { name: "Customers", href: ROUTES.CUSTOMERS, current: false },
+  { name: "Loans", href: ROUTES.LOANS, current: false },
 ] as const;
 
 // Types
