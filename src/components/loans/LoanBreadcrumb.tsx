@@ -12,7 +12,7 @@ type OnlyLoanDetails = {
 type LoanDetailsWithSlug = {
   type: "loan-details-with-slug";
   loanId: string;
-  slug: "customer" | "hardship";
+  slug: "hardship";
 };
 
 function parseLoanPath(path: string): OnlyLoanDetails | LoanDetailsWithSlug {
@@ -32,7 +32,7 @@ function parseLoanPath(path: string): OnlyLoanDetails | LoanDetailsWithSlug {
   return {
     type: "loan-details-with-slug",
     loanId: parts[1],
-    slug: parts[2].startsWith("customer") ? "customer" : "hardship",
+    slug: "hardship",
   };
 }
 
@@ -79,7 +79,7 @@ export default function LoanBreadcrumb() {
                 className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
                 aria-current={"page"}
               >
-                {parsedResult.slug === "customer" ? `Customer` : `Hardship`}
+                {`Hardship`}
               </Link>
             </div>
           </li>

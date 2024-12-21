@@ -413,7 +413,8 @@ function getHTMLForContractVariation(content: string): string {
                     }
 
                     .header-banner {
-                        width: 100%;
+                        width: 210mm; /* A4 width */
+                        max-width: 794px; /* Pixel equivalent of A4 width */
                         height: auto;
                         max-height: 300px;
                         object-fit: cover;

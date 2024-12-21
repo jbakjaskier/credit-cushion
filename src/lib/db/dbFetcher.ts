@@ -11,6 +11,52 @@ import {
 import clientPromise, { dbName } from "./mongodb";
 import { EnvelopeCreatedResult } from "../fetcher/envelope";
 
+export async function updateVariationofContractContent(
+  loanId: string,
+  updatedVoC: string
+): Promise<DbWriteOperationSuccessResult | DbWriteOperationErrorResult> {
+  try {
+    const loanCollection = (await clientPromise)
+      .db(dbName)
+      .collection<Loan>(loanCollectionName);
+
+    await loanCollection.updateOne(
+      {
+        _id: new ObjectId(loanId),
+      },
+      {
+        $set: {
+          lastUpdated: new Date(),
+          "hardship.variatedContractContent": updatedVoC,
+        },
+      }
+    );
+
+    return {
+      mode: "success"
+    }
+  } catch (error: unknown) {
+    if (typeof error === "string") {
+      return {
+        mode: "error",
+        errorMessage: error,
+      };
+    }
+
+    if (error instanceof Error) {
+      return {
+        mode: "error",
+        errorMessage: error.message,
+      };
+    }
+
+    return {
+      mode: "error",
+      errorMessage: `Something went wrong while updating the variation of contract. Please try again in a bit`,
+    };
+  }
+}
+
 export async function getLoanFromDbAsync(
   loanId: ObjectId
 ): Promise<Loan | DbFetcherError> {
@@ -50,7 +96,7 @@ export async function getLoanFromDbAsync(
 }
 
 export async function addEnvelopeToHardship(
-  loanId: ObjectId,
+  loanId: string,
   envelopeCreatedResult: EnvelopeCreatedResult
 ): Promise<DbWriteOperationSuccessResult | DbWriteOperationErrorResult> {
   try {
@@ -62,7 +108,7 @@ export async function addEnvelopeToHardship(
 
     await loanCollection.updateOne(
       {
-        _id: loanId,
+        _id: new ObjectId(loanId),
       },
       {
         $set: {

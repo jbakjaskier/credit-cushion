@@ -16,25 +16,34 @@ export type EnvelopeCreatedResult = {
 
 //TODO: This specifically is a test method and must be removed later
 // Feel free to use the objectId of the loan that you're wanting to test the sending of the VoC
-export async function sendEnvelopeVariationToCustomerAndSaveItInDatabase(
-  loanId: ObjectId = new ObjectId("675fbcf5646fe311c24b19b9")
-) {
-  const loanInDb = await getLoanFromDbAsync(loanId);
+// export async function sendEnvelopeVariationToCustomerAndSaveItInDatabase(
+//   loanId: ObjectId = new ObjectId("675fbcf5646fe311c24b19b9")
+// ) {
+//   const loanInDb = await getLoanFromDbAsync(loanId);
 
-  if (!isDbFetcherError(loanInDb)) {
-    const envelopCreatedCustomer = await sendVariationOfContractToCustomer(
-      loanInDb!
-    );
+//   if (!isDbFetcherError(loanInDb)) {
+//     const envelopCreatedCustomer = await sendVariationOfContractToCustomer(
+//       loanInDb!
+//     );
 
-    if (!isFetcherError(envelopCreatedCustomer)) {
-      await addEnvelopeToHardship(loanId, envelopCreatedCustomer);
-    }
-  }
-}
+//     if (!isFetcherError(envelopCreatedCustomer)) {
+//       await addEnvelopeToHardship(loanId, envelopCreatedCustomer);
+//     }
+//   }
+// }
 
 export async function sendVariationOfContractToCustomer(
-  loanWithHardship: Loan
+  loanId: string
 ): Promise<FetcherError | EnvelopeCreatedResult> {
+
+  const loanWithHardship = await getLoanFromDbAsync(new ObjectId(loanId))
+
+  if(isDbFetcherError(loanWithHardship)) {
+    return {
+      errorMessage: loanWithHardship.errorMessage
+    }
+  }
+
   if (loanWithHardship.hardship === undefined) {
     return {
       errorMessage: `You cannot send variation of contract to a customer who does not have hardship`,
@@ -48,6 +57,9 @@ export async function sendVariationOfContractToCustomer(
   }
 
   try {
+
+
+
     const session = await verifySession();
 
     const selectedAccount = session.sessionPayload.userInfo.accounts.find(
