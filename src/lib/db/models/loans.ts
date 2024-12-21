@@ -90,11 +90,6 @@ export function isDbWriteOperationErrorResult(input: DbWriteOperationErrorResult
 }
 
 
-  export function isDbFetcherError(input: DbFetcherError | Loan | Loan[] | null) : input is DbFetcherError {
-
-    if(input === null) {
-        return false
-    }
-
+  export function isDbFetcherError(input: DbFetcherError | Loan | Loan[]) : input is DbFetcherError {
     return "errorMessage" in input;
   }
