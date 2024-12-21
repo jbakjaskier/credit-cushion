@@ -60,7 +60,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 2. Adding a UI for the loan interface - this has be completed ✅
 
-3. Ability to view and edit Variation Generated Before Sending to Customer
+3. Ability to view and edit Variation Generated Before Sending to Customer - this has been completed ✅
    - This also involves updating the Db status
 
 4. Update application routing in the top 
@@ -72,8 +72,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 7. Add Products so that we can view the available products and then load it as a template
 
-8. Handle when ObjectID is valid but not present in Db - currently triggers the error component
-
-# Nice to Have / Phase Two
-
-4. Embedding the WebForm UI 
+8. Add UI for when `hardship.loanVariationStatus` is `needsAttention` and have the UI to `resolve` it as well.. 
+   - The `needsAttention` can resolve by going to `hardshipResolved`, however for the other two states -  for `variationGenerated` and `variationSent` - we will leave it as it is as it does not need resolving and the UI has hardship envelope details as well. 

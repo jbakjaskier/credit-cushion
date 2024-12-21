@@ -133,6 +133,7 @@ function getLoanFromEventPayload(payload: EventPayload) : Omit<Loan, "_id"> {
             return {
                 createdDateTime: new Date(payload.data.envelopeSummary.createdDateTime!),
                 envelopeId: payload.data.envelopeId,
+                accountId: payload.data.accountId,
                 envelopeUri: payload.data.envelopeSummary.envelopeUri,
                 emailDetails: {
                     emailBlurb: payload.data.envelopeSummary.emailBlurb,
@@ -149,6 +150,7 @@ function getLoanFromEventPayload(payload: EventPayload) : Omit<Loan, "_id"> {
 
         case "envelope-sent": 
             return {
+                accountId: payload.data.accountId,
                 sentDateTime: new Date(payload.data.envelopeSummary.sentDateTime!),
                 createdDateTime: new Date(payload.data.envelopeSummary.createdDateTime!),
                 envelopeId: payload.data.envelopeId,
@@ -201,6 +203,7 @@ function getLoanFromEventPayload(payload: EventPayload) : Omit<Loan, "_id"> {
 
         case "envelope-completed": 
             return {
+                accountId: payload.data.accountId,
                 sentDateTime: new Date(payload.data.envelopeSummary.sentDateTime!),
                 createdDateTime: new Date(payload.data.envelopeSummary.createdDateTime!),
                 completedDateTime: new Date(payload.data.envelopeSummary.completedDateTime!),

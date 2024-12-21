@@ -3,8 +3,6 @@
 import { FetcherError } from "./common";
 import { verifySession } from "../auth/session";
 import { isDbFetcherError } from "../db/models/loans";
-import getSupportedAccountInfo from "../../../accountConfig";
-import { redirect } from "next/navigation";
 import { getLoanFromDbAsync } from "../db/dbFetcher";
 import { ObjectId } from "mongodb";
 
@@ -40,20 +38,10 @@ export async function sendVariationOfContractToCustomer(
 
   try {
 
-
-
     const session = await verifySession();
 
-    const selectedAccount = session.sessionPayload.userInfo.accounts.find(
-      (ac) => getSupportedAccountInfo(ac.account_id) !== undefined
-    );
-
-    if (selectedAccount === undefined) {
-      redirect(`/api/auth/logout?logoutUri=unsupportedAccount`);
-    }
-
     const sendEnvelopeResult = await fetch(
-      `${process.env.DOCUSIGN_ESIG_BASE_URL}/v2.1/accounts/${selectedAccount.account_id}/envelopes`,
+      `${process.env.DOCUSIGN_ESIG_BASE_URL}/v2.1/accounts/${session.sessionPayload.userInfo.accounts.find(l => l.is_default == true)!.account_id}/envelopes`,
       {
         method: "POST",
         headers: {

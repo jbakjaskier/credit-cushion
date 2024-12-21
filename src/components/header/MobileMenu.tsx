@@ -69,7 +69,7 @@ export function MobileMenu({
         </div>
         <div className="mt-3 space-y-1 px-2">
           {userNavigation.map((item) => (
-            <Link key={item.name} href={`${item.href}?logoutUri=home`}>
+            <Link key={item.name} href={item.href}>
               <Disclosure.Button
                 as="link"
                 className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-indigo-500 hover:bg-opacity-75"
