@@ -26,5 +26,5 @@ export async function GET(
     //Store the access token in cookies
     await createSession(authenticatedSessionPayload);
 
-    return NextResponse.redirect(new URL(`/products`, request.url))
+    return NextResponse.redirect(new URL(`/loans`, request.url))
   }

@@ -56,11 +56,15 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 1. Hardship Form State UI
    - For the `emailSentToRepresentative` state - a UI must be implemented
+   - When there is an error all the entered information is lost. To fix this send back the field info from the server action in the error state apart from just the message for each component. 
 
-2. Adding a UI for the loan interface
+2. Adding a UI for the loan interface - this has be completed ✅
 
 3. Ability to view and edit Variation Generated Before Sending to Customer
    - This also involves updating the Db status
+
+4. Update application routing in the top 
+   - Currently it says Products and Customers when in reality it should be saying "Loans" and "Products"
 
 
 # Nice to Have / Phase Two
