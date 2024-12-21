@@ -3,6 +3,8 @@
 import HardshipForm from "@/components/hardship/HardshipForm";
 
 
+export const maxDuration = 300
+
 export default async function HardshipPage() {
   return (
     <div className="isolate px-6 py-24 sm:py-32 lg:px-8 min-h-screen flex items-center justify-center">
