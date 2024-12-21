@@ -58,11 +58,13 @@ async function handleRequest(request: NextRequest) {
         })
 
         if(hardshipEnvelopeInDb !== null) {
+            const currentDate = new Date()
             await loanCollection.updateOne({
                 'hardship.envelopeDetails.envelopeId': requestBody.data.envelopeId
             }, {
                 'hardship.envelopeDetails.envelopeStatus': requestBody.data.envelopeSummary.status,
-                'hardship.envelopeDetails.lastUpdated': new Date()
+                'hardship.envelopeDetails.lastUpdated': currentDate,
+                'lastUpdated': currentDate
             })
 
             
@@ -102,7 +104,6 @@ async function handleRequest(request: NextRequest) {
             status: 201
         })
         
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error: unknown) {
         if(typeof error === "string") {
             console.error("Unable to process the webhook",error);
