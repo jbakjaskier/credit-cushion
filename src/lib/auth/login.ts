@@ -1,7 +1,5 @@
 "use server";
 
-import { redirect } from "next/navigation";
-import getSupportedAccountInfo from "../../../accountConfig";
 import {
   AccessTokenResponse,
   AuthErrorResponse,
@@ -54,14 +52,6 @@ export async function getAuthenticatedSessionPayload(
     return userInfoResponse;
   }
 
-  const isSupportedAccount =
-    userInfoResponse.accounts.find(
-      (ac) => getSupportedAccountInfo(ac.account_id) !== undefined
-    ) !== undefined;
-
-  if (!isSupportedAccount) {
-    redirect("/api/auth/logout?logoutUri=unsupportedAccount");
-  }
 
   return {
     accessTokenResponse: accessTokenResponse,

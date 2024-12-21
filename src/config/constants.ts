@@ -1,19 +1,3 @@
-export const API_ENDPOINTS = {
-  FAREHARBOUR: {
-    BASE: process.env.FAREHARBOUR_BASE_URL,
-    COMPANIES: "/v1/companies",
-    ITEMS: "/items",
-  },
-  DOCUSIGN: {
-    AUTH: "https://account-d.docusign.com/oauth/auth",
-    TOKEN: "https://account-d.docusign.com/oauth/token",
-  },
-  REZDY: {
-    BASE: process.env.REZDY_BASE_URL,
-    MARKETPLACE: "/v1/products/marketplace",
-  },
-} as const;
-
 // Route Constants
 export const ROUTES = {
   HOME: "/",

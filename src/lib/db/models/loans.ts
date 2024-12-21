@@ -9,6 +9,7 @@ export interface Loan {
     completedDateTime?: Date;
     envelopeId: string;
     envelopeUri: string;
+    accountId: string;
     emailDetails : {
         emailBlurb: string;
         emailSubject: string;
