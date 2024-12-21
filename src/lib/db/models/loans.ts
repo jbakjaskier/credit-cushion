@@ -84,6 +84,16 @@ export type DbFetcherError = {
   };
 
 
+export function isDbWriteOperationErrorResult(input: DbWriteOperationErrorResult | DbWriteOperationSuccessResult) : input is DbWriteOperationErrorResult {
+    return input.mode === "error";
+}
+
+
   export function isDbFetcherError(input: DbFetcherError | Loan | Loan[] | null) : input is DbFetcherError {
-    return (input as DbFetcherError).errorMessage !== undefined;
+
+    if(input === null) {
+        return false
+    }
+
+    return "errorMessage" in input;
   }

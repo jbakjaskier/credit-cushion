@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { ErrorBoundary } from "@/components/common/ErrorBoundary";
 import { APP_NAME, APP_DESCRIPTION } from "@/config/constants";
-import { ToastProvider } from "@/components/providers/ToastProvider";
 import { fontClasses } from "@/config/fonts";
 
 // Metadata configuration
@@ -32,7 +31,6 @@ export default function ApplicationLayout({
               </div>
             </main>
           </div>
-          <ToastProvider />
         </ErrorBoundary>
       </body>
     </html>

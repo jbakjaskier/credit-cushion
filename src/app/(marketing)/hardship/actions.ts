@@ -265,9 +265,7 @@ export async function createCustomerHardship(
         },
       };
     }
-
-    //TODO: send an email to representative. cause a hardship already exists
-
+    
     let variationGenerated: string | undefined = undefined;
     if (parsedResponse.canVariateAgreementAutomatically) {
       // We have to create a newer model instance because the older one only returns a structured JSON
@@ -413,7 +411,8 @@ function getHTMLForContractVariation(content: string): string {
                     }
 
                     .header-banner {
-                        width: 100%;
+                        width: 210mm; /* A4 width */
+                        max-width: 794px; /* Pixel equivalent of A4 width */
                         height: auto;
                         max-height: 300px;
                         object-fit: cover;

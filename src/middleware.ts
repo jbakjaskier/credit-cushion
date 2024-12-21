@@ -4,13 +4,13 @@ import { cookies } from 'next/headers'
 import { decrypt } from './lib/auth/session'
  
 // 1. Specify protected and public routes
-const protectedRoutes = ['/products', '/customers', '/api/auth/refresh']
+const protectedRoutes = ['/products', '/customers', '/api/auth/refresh', `/loans`]
 const publicRoutes = ['/', '/hardship', '/unsupportedAccount']
  
 export default async function middleware(req: NextRequest) {
   // 2. Check if the current route is protected or public
   const path = req.nextUrl.pathname
-  const isProtectedRoute = protectedRoutes.includes(path)
+  const isProtectedRoute = protectedRoutes.some(route => path.startsWith(route));  
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const isPublicRoute = publicRoutes.includes(path)
  
@@ -36,9 +36,9 @@ export default async function middleware(req: NextRequest) {
   if (
     isPublicRoute &&
     session?.userInfo?.sub &&
-    !req.nextUrl.pathname.startsWith('/products')
+    !req.nextUrl.pathname.startsWith('/loans')
   ) {
-    return NextResponse.redirect(new URL('/products', req.nextUrl))
+    return NextResponse.redirect(new URL('/loans', req.nextUrl))
   }
  
   return NextResponse.next()

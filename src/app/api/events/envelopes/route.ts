@@ -61,7 +61,7 @@ async function handleRequest(request: NextRequest) {
             await loanCollection.updateOne({
                 'hardship.envelopeDetails.envelopeId': requestBody.data.envelopeId
             }, {
-                'hardship.envelopeDetails.envelopeStatus': requestBody.data.envelopeSummary.status, //TODO: If completed - update it to hardshipResolved
+                'hardship.envelopeDetails.envelopeStatus': requestBody.data.envelopeSummary.status,
                 'hardship.envelopeDetails.lastUpdated': new Date()
             })
 

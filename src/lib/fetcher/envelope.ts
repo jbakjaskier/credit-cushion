@@ -1,11 +1,11 @@
 "use server";
 
-import { FetcherError, isFetcherError } from "./common";
+import { FetcherError } from "./common";
 import { verifySession } from "../auth/session";
-import { isDbFetcherError, Loan } from "../db/models/loans";
+import { isDbFetcherError } from "../db/models/loans";
 import getSupportedAccountInfo from "../../../accountConfig";
 import { redirect } from "next/navigation";
-import { addEnvelopeToHardship, getLoanFromDbAsync } from "../db/dbFetcher";
+import { getLoanFromDbAsync } from "../db/dbFetcher";
 import { ObjectId } from "mongodb";
 
 export type EnvelopeCreatedResult = {
@@ -14,27 +14,18 @@ export type EnvelopeCreatedResult = {
   status: "sent" | "created";
 };
 
-//TODO: This specifically is a test method and must be removed later
-// Feel free to use the objectId of the loan that you're wanting to test the sending of the VoC
-export async function sendEnvelopeVariationToCustomerAndSaveItInDatabase(
-  loanId: ObjectId = new ObjectId("675fbcf5646fe311c24b19b9")
-) {
-  const loanInDb = await getLoanFromDbAsync(loanId);
+export async function sendVariationOfContractToCustomer(
+  loanId: string
+): Promise<FetcherError | EnvelopeCreatedResult> {
 
-  if (!isDbFetcherError(loanInDb)) {
-    const envelopCreatedCustomer = await sendVariationOfContractToCustomer(
-      loanInDb!
-    );
+  const loanWithHardship = await getLoanFromDbAsync(new ObjectId(loanId))
 
-    if (!isFetcherError(envelopCreatedCustomer)) {
-      await addEnvelopeToHardship(loanId, envelopCreatedCustomer);
+  if(isDbFetcherError(loanWithHardship)) {
+    return {
+      errorMessage: loanWithHardship.errorMessage
     }
   }
-}
 
-export async function sendVariationOfContractToCustomer(
-  loanWithHardship: Loan
-): Promise<FetcherError | EnvelopeCreatedResult> {
   if (loanWithHardship.hardship === undefined) {
     return {
       errorMessage: `You cannot send variation of contract to a customer who does not have hardship`,
@@ -48,6 +39,9 @@ export async function sendVariationOfContractToCustomer(
   }
 
   try {
+
+
+
     const session = await verifySession();
 
     const selectedAccount = session.sessionPayload.userInfo.accounts.find(
