@@ -85,5 +85,10 @@ export type DbFetcherError = {
 
 
   export function isDbFetcherError(input: DbFetcherError | Loan | Loan[] | null) : input is DbFetcherError {
-    return (input as DbFetcherError).errorMessage !== undefined;
+
+    if(input === null) {
+        return false
+    }
+
+    return "errorMessage" in input;
   }

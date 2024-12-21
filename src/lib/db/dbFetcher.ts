@@ -13,7 +13,7 @@ import { EnvelopeCreatedResult } from "../fetcher/envelope";
 
 export async function getLoanFromDbAsync(
   loanId: ObjectId
-): Promise<Loan | DbFetcherError | null> {
+): Promise<Loan | DbFetcherError> {
   try {
     const loanCollection = (await clientPromise)
       .db(dbName)
@@ -23,7 +23,13 @@ export async function getLoanFromDbAsync(
       _id: loanId,
     });
 
-    return loanInDb;
+    if (loanInDb === null) {
+      return {
+        errorMessage: `There is no loan present with that ID`,
+      };
+    }
+
+    return loanInDb!;
   } catch (error: unknown) {
     if (typeof error === "string") {
       return {
@@ -61,7 +67,7 @@ export async function addEnvelopeToHardship(
       {
         $set: {
           lastUpdated: currentDateTime,
-          "hardship.loanVariationStatus" : "variationSentToCustomer",
+          "hardship.loanVariationStatus": "variationSentToCustomer",
           "hardship.envelopeDetails.envelopeId":
             envelopeCreatedResult.envelopeId,
           "hardship.envelopeDetails.envelopeStatus":
@@ -105,10 +111,10 @@ export async function getLoansFromDbAsync(): Promise<Loan[] | DbFetcherError> {
 
     const loans = await loanCollection.find().toArray();
 
-    if(loans.length === 0) {
+    if (loans.length === 0) {
       return {
-        errorMessage: `There are no loans to display. Please make sure that you send some loan agreements to your customers from DocuSign, before checking them on here with credit cushion`
-      }
+        errorMessage: `There are no loans to display. Please make sure that you send some loan agreements to your customers from DocuSign, before checking them on here with credit cushion`,
+      };
     }
 
     return loans;

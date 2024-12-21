@@ -66,6 +66,13 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 4. Update application routing in the top 
    - Currently it says Products and Customers when in reality it should be saying "Loans" and "Products"
 
+5. Ability to display when a hardship requires action in the loan list
+
+6. Add Footer
+
+7. Add Products so that we can view the available products and then load it as a template
+
+8. Handle when ObjectID is valid but not present in Db - currently triggers the error component
 
 # Nice to Have / Phase Two
 
