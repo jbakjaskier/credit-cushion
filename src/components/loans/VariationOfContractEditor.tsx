@@ -230,7 +230,7 @@ export default function VariationOfContractEditor({
 
       {
         state.mode === "success" && (
-          <p className="text-sm">{`We have successfully sent the variation of contract to the customer 🎉✨`}</p>
+          <p className="text-sm text-gray-700">{`We have successfully sent the variation of contract to the customer 🎉✨`}</p>
         )
       }
 

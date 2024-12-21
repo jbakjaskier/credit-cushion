@@ -219,7 +219,7 @@ export default async function LoanDetailsPage({
           </div>
           <div className="mt-6">
             {loanInDb.hardship === undefined ? (
-              <p className="text-sm">
+              <p className="text-sm text-gray-700">
                 There are no hardships associated with this loan.
               </p>
             ) : (

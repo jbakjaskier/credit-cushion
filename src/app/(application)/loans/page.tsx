@@ -116,7 +116,7 @@ export default async function LoansPage() {
                         "whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                       )}
                     >
-                      {loan.status === "loan-created" ? `Created` : loan.status === "loan-sent-to-customer" ? `Sent` : `Signed` }
+                      {loan.status === "loan-created" ? `Created` : loan.status === "loan-signed-by-customer" ? `Signed` : `Sent` }
                     </td>
                     <td
                       className={classNames(

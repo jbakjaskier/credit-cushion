@@ -43,7 +43,7 @@ export default async function CustomerPage({
           </div>
           <div className="mt-6">
             {loanInDb.hardship.envelopeDetails === undefined ? (
-              <p className="text-sm">
+              <p className="text-sm text-gray-700">
                 There is no envelope associated with this hardship yet!
               </p>
             ) : (

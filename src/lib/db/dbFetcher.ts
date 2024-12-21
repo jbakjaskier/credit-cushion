@@ -157,8 +157,6 @@ export async function getLoansFromDbAsync(): Promise<Loan[] | DbFetcherError> {
 
     const loans = await loanCollection.find().toArray();
 
-    console.log("loans in Db", loans)
-
     if (loans.length === 0) {
       return {
         errorMessage: `There are no loans to display. Please make sure that you send some loan agreements to your customers from DocuSign, before checking them on here with credit cushion`,
