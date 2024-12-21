@@ -1,7 +1,6 @@
-"use server";
-
 import HardshipForm from "@/components/hardship/HardshipForm";
 
+export const maxDuration = 300
 
 export default async function HardshipPage() {
   return (

@@ -11,6 +11,9 @@ import { put } from "@vercel/blob";
 import genAiInstance from "@/lib/ai/gemini";
 import { SchemaType } from "@google/generative-ai";
 
+
+
+
 export async function createCustomerHardship(
   prevState: HardshipFormState,
   formData: FormData
@@ -64,7 +67,7 @@ export async function createCustomerHardship(
     ),
   });
 
-  const result = await zodValidator.safeParseAsync({
+  const formattedFormData = await zodValidator.safeParseAsync({
     fullLegalName: formData.get("fullLegalName"),
     emailAddress: formData.get("customerEmail"),
     phoneNumber: formData.get("phoneNumber"),
@@ -74,11 +77,11 @@ export async function createCustomerHardship(
     supportingDocument: formData.get("supporting-documents"),
   });
 
-  if (!result.success) {
+  if (!formattedFormData.success) {
     // eslint-disable-next-line prefer-const
     let errorObject: HardshipFormErrorDetail = {};
 
-    result.error.errors.forEach((res) => {
+    formattedFormData.error.errors.forEach((res) => {
       const propName = (res.path as string[])[0];
       switch (propName) {
         case "fullLegalName":
@@ -120,8 +123,8 @@ export async function createCustomerHardship(
       .db(dbName)
       .collection<Loan>(loanCollectionName);
     const loanInDb = await loanCollection.findOne({
-      "customer.customerEmail": result.data.emailAddress,
-      "customer.customerPhoneNumber": result.data.phoneNumber,
+      "customer.customerEmail": formattedFormData.data.emailAddress,
+      "customer.customerPhoneNumber": formattedFormData.data.phoneNumber,
     });
 
     if (loanInDb === null) {
@@ -189,7 +192,7 @@ export async function createCustomerHardship(
       },
     });
 
-    const fileBuffer = await result.data.supportingDocument.arrayBuffer();
+    const fileBuffer = await formattedFormData.data.supportingDocument.arrayBuffer();
 
     const genAiResult = await model.generateContent([
       {
@@ -223,23 +226,23 @@ export async function createCustomerHardship(
           loanInDb.loanDetails!.loanEstablishmentFees.value!
         }
 
-        Customer Full Legal Name : ${result.data.fullLegalName}
+        Customer Full Legal Name : ${formattedFormData.data.fullLegalName}
 
-        Customer Phone Number : ${result.data.phoneNumber}
+        Customer Phone Number : ${formattedFormData.data.phoneNumber}
 
-        Customer Email Address : ${result.data.emailAddress}
+        Customer Email Address : ${formattedFormData.data.emailAddress}
 
         Customer Circumstance Change : ${
-          result.data.circumstanceReason === "expenseRaised"
+          formattedFormData.data.circumstanceReason === "expenseRaised"
             ? "My Expenses Have Raised"
             : "My Income Has Reduced"
         }
 
         Customer Circumstance Change Reason : ${
-          result.data.circumstanceExplanation
+          formattedFormData.data.circumstanceExplanation
         }
 
-        Customer Ideal Arrangement : ${result.data.idealArrangement}
+        Customer Ideal Arrangement : ${formattedFormData.data.idealArrangement}
       `,
       },
     ]);
@@ -291,22 +294,22 @@ export async function createCustomerHardship(
 
             Customer Full Legal Name : ${loanInDb.customer!.customerFullName}
 
-            Customer Email Address : ${result.data.emailAddress}
+            Customer Email Address : ${formattedFormData.data.emailAddress}
 
-            Customer Phone Number : ${result.data.phoneNumber}
+            Customer Phone Number : ${formattedFormData.data.phoneNumber}
             
             Customer Circumstance Change : ${
-              result.data.circumstanceReason === "expenseRaised"
+              formattedFormData.data.circumstanceReason === "expenseRaised"
                 ? "My Expenses Have Raised"
                 : "My Income Has Reduced"
             }
 
             Customer Circumstance Change Explanation : ${
-              result.data.circumstanceExplanation
+              formattedFormData.data.circumstanceExplanation
             }
 
             Approved Variation Contract in Loan : ${
-              result.data.idealArrangement
+              formattedFormData.data.idealArrangement
             }
           `,
         },
@@ -326,8 +329,8 @@ export async function createCustomerHardship(
     }
 
     const putResult = await put(
-      result.data.supportingDocument.name,
-      result.data.supportingDocument,
+      formattedFormData.data.supportingDocument.name,
+      formattedFormData.data.supportingDocument,
       { access: "public" }
     );
     //load the hardship in db
@@ -339,9 +342,9 @@ export async function createCustomerHardship(
         $set: {
           lastUpdated: new Date(),
           hardship: {
-            circumstanceReason: result.data.circumstanceReason,
-            circumstanceExplanation: result.data.circumstanceExplanation,
-            idealArrangement: result.data.idealArrangement,
+            circumstanceReason: formattedFormData.data.circumstanceReason,
+            circumstanceExplanation: formattedFormData.data.circumstanceExplanation,
+            idealArrangement: formattedFormData.data.idealArrangement,
             supportingDocument: putResult.url,
             loanVariationStatus: parsedResponse.canVariateAgreementAutomatically
               ? "variationGenerated"
