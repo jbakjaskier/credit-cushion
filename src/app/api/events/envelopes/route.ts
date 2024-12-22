@@ -176,23 +176,23 @@ function getLoanFromEventPayload(payload: EventPayload) : Omit<Loan, "_id"> {
                     repaymentEndDate: loanProviderSigner!.tabs!.textTabs!.find(x => x.tabLabel === "Repayment End Date")!.value,
                     loanEstablishmentFees: {
                         currency: "aud",
-                        value: parseFloat(loanProviderSigner!.tabs!.numberTabs!.find(x => x.tabLabel === "Loan Establishment Fees")!.value)
+                        value: parseFloat(loanProviderSigner!.tabs!.textTabs!.find(x => x.tabLabel === "Loan Establishment Fees")!.value)
                     },
                     loanAmount: {
                         currency: "aud",
-                        value: parseFloat(loanProviderSigner!.tabs!.numberTabs!.find(x => x.tabLabel === "Loan Amount")!.value)
+                        value: parseFloat(loanProviderSigner!.tabs!.textTabs!.find(x => x.tabLabel === "Loan Amount")!.value)
                     },
                     loanTotalRepaymentAmount: {
                         currency: "aud",
-                        value: parseFloat(loanProviderSigner!.tabs!.numberTabs!.find(x => x.tabLabel === "Loan Total Repayment Amount")!.value)
+                        value: parseFloat(loanProviderSigner!.tabs!.textTabs!.find(x => x.tabLabel === "Loan Total Repayment Amount")!.value)
                     },
                     repaymentInstalmentAmount: {
                         currency: "aud",
-                        value: parseFloat(loanProviderSigner!.tabs!.numberTabs!.find(x => x.tabLabel === "Repayment Instalment Amount")!.value)
+                        value: parseFloat(loanProviderSigner!.tabs!.textTabs!.find(x => x.tabLabel === "Repayment Instalment Amount")!.value)
                     },
                     finalRepaymentInstalmentAmount: {
                         currency: "aud",
-                        value: parseFloat(loanProviderSigner!.tabs!.numberTabs!.find(x => x.tabLabel === "Final Repayment Instalment Amount")!.value)
+                        value: parseFloat(loanProviderSigner!.tabs!.textTabs!.find(x => x.tabLabel === "Final Repayment Instalment Amount")!.value)
                     }
                 },
                 lastUpdated: new Date()
@@ -230,23 +230,23 @@ function getLoanFromEventPayload(payload: EventPayload) : Omit<Loan, "_id"> {
                     repaymentEndDate: loanProviderSigner!.tabs!.textTabs!.find(x => x.tabLabel === "Repayment End Date")!.value,
                     loanEstablishmentFees: {
                         currency: "aud",
-                        value: parseFloat(loanProviderSigner!.tabs!.numberTabs!.find(x => x.tabLabel === "Loan Establishment Fees")!.value)
+                        value: parseFloat(loanProviderSigner!.tabs!.textTabs!.find(x => x.tabLabel === "Loan Establishment Fees")!.value)
                     },
                     loanAmount: {
                         currency: "aud",
-                        value: parseFloat(loanProviderSigner!.tabs!.numberTabs!.find(x => x.tabLabel === "Loan Amount")!.value)
+                        value: parseFloat(loanProviderSigner!.tabs!.textTabs!.find(x => x.tabLabel === "Loan Amount")!.value)
                     },
                     loanTotalRepaymentAmount: {
                         currency: "aud",
-                        value: parseFloat(loanProviderSigner!.tabs!.numberTabs!.find(x => x.tabLabel === "Loan Total Repayment Amount")!.value)
+                        value: parseFloat(loanProviderSigner!.tabs!.textTabs!.find(x => x.tabLabel === "Loan Total Repayment Amount")!.value)
                     },
                     repaymentInstalmentAmount: {
                         currency: "aud",
-                        value: parseFloat(loanProviderSigner!.tabs!.numberTabs!.find(x => x.tabLabel === "Repayment Instalment Amount")!.value)
+                        value: parseFloat(loanProviderSigner!.tabs!.textTabs!.find(x => x.tabLabel === "Repayment Instalment Amount")!.value)
                     },
                     finalRepaymentInstalmentAmount: {
                         currency: "aud",
-                        value: parseFloat(loanProviderSigner!.tabs!.numberTabs!.find(x => x.tabLabel === "Final Repayment Instalment Amount")!.value)
+                        value: parseFloat(loanProviderSigner!.tabs!.textTabs!.find(x => x.tabLabel === "Final Repayment Instalment Amount")!.value)
                     }
                 },
                 customerDateSigned: new Date(customerSigner!.tabs!.dateSignedTabs!.find(x => x.tabLabel === "Customer Date Signed")!.value),
@@ -304,7 +304,7 @@ type EnvelopeSigner = {
     tabs?: {
         fullNameTabs?: FullNameTab[];
         textTabs?: TextTab[];
-        numberTabs?: NumberTab[];
+        numberTabs?: TextTab[]; //Currently all number tabs sent in template request are being treated as textTabs - numberTabs over the API call will be supported in the future
         dateSignedTabs?: DateSignedTab[];
         emailAddressTabs?: EmailAddressTab[];
     }
@@ -325,12 +325,6 @@ type FullNameTab = {
     value: string;
 }
 
-type NumberTab = {
-    tabLabel: "Loan Establishment Fees"  | "Loan Amount" | "Loan Total Repayment Amount" | "Repayment Instalment Amount" | "Final Repayment Instalment Amount"
-    name: string;
-    value: string;
-}
-
 type DateSignedTab = {
     tabLabel: "Customer Date Signed"
     name: string;
@@ -345,6 +339,6 @@ type EmailAddressTab = {
 
 type TextTab = {
     name: string;
-    tabLabel:  "Customer Date of Birth" | "Customer Phone Number" | "Loan Start Date" | "Loan End Date" | "Repayment Start Date" | "Repayment End Date" | "Customer Address";
+    tabLabel:  "Customer Date of Birth" | "Customer Phone Number" | "Loan Start Date" | "Loan End Date" | "Repayment Start Date" | "Repayment End Date" | "Customer Address" | "Loan Establishment Fees"  | "Loan Amount" | "Loan Total Repayment Amount" | "Repayment Instalment Amount" | "Final Repayment Instalment Amount";
     value: string;
 }

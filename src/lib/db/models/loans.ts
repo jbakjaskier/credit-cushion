@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb";
+import { Template } from "./templates";
 
 export const loanCollectionName = "loans";
 
@@ -90,6 +91,11 @@ export function isDbWriteOperationErrorResult(input: DbWriteOperationErrorResult
 }
 
 
-  export function isDbFetcherError(input: DbFetcherError | Loan | Loan[]) : input is DbFetcherError {
+  export function isDbFetcherError(input: DbFetcherError | Loan | null | Template | Loan[]) : input is DbFetcherError {
+
+    if(input === null) {
+        return false
+    }
+
     return "errorMessage" in input;
   }

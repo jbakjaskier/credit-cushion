@@ -4,7 +4,7 @@ import { cookies } from 'next/headers'
 import { decrypt } from './lib/auth/session'
  
 // 1. Specify protected and public routes
-const protectedRoutes = ['/products', '/customers', '/api/auth/refresh', `/loans`]
+const protectedRoutes = ['/products', '/api/auth/refresh', `/loans`]
 const publicRoutes = ['/', '/hardship', '/unsupportedAccount']
  
 export default async function middleware(req: NextRequest) {
@@ -32,7 +32,7 @@ export default async function middleware(req: NextRequest) {
     }
   
     
-  // 6. Redirect to /products if the user is authenticated
+  // 6. Redirect to /loans if the user is authenticated
   if (
     isPublicRoute &&
     session?.userInfo?.sub &&
