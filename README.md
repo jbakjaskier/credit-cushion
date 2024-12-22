@@ -64,12 +64,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 3. Add warning and notification label when a variation of contract is generated but needs to be sent to customer
 
-4. Add Products so that we can view the available products and then load it as a template onto Docusign - This has been done ✅
-
 5. Add UI for when `hardship.loanVariationStatus` is `needsAttention` and have the UI to `resolve` it as well.
    - The `needsAttention` can resolve by going to `hardshipResolved`, however for the other two states -  for `variationGenerated` and `variationSent` - we will leave it as it is as it does not need resolving and the UI has hardship envelope details as well. So no UI or logic updates are required for those two states
-
-6. Update Docusign Connect Endpoints for envelope Created, sent and completed events with created template information - this has been done ✅
 
 7. UI to ask them to create a webform from template 
    - Have a button to get webforms - to see if there are any webforms that were created for Credit Cushion Template as mentioned - make sure that the `templateId` in the webforms response matches to the 

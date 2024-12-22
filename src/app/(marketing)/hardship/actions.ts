@@ -244,7 +244,7 @@ export async function createCustomerHardship(
 
         Customer Ideal Arrangement : ${formattedFormData.data.idealArrangement}
       `,
-      },
+      }
     ]);
 
     const genAiJsonResponse = genAiResult.response.text();
