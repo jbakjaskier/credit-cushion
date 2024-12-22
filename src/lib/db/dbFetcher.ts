@@ -15,9 +15,7 @@ import { verifySession } from "../auth/session";
 
 
 export async function getTemplateForAccount() : Promise<Template | null | DbFetcherError>{
-
   try {
-
     const session  = await verifySession()
 
     const templateCollection = (await clientPromise)
@@ -236,11 +234,16 @@ export async function addEnvelopeToHardship(
 
 export async function getLoansFromDbAsync(): Promise<Loan[] | DbFetcherError> {
   try {
+
+    const session = await verifySession();
+
     const loanCollection = (await clientPromise)
       .db(dbName)
       .collection<Loan>(loanCollectionName);
 
-    const loans = await loanCollection.find().toArray();
+    const loans = await loanCollection.find({
+      accountId: session.sessionPayload.userInfo.accounts.find(x => x.is_default)!.account_id
+    }).toArray();
 
     if (loans.length === 0) {
       return {
