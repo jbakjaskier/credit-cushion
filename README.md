@@ -70,3 +70,19 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
    - The `needsAttention` can resolve by going to `hardshipResolved`, however for the other two states -  for `variationGenerated` and `variationSent` - we will leave it as it is as it does not need resolving and the UI has hardship envelope details as well. So no UI or logic updates are required for those two states
 
 6. Update Docusign Connect Endpoints for envelope Created, sent and completed events with created template information - this has been done ✅
+
+7. UI to ask them to create a webform from template 
+   - Have a button to get webforms - to see if there are any webforms that were created for Credit Cushion Template as mentioned - make sure that the `templateId` in the webforms response matches to the 
+   - If there is not ask them to load it
+   - If there is embed and show the webform in the "Products" view so that user doesn't need to jump back and forth into DocuSign.
+
+8. AI Companion that reads signed loan documents 
+
+Working > Perfect
+
+
+# Refinement Items :
+
+1. Update README.md to reflect project goals
+2. Update post in submission platform
+3. Record and submit demo video
