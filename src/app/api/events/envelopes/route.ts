@@ -5,45 +5,11 @@ import clientPromise, { dbName } from "@/lib/db/mongodb";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
-
-export async function GET(request: NextRequest) {
-    return await handleRequest(request);
-}
-
 export async function POST(request: NextRequest) {
     return await handleRequest(request);
 }
 
-const unauthorizedMessage = `This is an unauthorized request`;
-
-
 async function handleRequest(request: NextRequest) {
-    const authorizationHeaderValue = request.headers.get("Authorization");
-    if(authorizationHeaderValue === null || !authorizationHeaderValue.startsWith("Basic")) {
-        return NextResponse.json(
-            {
-                error: unauthorizedMessage
-            },
-            {
-                status: 401
-            }
-        )
-    }
-
-    const base64Credentials = authorizationHeaderValue.split(' ')[1];
-    const credentials = Buffer.from(base64Credentials, 'base64').toString('utf-8');
-    const [userName, password] = credentials.split(':');
-
-    if(userName !== process.env.DOCUSIGN_WEBHOOK_USERNAME || password !== process.env.DOCUSIGN_WEBHOOK_PASSWORD) {
-        return NextResponse.json({
-            error: unauthorizedMessage
-        }, {
-            status: 401
-        })
-    }
-
-    console.info(`The Webhook Request has been successfully authenticated`);
-
     try {
         const requestBody = await request.json() as EventPayload;
         //Update it to the database

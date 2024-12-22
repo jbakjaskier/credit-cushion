@@ -60,12 +60,13 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 2. Update application routing in the top 
    - Currently it says Products and Customers when in reality it should be saying "Loans" and "Products"
+   - Add footer. 
 
 3. Add warning and notification label when a variation of contract is generated but needs to be sent to customer
 
-4. Add Products so that we can view the available products and then load it as a template onto Docusign and also add footer. 
+4. Add Products so that we can view the available products and then load it as a template onto Docusign - This has been done ✅
 
 5. Add UI for when `hardship.loanVariationStatus` is `needsAttention` and have the UI to `resolve` it as well.
    - The `needsAttention` can resolve by going to `hardshipResolved`, however for the other two states -  for `variationGenerated` and `variationSent` - we will leave it as it is as it does not need resolving and the UI has hardship envelope details as well. So no UI or logic updates are required for those two states
 
-6. Update Docusign Connect Endpoints for envelope Created, sent and completed events with created template information 
+6. Update Docusign Connect Endpoints for envelope Created, sent and completed events with created template information - this has been done ✅

@@ -6,79 +6,96 @@ import ProgressLoader from "../common/ProgressLoader";
 import { createPersonalLoanEnvelopeTemplate } from "@/lib/fetcher/template";
 import { isFetcherError } from "@/lib/fetcher/common";
 import { addLoanTemplate } from "@/lib/db/dbFetcher";
-
-
-
+import { createConnectConfigurationForAccount } from "@/lib/fetcher/connect";
 
 export default function TemplateLoader({
   isLoadedInDocusign,
 }: {
   isLoadedInDocusign: boolean;
 }) {
-
-  const [state, setState] = useState<{
+  const [state, setState] = useState<
+    | {
+        mode: "initial";
+        isLoadedInDocusign: boolean;
+      }
+    | {
+        mode: "loading";
+      }
+    | {
+        mode: "success";
+      }
+    | {
+        mode: "error";
+        errorMessage: string;
+      }
+  >({
     mode: "initial",
-    isLoadedInDocusign: boolean
-  } | {
-    mode: "loading"
-  } | {
-    mode : "success"
-  } | {
-    mode : "error",
-    errorMessage: string
-  }>({
-    mode:"initial",
-    isLoadedInDocusign: isLoadedInDocusign
+    isLoadedInDocusign: isLoadedInDocusign,
   });
 
-
-  async function onLoadClick () {
-
+  async function onLoadClick() {
     setState({
-      mode: "loading"
-    })
-    const docusignLoadResult = await createPersonalLoanEnvelopeTemplate()
+      mode: "loading",
+    });
+    const docusignLoadResult = await createPersonalLoanEnvelopeTemplate();
 
-    if(isFetcherError(docusignLoadResult)) {
+    if (isFetcherError(docusignLoadResult)) {
       setState({
         mode: "error",
-        errorMessage: docusignLoadResult.errorMessage
-      })
+        errorMessage: docusignLoadResult.errorMessage,
+      });
     } else {
-      //load it in Db as well
-      const templateWriteResult = await addLoanTemplate({
-        templateName: docusignLoadResult.name,
-        _id: docusignLoadResult.templateId,
-        templateUri: docusignLoadResult.uri
-      })
+      const connectConfigurationResult =
+        await createConnectConfigurationForAccount();
 
-      if(templateWriteResult.mode === "success") {
-        setState({
-          mode: "success"
-        })
-      } else {
+      if (isFetcherError(connectConfigurationResult)) {
         setState({
           mode: "error",
-          errorMessage: templateWriteResult.errorMessage
-        })
+          errorMessage: connectConfigurationResult.errorMessage,
+        });
+      } else {
+        //load it in Db as well
+        const templateWriteResult = await addLoanTemplate({
+          templateName: docusignLoadResult.name,
+          _id: docusignLoadResult.templateId,
+          templateUri: docusignLoadResult.uri,
+        });
+
+        if (templateWriteResult.mode === "success") {
+          setState({
+            mode: "success",
+          });
+        } else {
+          setState({
+            mode: "error",
+            errorMessage: templateWriteResult.errorMessage,
+          });
+        }
       }
     }
   }
 
   return (
     <div className="mt-8">
-
-      {((state.mode === "initial" && !state.isLoadedInDocusign) || (state.mode === "error")) && (
-        <Button className="mt-2 mb-2" onClick={onLoadClick}>Load it in DocuSign</Button>
+      {((state.mode === "initial" && !state.isLoadedInDocusign) ||
+        state.mode === "error") && (
+        <Button className="mt-2 mb-2" onClick={onLoadClick}>
+          Load it in DocuSign
+        </Button>
       )}
 
-      {(state.mode === "success" || (state.mode === "initial" && state.isLoadedInDocusign)) && <p className="mt-2 mb-2 text-sm text-gray-500">
+      {(state.mode === "success" ||
+        (state.mode === "initial" && state.isLoadedInDocusign)) && (
+        <p className="mt-2 mb-2 text-sm text-gray-500">
           This template has been loaded in DocuSign 🎉
-        </p>}
+        </p>
+      )}
 
       {state.mode === "loading" && <ProgressLoader />}
 
-      {state.mode === "error" && <p className="text-sm text-red-500">{state.errorMessage}</p>}
+      {state.mode === "error" && (
+        <p className="text-sm text-red-500">{state.errorMessage}</p>
+      )}
     </div>
   );
 }
