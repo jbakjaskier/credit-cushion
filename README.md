@@ -76,13 +76,16 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
    - If there is not ask them to load it
    - If there is embed and show the webform in the "Products" view so that user doesn't need to jump back and forth into DocuSign.
 
-8. AI Companion that reads signed loan documents 
+8. AI Companion that reads signed loan documents and answers relevant questions 
+   - Can get the document by calling docusign envelope document
+   - Pipe the document to Gemini to answer relevant questions from customer
+   - UI in the Loan provider space for this document chat. 
 
 Working > Perfect
 
 
 # Refinement Items :
 
-1. Update README.md to reflect project goals
+1. Update and Cleanup README.md to reflect project goals
 2. Update post in submission platform
 3. Record and submit demo video
