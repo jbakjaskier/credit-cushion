@@ -11,7 +11,6 @@ export default async function LoanDetailsPage({
 }: {
   params: Promise<{ loanId: string }>;
 }) {
-
   const loanId = (await params).loanId;
 
   const loanInDb: Loan | DbFetcherError = ObjectId.isValid(loanId)
@@ -19,6 +18,36 @@ export default async function LoanDetailsPage({
     : {
         errorMessage: `This is not a valid loan ID`,
       };
+
+  function getHardshipStatusDisplay(status: string) {
+    switch (status) {
+      case "needsAttention":
+        return {
+          text: "Needs Attention",
+          className: "bg-red-100 text-red-800",
+        };
+      case "variationGenerated":
+        return {
+          text: "Variation Generated",
+          className: "bg-yellow-100 text-yellow-800",
+        };
+      case "hardshipResolved":
+        return {
+          text: "Hardship Resolved",
+          className: "bg-green-100 text-green-800",
+        };
+      case "variationSent":
+        return {
+          text: "Variation Sent",
+          className: "bg-blue-100 text-blue-800",
+        };
+      default:
+        return {
+          text: status,
+          className: "bg-gray-100 text-gray-800",
+        };
+    }
+  }
 
   return (
     <div>
@@ -142,10 +171,6 @@ export default async function LoanDetailsPage({
             </dl>
           </div>
 
-          
-
-          
-
           <div className="px-4 sm:px-0">
             <h3 className="text-base font-semibold leading-7 text-gray-900">
               Customer Information
@@ -229,16 +254,21 @@ export default async function LoanDetailsPage({
                     Loan Variation Status
                   </dt>
                   <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-                    {loanInDb.hardship?.loanVariationStatus ===
-                    "variationGenerated"
-                      ? `Variation Generated`
-                      : loanInDb.hardship?.loanVariationStatus ===
-                        "hardshipResolved"
-                      ? "Hardship Resolved"
-                      : loanInDb.hardship?.loanVariationStatus ===
-                        "needsAttention"
-                      ? "Needs Attention"
-                      : "Variation Sent to Customer"}
+                    {loanInDb.hardship?.loanVariationStatus && (
+                      <span
+                        className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${
+                          getHardshipStatusDisplay(
+                            loanInDb.hardship.loanVariationStatus
+                          ).className
+                        }`}
+                      >
+                        {
+                          getHardshipStatusDisplay(
+                            loanInDb.hardship.loanVariationStatus
+                          ).text
+                        }
+                      </span>
+                    )}
                   </dd>
                 </div>
                 <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
@@ -302,7 +332,7 @@ export default async function LoanDetailsPage({
                           </Link>
                         </div>
                       </li>
-                      {loanInDb.hardship.loanVariationStatus === 
+                      {loanInDb.hardship.loanVariationStatus ===
                         "variationGenerated" && (
                         <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
                           <div className="flex w-0 flex-1 items-center">
@@ -330,40 +360,38 @@ export default async function LoanDetailsPage({
                         </li>
                       )}
 
-                      {
-                        loanInDb.hardship.envelopeDetails !== undefined && <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                        <div className="flex w-0 flex-1 items-center">
-                          <DocumentIcon
-                            className="h-5 w-5 flex-shrink-0 text-gray-400"
-                            aria-hidden="true"
-                          />
-                          <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                            <span className="truncate font-medium">
-                              Envelope 
-                            </span>
-                            <span className="flex-shrink-0 text-gray-400">
-                              associated with hardship
-                            </span>
+                      {loanInDb.hardship.envelopeDetails !== undefined && (
+                        <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
+                          <div className="flex w-0 flex-1 items-center">
+                            <DocumentIcon
+                              className="h-5 w-5 flex-shrink-0 text-gray-400"
+                              aria-hidden="true"
+                            />
+                            <div className="ml-4 flex min-w-0 flex-1 gap-2">
+                              <span className="truncate font-medium">
+                                Envelope
+                              </span>
+                              <span className="flex-shrink-0 text-gray-400">
+                                associated with hardship
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                        <div className="ml-4 flex-shrink-0">
-                          <Link
-                            href={`/loans/${loanId}/hardship`}
-                            className="font-medium text-indigo-600 hover:text-indigo-500"
-                          >
-                            View
-                          </Link>
-                        </div>
-                      </li>
-                      }
+                          <div className="ml-4 flex-shrink-0">
+                            <Link
+                              href={`/loans/${loanId}/hardship`}
+                              className="font-medium text-indigo-600 hover:text-indigo-500"
+                            >
+                              View
+                            </Link>
+                          </div>
+                        </li>
+                      )}
                     </ul>
                   </dd>
                 </div>
               </dl>
             )}
           </div>
-
-
 
           <div className="px-4 sm:px-0">
             <h3 className="text-base font-semibold leading-7 text-gray-900">
@@ -440,7 +468,6 @@ export default async function LoanDetailsPage({
             </dl>
           </div>
 
-
           <div className="px-4 sm:px-0">
             <h3 className="text-base font-semibold leading-7 text-gray-900">
               Representative Details
@@ -469,8 +496,6 @@ export default async function LoanDetailsPage({
               </div>
             </dl>
           </div>
-
-
         </div>
       )}
     </div>

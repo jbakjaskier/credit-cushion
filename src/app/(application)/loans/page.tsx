@@ -1,9 +1,9 @@
 "use server";
 
-import { classNames } from "@/lib/classUtils";
 import { getLoansFromDbAsync } from "@/lib/db/dbFetcher";
 import { isDbFetcherError } from "@/lib/db/models/loans";
 import Link from "next/link";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 export default async function LoansPage() {
   const loansInDb = await getLoansFromDbAsync();
@@ -28,12 +28,26 @@ export default async function LoansPage() {
         <h3 className="mt-2 text-sm font-semibold text-gray-900">
           {`Oops! An Error`}
         </h3>
-        <p className="mt-1 text-sm text-gray-500">
-            {loansInDb.errorMessage}
-        </p>
+        <p className="mt-1 text-sm text-gray-500">{loansInDb.errorMessage}</p>
       </div>
     );
   }
+
+  const sortedLoans = [...loansInDb].sort((a, b) => {
+    const aNeeds =
+      a.hardship?.loanVariationStatus === "needsAttention"
+        ? 1
+        : a.hardship?.loanVariationStatus === "variationGenerated"
+        ? 0
+        : -1;
+    const bNeeds =
+      b.hardship?.loanVariationStatus === "needsAttention"
+        ? 1
+        : b.hardship?.loanVariationStatus === "variationGenerated"
+        ? 0
+        : -1;
+    return bNeeds - aNeeds;
+  });
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
@@ -76,61 +90,122 @@ export default async function LoansPage() {
                 </tr>
               </thead>
               <tbody>
-                {loansInDb.map((loan, loanIdx) => (
-                  <tr key={loan._id.toString()}>
+                {sortedLoans.map((loan, loanIdx) => (
+                  <tr
+                    key={loan._id.toString()}
+                    className={`${
+                      loan.hardship?.loanVariationStatus === "needsAttention"
+                        ? "bg-red-50"
+                        : loan.hardship?.loanVariationStatus ===
+                          "variationGenerated"
+                        ? "bg-yellow-50"
+                        : ""
+                    } hover:bg-gray-50`}
+                  >
                     <td
-                      className={classNames(
+                      className={`${
                         loanIdx !== loansInDb.length - 1
                           ? "border-b border-gray-200"
-                          : "",
-                        "whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8"
-                      )}
+                          : ""
+                      } whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8`}
                     >
-                      {loan.customer !== undefined ? loan.customer!.customerFullName : `To Be Specified`}
+                      {loan.customer !== undefined
+                        ? loan.customer!.customerFullName
+                        : `To Be Specified`}
                     </td>
                     <td
-                      className={classNames(
+                      className={`${
                         loanIdx !== loansInDb.length - 1
                           ? "border-b border-gray-200"
-                          : "",
-                        "whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell"
-                      )}
+                          : ""
+                      } whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 sm:table-cell`}
                     >
-                      {loan.loanDetails !== undefined ? `$${loan.loanDetails!.loanAmount.value}` : `To Be Specified`}
+                      {loan.loanDetails !== undefined
+                        ? `$${loan.loanDetails!.loanAmount.value}`
+                        : `To Be Specified`}
                     </td>
                     <td
-                      className={classNames(
+                      className={`${
                         loanIdx !== loansInDb.length - 1
                           ? "border-b border-gray-200"
-                          : "",
-                        "whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 lg:table-cell"
-                      )}
+                          : ""
+                      } whitespace-nowrap hidden px-3 py-4 text-sm text-gray-500 lg:table-cell`}
                     >
-                      {loan.customer !== undefined ? loan.customer.customerEmail :  `To Be Specified`}
+                      {loan.customer !== undefined
+                        ? loan.customer.customerEmail
+                        : `To Be Specified`}
                     </td>
                     <td
-                      className={classNames(
+                      className={`${
                         loanIdx !== loansInDb.length - 1
                           ? "border-b border-gray-200"
-                          : "",
-                        "whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                      )}
+                          : ""
+                      } whitespace-nowrap px-3 py-4 text-sm text-gray-500`}
                     >
-                      {loan.status === "loan-created" ? `Created` : loan.status === "loan-signed-by-customer" ? `Signed` : `Sent` }
+                      <div className="flex items-center gap-2">
+                        {loan.status === "loan-created"
+                          ? "Created"
+                          : loan.status === "loan-signed-by-customer"
+                          ? "Signed"
+                          : "Sent"}
+
+                        {(loan.hardship?.loanVariationStatus ===
+                          "needsAttention" ||
+                          loan.hardship?.loanVariationStatus ===
+                            "variationGenerated") && (
+                          <div className="relative group">
+                            <ExclamationTriangleIcon
+                              className={`h-5 w-5 ${
+                                loan.hardship.loanVariationStatus ===
+                                "needsAttention"
+                                  ? "text-red-500"
+                                  : "text-yellow-500"
+                              }`}
+                            />
+                            <div className="invisible group-hover:visible absolute z-10 w-96 -translate-x-1/2 left-1/2 mt-2">
+                              <div className="px-3 py-2 text-sm bg-white shadow-lg ring-1 ring-gray-900/5 rounded-lg">
+                                <div className="flex gap-2 items-start">
+                                  <ExclamationTriangleIcon
+                                    className={`h-5 w-5 flex-shrink-0 ${
+                                      loan.hardship.loanVariationStatus ===
+                                      "needsAttention"
+                                        ? "text-red-500"
+                                        : "text-yellow-500"
+                                    }`}
+                                  />
+                                  <div className="flex-1 break-words">
+                                    <p className="text-gray-900 leading-5 whitespace-normal">
+                                      {loan.hardship.loanVariationStatus ===
+                                      "needsAttention"
+                                        ? "This hardship request requires immediate attention. Manual review and action needed to process the customer's request."
+                                        : "A variation contract has been generated and is ready to be reviewed and sent to the customer. Please review and send it as soon as possible."}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </td>
                     <td
-                      className={classNames(
+                      className={`${
                         loanIdx !== loansInDb.length - 1
                           ? "border-b border-gray-200"
-                          : "",
-                        "relative whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-8 lg:pr-8"
-                      )}
+                          : ""
+                      } relative whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-8 lg:pr-8`}
                     >
                       <Link
                         href={`/loans/${loan._id.toString()}`}
                         className="text-indigo-600 hover:text-indigo-900"
                       >
-                        Details<span className="sr-only">, {loan.customer !== undefined ? loan.customer.customerFullName : `To Be Specified`}</span>
+                        Details
+                        <span className="sr-only">
+                          ,{" "}
+                          {loan.customer !== undefined
+                            ? loan.customer.customerFullName
+                            : `To Be Specified`}
+                        </span>
                       </Link>
                     </td>
                   </tr>
