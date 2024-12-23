@@ -18,7 +18,15 @@ export type HardshipFormErrorDetail = {
 export type HardshipFormState =
   | {
       mode: "error";
-      errorDetails: HardshipFormErrorDetail; //TODO: This state needs an update so that HardshipFormDetail also returns the formValues along with the errorMessage so that the entered value is retained when an error occurs
+      errorDetails: HardshipFormErrorDetail;
+      formValues: {
+        fullLegalName?: string;
+        emailAddress?: string;
+        phoneNumber?: string;
+        circumstanceReason?: string;
+        circumstanceExplanation?: string;
+        idealArrangement?: string;
+      };
     }
   | {
       mode: "initial";
@@ -85,6 +93,11 @@ export default function HardshipForm() {
                     name="fullLegalName"
                     id="fullLegalName"
                     autoComplete="fullLegalName"
+                    defaultValue={
+                      state.mode === "error"
+                        ? state.formValues.fullLegalName
+                        : ""
+                    }
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 ml-4 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -114,6 +127,11 @@ export default function HardshipForm() {
                     name="customerEmail"
                     id="customerEmail"
                     autoComplete="customerEmail"
+                    defaultValue={
+                      state.mode === "error"
+                        ? state.formValues.emailAddress
+                        : ""
+                    }
                     placeholder="username@example.com"
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 ml-4 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                   />
@@ -146,6 +164,9 @@ export default function HardshipForm() {
                     name="phoneNumber"
                     id="phoneNumber"
                     autoComplete="phoneNumber"
+                    defaultValue={
+                      state.mode === "error" ? state.formValues.phoneNumber : ""
+                    }
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 ml-4 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -170,12 +191,15 @@ export default function HardshipForm() {
                   id="circumstanceReason"
                   name="circumstanceReason"
                   autoComplete="circumstanceReason"
+                  defaultValue={
+                    state.mode === "error"
+                      ? state.formValues.circumstanceReason
+                      : "incomeReduced"
+                  }
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                 >
-                  <option value={`incomeReduced`}>My Income Has Reduced</option>
-                  <option value={`expenseRaised`}>
-                    My Expenses Have Raised
-                  </option>
+                  <option value="incomeReduced">My Income Has Reduced</option>
+                  <option value="expenseRaised">My Expenses Have Raised</option>
                 </select>
               </div>
               {state.mode === "error" &&
@@ -202,8 +226,12 @@ export default function HardshipForm() {
                   id="circumstanceExplanation"
                   name="circumstanceExplanation"
                   rows={3}
+                  defaultValue={
+                    state.mode === "error"
+                      ? state.formValues.circumstanceExplanation
+                      : ""
+                  }
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  defaultValue={""}
                 />
               </div>
               {state.mode === "error" &&
@@ -232,8 +260,12 @@ export default function HardshipForm() {
                   id="idealArrangement"
                   name="idealArrangement"
                   rows={3}
+                  defaultValue={
+                    state.mode === "error"
+                      ? state.formValues.idealArrangement
+                      : ""
+                  }
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  defaultValue={""}
                 />
               </div>
               {state.mode === "error" &&

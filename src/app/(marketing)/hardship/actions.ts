@@ -11,61 +11,70 @@ import { put } from "@vercel/blob";
 import genAiInstance from "@/lib/ai/gemini";
 import { SchemaType } from "@google/generative-ai";
 
+const zodValidator = z.object({
+  fullLegalName: z
+    .string()
+    .trim()
+    .min(1, { message: "The Full Legal Name should be a valid value" }),
+  emailAddress: z
+    .string()
+    .email({ message: `Please enter a valid email Address` }),
+  phoneNumber: z
+    .string()
+    .trim()
+    .min(6, { message: "Please enter a valid mobile phone number" })
+    .startsWith("+", {
+      message:
+        "Please add an international code to your phone number. Example: +61",
+    })
+    .refine((val) => !/\s/.test(val), {
+      message: `Please enter a valid phone number without any spaces and with the international code. Example: +61336597654`,
+    }),
+  circumstanceReason: z
+    .string()
+    .trim()
+    .min(1, { message: "Please select how your circumstance has changed" }),
+  circumstanceExplanation: z
+    .string()
+    .trim()
+    .min(10, { message: "Please explain how your circumstance has changed" }),
+  idealArrangement: z.string().trim().min(10, {
+    message:
+      "Explain in more detail what your ideal arrangement would look like",
+  }),
+  supportingDocument: z.custom<File>(
+    (val) => {
+      if (
+        val instanceof File &&
+        val.type === "application/pdf" &&
+        val.size <= 4 * 1024 * 1024
+      ) {
+        return true;
+      }
+      return false;
+    },
+    {
+      message: "Please attach supporting documents that support your case",
+    }
+  ),
+});
 
-
+function getFormValues(data: z.infer<typeof zodValidator>) {
+  return {
+    fullLegalName: data.fullLegalName,
+    emailAddress: data.emailAddress,
+    phoneNumber: data.phoneNumber,
+    circumstanceReason: data.circumstanceReason,
+    circumstanceExplanation: data.circumstanceExplanation,
+    idealArrangement: data.idealArrangement,
+  };
+}
 
 export async function createCustomerHardship(
   prevState: HardshipFormState,
   formData: FormData
 ): Promise<HardshipFormState> {
   console.info("supportingDocument", formData.get("supporting-documents"));
-  const zodValidator = z.object({
-    fullLegalName: z
-      .string()
-      .trim()
-      .min(1, { message: "The Full Legal Name should be a valid value" }),
-    emailAddress: z
-      .string()
-      .email({ message: `Please enter a valid email Address` }),
-    phoneNumber: z
-      .string()
-      .trim()
-      .min(6, { message: "Please enter a valid mobile phone number" })
-      .startsWith("+", {
-        message:
-          "Please add an international code to your phone number. Example: +61",
-      })
-      .refine((val) => !/\s/.test(val), {
-        message: `Please enter a valid phone number without any spaces and with the international code. Example: +61336597654`,
-      }),
-    circumstanceReason: z
-      .string()
-      .trim()
-      .min(1, { message: "Please select how your circumstance has changed" }),
-    circumstanceExplanation: z
-      .string()
-      .trim()
-      .min(10, { message: "Please explain how your circumstance has changed" }),
-    idealArrangement: z.string().trim().min(10, {
-      message:
-        "Explain in more detail what your ideal arrangement would look like",
-    }),
-    supportingDocument: z.custom<File>(
-      (val) => {
-        if (
-          val instanceof File &&
-          val.type === "application/pdf" &&
-          val.size <= 4 * 1024 * 1024
-        ) {
-          return true;
-        }
-        return false;
-      },
-      {
-        message: "Please attach supporting documents that support your case",
-      }
-    ),
-  });
 
   const formattedFormData = await zodValidator.safeParseAsync({
     fullLegalName: formData.get("fullLegalName"),
@@ -113,6 +122,16 @@ export async function createCustomerHardship(
     return {
       mode: "error",
       errorDetails: errorObject!,
+      formValues: {
+        fullLegalName: formData.get("fullLegalName")?.toString(),
+        emailAddress: formData.get("customerEmail")?.toString(),
+        phoneNumber: formData.get("phoneNumber")?.toString(),
+        circumstanceReason: formData.get("circumstanceReason")?.toString(),
+        circumstanceExplanation: formData
+          .get("circumstanceExplanation")
+          ?.toString(),
+        idealArrangement: formData.get("idealArrangement")?.toString(),
+      },
     };
   }
 
@@ -134,6 +153,7 @@ export async function createCustomerHardship(
           emailAddress: `There is no loan associated with this email adddress. Please enter the same email address and phone number you used with your loan application`,
           phoneNumber: `There is no loan associated with this phone number. Please enter the same email address and phone number you used with your loan application`,
         },
+        formValues: getFormValues(formattedFormData.data),
       };
     }
 
@@ -146,6 +166,7 @@ export async function createCustomerHardship(
         errorDetails: {
           circumstanceExplanation: `You have not yet signed you loan agreement yet. You can only apply for a hardship after you've signed the loan agreement`,
         },
+        formValues: getFormValues(formattedFormData.data),
       };
     }
 
@@ -155,6 +176,7 @@ export async function createCustomerHardship(
         errorDetails: {
           circumstanceExplanation: `This hardship cannot be processed through this form. You already have lodged a hardship against your loan. In order to process the other one, you have to send a detailed email to one of the loan provider representatives`,
         },
+        formValues: getFormValues(formattedFormData.data),
       };
     }
 
@@ -192,7 +214,8 @@ export async function createCustomerHardship(
       },
     });
 
-    const fileBuffer = await formattedFormData.data.supportingDocument.arrayBuffer();
+    const fileBuffer =
+      await formattedFormData.data.supportingDocument.arrayBuffer();
 
     const genAiResult = await model.generateContent([
       {
@@ -244,7 +267,7 @@ export async function createCustomerHardship(
 
         Customer Ideal Arrangement : ${formattedFormData.data.idealArrangement}
       `,
-      }
+      },
     ]);
 
     const genAiJsonResponse = genAiResult.response.text();
@@ -263,9 +286,10 @@ export async function createCustomerHardship(
         errorDetails: {
           circumstanceExplanation: parsedResponse.furtherInformationRequired,
         },
+        formValues: getFormValues(formattedFormData.data),
       };
     }
-    
+
     let variationGenerated: string | undefined = undefined;
     if (parsedResponse.canVariateAgreementAutomatically) {
       // We have to create a newer model instance because the older one only returns a structured JSON
@@ -341,7 +365,8 @@ export async function createCustomerHardship(
           lastUpdated: new Date(),
           hardship: {
             circumstanceReason: formattedFormData.data.circumstanceReason,
-            circumstanceExplanation: formattedFormData.data.circumstanceExplanation,
+            circumstanceExplanation:
+              formattedFormData.data.circumstanceExplanation,
             idealArrangement: formattedFormData.data.idealArrangement,
             supportingDocument: putResult.url,
             loanVariationStatus: parsedResponse.canVariateAgreementAutomatically
@@ -369,6 +394,7 @@ export async function createCustomerHardship(
       errorDetails: {
         circumstanceExplanation: `Something went wrong while evaluating your hardship. Please try again in a bit`,
       },
+      formValues: getFormValues(formattedFormData.data),
       mode: "error",
     };
   }
