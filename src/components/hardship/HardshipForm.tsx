@@ -22,12 +22,13 @@ export type HardshipFormState =
     }
   | {
       mode: "initial";
-    } | {
-      mode: "emailSentToRepresentative" //TODO: THis state needs a UI
-    } | {
-      mode: "contractVariatedSuccessfully" //TODO: This state needs a UI Betterment
+    }
+  | {
+      mode: "emailSentToRepresentative"; //TODO: THis state needs a UI
+    }
+  | {
+      mode: "contractVariatedSuccessfully"; //TODO: This state needs a UI Betterment
     };
-
 
 //TODO: emailSentToRepresentative and contractVariatedSuccessfully should be implemented
 export default function HardshipForm() {

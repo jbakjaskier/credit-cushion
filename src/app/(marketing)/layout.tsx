@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "../globals.css";
 import MarketingHeader from "@/components/MarketingHeader";
+import Footer from "@/components/common/Footer";
 import { APP_NAME, APP_DESCRIPTION } from "@/config/constants";
 import { fonts } from "@/config/fonts";
 
@@ -20,6 +21,7 @@ export default async function MarketingLayout({
         <div className={`bg-white flex flex-col min-h-screen`}>
           <MarketingHeader />
           <main className="flex-1">{children}</main>
+          <Footer />
         </div>
       </body>
     </html>

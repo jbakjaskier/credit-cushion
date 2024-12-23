@@ -9,8 +9,6 @@ export const ROUTES = {
   SIGNOUT: "/api/auth/logout",
 } as const;
 
-
-
 // Navigation Items
 export const MARKETING_NAVIGATION = [
   { name: "Home", href: ROUTES.HOME },
@@ -23,10 +21,20 @@ export const USER_NAVIGATION = [
   { name: "Sign out", href: ROUTES.SIGNOUT },
 ] as const;
 
-export const APPLICATION_NAVIGATION = [
-  { name: "Products", href: ROUTES.PRODUCTS, current: true },
-  { name: "Loans", href: ROUTES.LOANS, current: false },
-] as const;
+export const getApplicationNavigation = (pathname: string) =>
+  [
+    {
+      name: "Loans",
+      href: ROUTES.LOANS,
+      current: pathname === ROUTES.LOANS || pathname.startsWith("/loans/"),
+    },
+    {
+      name: "Products",
+      href: ROUTES.PRODUCTS,
+      current:
+        pathname === ROUTES.PRODUCTS || pathname.startsWith("/products/"),
+    },
+  ] as const;
 
 // Types
 export type Route = (typeof ROUTES)[keyof typeof ROUTES];

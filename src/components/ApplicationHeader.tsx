@@ -5,10 +5,11 @@ import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
-import { APPLICATION_NAVIGATION, USER_NAVIGATION } from "@/config/constants";
+import { USER_NAVIGATION, getApplicationNavigation } from "@/config/constants";
 import { SearchBar } from "./header/SearchBar";
 import { ProfileMenu } from "./header/ProfileMenu";
 import { MobileMenu } from "./header/MobileMenu";
+import { usePathname } from "next/navigation";
 
 const defaultUser = {
   name: "Guest User",
@@ -17,10 +18,14 @@ const defaultUser = {
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
 
-const navigation = APPLICATION_NAVIGATION;
 const userNavigation = USER_NAVIGATION;
 
 export default function ApplicationHeader() {
+  const pathname = usePathname();
+  const navigation = getApplicationNavigation(pathname);
+  const currentNavItem = navigation.find((item) => item.current);
+  const pageTitle = currentNavItem?.name || "Loans";
+
   return (
     <div className="bg-indigo-600 pb-32">
       <Disclosure
@@ -104,7 +109,7 @@ export default function ApplicationHeader() {
       <header className="py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight text-white">
-            Loans
+            {pageTitle}
           </h1>
         </div>
       </header>
