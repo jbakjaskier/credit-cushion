@@ -2,6 +2,7 @@ import { DocumentIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Loan } from "@/lib/db/models/loans";
 import Link from "next/link";
 import { readerFriendlyDateString } from "@/app/(application)/loans/[loanId]/page";
+import HardshipActions from "./HardshipActions";
 
 export default function LoanDetailsAccordions({ loan }: { loan: Loan }) {
   function getHardshipStatusDisplay(status: string) {
@@ -248,22 +249,25 @@ export default function LoanDetailsAccordions({ loan }: { loan: Loan }) {
                 </dt>
                 <dd className="mt-0.5 text-sm leading-6 text-gray-900">
                   {loan.hardship?.loanVariationStatus && (
-                    <span
-                      className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${
-                        getHardshipStatusDisplay(
-                          loan.hardship.loanVariationStatus
-                        ).className
-                      }`}
-                    >
-                      {
-                        getHardshipStatusDisplay(
-                          loan.hardship.loanVariationStatus
-                        ).text
-                      }
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${
+                          getHardshipStatusDisplay(
+                            loan.hardship.loanVariationStatus
+                          ).className
+                        }`}
+                      >
+                        {
+                          getHardshipStatusDisplay(
+                            loan.hardship.loanVariationStatus
+                          ).text
+                        }
+                      </span>
+                    </div>
                   )}
                 </dd>
               </div>
+
               <div className="border-t border-gray-100 px-4 py-3 sm:col-span-1 sm:px-0">
                 <dt className="text-sm font-medium leading-6 text-gray-500">
                   Circumstance Reason
@@ -274,6 +278,29 @@ export default function LoanDetailsAccordions({ loan }: { loan: Loan }) {
                     : "Customer's Income Has Reduced"}
                 </dd>
               </div>
+              {/* Add new section for rejection notes */}
+              {loan.hardship.rejectionNotes && (
+                <div className="border-t border-gray-100 px-4 py-3 sm:col-span-2 sm:px-0">
+                  <dt className="text-sm font-medium leading-6 text-gray-500">
+                    Rejection Notes
+                  </dt>
+                  <dd className="mt-2 text-sm leading-6 text-gray-900">
+                    <div className="rounded-md border border-gray-200 px-4 py-3 bg-red-50">
+                      {loan.hardship.rejectionNotes}
+                    </div>
+                  </dd>
+                </div>
+              )}
+              {loan.hardship.loanVariationStatus === "needsAttention" && (
+                <div className="border-t border-gray-100 px-4 py-3 sm:col-span-2 sm:px-0">
+                  <dt className="text-sm font-medium leading-6 text-red-700">
+                    Take appropriate action
+                  </dt>
+                  <dd className="mt-0.5 text-sm leading-6 text-gray-900">
+                    <HardshipActions loanId={loan._id.toString()} />
+                  </dd>
+                </div>
+              )}
               <div className="border-t border-gray-100 px-4 py-3 sm:col-span-2 sm:px-0">
                 <dt className="text-sm font-medium leading-6 text-gray-500">
                   Circumstance Explanation
@@ -336,9 +363,9 @@ export default function LoanDetailsAccordions({ loan }: { loan: Loan }) {
                             <span className="truncate font-medium">
                               Variation Document
                             </span>
-                            <span className="flex-shrink-0 text-gray-400">
+                            {/* <span className="flex-shrink-0 text-gray-400">
                               generated with AI
-                            </span>
+                            </span> */}
                           </div>
                         </div>
                         <div className="ml-4 flex-shrink-0">
