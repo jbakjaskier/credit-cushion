@@ -71,7 +71,7 @@ export default function LoanChatWidgetClient({ loanId }: { loanId: string }) {
   }
 
   return (
-    <div className="fixed bottom-4 right-4 w-96 h-[600px] bg-white rounded-lg shadow-xl flex flex-col border border-gray-200">
+    <div className="fixed bottom-4 right-4 w-96 max-[500px]:w-[95vw] h-[600px] max-[500px]:h-[80vh] bg-white rounded-lg shadow-xl flex flex-col border border-gray-200">
       {/* Header */}
       <div className="flex justify-between items-center p-4 border-b">
         <h3 className="text-sm font-semibold text-gray-900">Loan Assistant</h3>
