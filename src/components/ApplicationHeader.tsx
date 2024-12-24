@@ -98,11 +98,7 @@ export default function ApplicationHeader() {
               </div>
             </div>
 
-            <MobileMenu
-              user={defaultUser}
-              navigation={navigation}
-              userNavigation={userNavigation}
-            />
+            <MobileMenu user={defaultUser} userNavigation={userNavigation} />
           </>
         )}
       </Disclosure>

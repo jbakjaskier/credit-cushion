@@ -8,12 +8,6 @@ import type { Route } from "@/config/constants";
 import { usePathname } from "next/navigation";
 import { getApplicationNavigation } from "@/config/constants";
 
-interface NavigationItem {
-  name: string;
-  href: Route;
-  current: boolean;
-}
-
 interface UserNavigationItem {
   name: string;
   href: Route;

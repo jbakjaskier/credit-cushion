@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { APP_NAME } from "@/config/constants";
 
 export default function Footer() {

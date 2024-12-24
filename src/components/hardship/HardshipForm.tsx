@@ -57,6 +57,7 @@ export default function HardshipForm() {
     if (fileSelected !== null) {
       setFileSelected(null);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
   const [fileSelected, setFileSelected] = useState<File | null>(null);
