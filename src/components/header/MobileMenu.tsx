@@ -5,13 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { classNames } from "@/lib/classUtils";
 import type { Route } from "@/config/constants";
-
-
-interface NavigationItem {
-  name: string;
-  href: Route;
-  current: boolean;
-}
+import { usePathname } from "next/navigation";
+import { getApplicationNavigation } from "@/config/constants";
 
 interface UserNavigationItem {
   name: string;
@@ -20,15 +15,16 @@ interface UserNavigationItem {
 
 interface MobileMenuProps {
   user: { name: string; email: string; imageUrl: string };
-  navigation: ReadonlyArray<NavigationItem>;
   userNavigation: ReadonlyArray<UserNavigationItem>;
 }
 
 export function MobileMenu({
   user,
-  navigation,
   userNavigation,
-}: MobileMenuProps) {
+}: Omit<MobileMenuProps, "navigation">) {
+  const pathname = usePathname();
+  const navigation = getApplicationNavigation(pathname);
+
   return (
     <Disclosure.Panel className="lg:hidden">
       <div className="space-y-1 px-2 pb-3 pt-2">

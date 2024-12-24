@@ -13,8 +13,6 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 2. Products Application Page
 
    ![image](https://github.com/user-attachments/assets/ee9144aa-4ed8-4771-ab5b-d5d9a03ccd57)
-   
-   
 
 ## Getting Started
 
@@ -51,34 +49,36 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
+# Remaining TODOs:
 
-# Remaining TODOs: 
+1. Hardship Form State UI ✅
 
-1. Hardship Form State UI
-   - For the `emailSentToRepresentative` state - a UI must be implemented
-   - When there is an error all the entered information is lost. To fix this send back the field info from the server action in the error state apart from just the message for each component. 
+   - For the `emailSentToRepresentative` state - a UI must be implemented ✅
+   - When there is an error all the entered information is lost. To fix this send back the field info from the server action in the error state apart from just the message for each component. ✅
 
-2. Update application routing in the top 
-   - Currently it says Products and Customers when in reality it should be saying "Loans" and "Products"
-   - Add footer. 
+2. Update application routing in the top ✅
 
-3. Add warning and notification label when a variation of contract is generated but needs to be sent to customer
+   - Currently it says Products and Customers when in reality it should be saying "Loans" and "Products" ✅
+   - Add footer. ✅
 
-5. Add UI for when `hardship.loanVariationStatus` is `needsAttention` and have the UI to `resolve` it as well.
-   - The `needsAttention` can resolve by going to `hardshipResolved`, however for the other two states -  for `variationGenerated` and `variationSent` - we will leave it as it is as it does not need resolving and the UI has hardship envelope details as well. So no UI or logic updates are required for those two states
+3. Add warning and notification label when a variation of contract is generated but needs to be sent to customer ✅
 
-7. UI to ask them to create a webform from template 
-   - Have a button to get webforms - to see if there are any webforms that were created for Credit Cushion Template as mentioned - make sure that the `templateId` in the webforms response matches to the 
+4. Add UI for when `hardship.loanVariationStatus` is `needsAttention` and have the UI to `resolve` it as well. ✅
+
+   - The `needsAttention` can resolve by going to `hardshipResolved`, however for the other two states - for `variationGenerated` and `variationSent` - we will leave it as it is as it does not need resolving and the UI has hardship envelope details as well. So no UI or logic updates are required for those two states ✅
+
+5. UI to ask them to create a webform from template
+
+   - Have a button to get webforms - to see if there are any webforms that were created for Credit Cushion Template as mentioned - make sure that the `templateId` in the webforms response matches to the
    - If there is not ask them to load it
    - If there is embed and show the webform in the "Products" view so that user doesn't need to jump back and forth into DocuSign.
 
-8. AI Companion that reads signed loan documents and answers relevant questions 
-   - Can get the document by calling docusign envelope document
-   - Pipe the document to Gemini to answer relevant questions from customer
-   - UI in the Loan provider space for this document chat. 
+6. AI Companion that reads signed loan documents and answers relevant questions ✅
+   - Can get the document by calling docusign envelope document ✅
+   - Pipe the document to Gemini to answer relevant questions from customer ✅
+   - UI in the Loan provider space for this document chat.✅
 
 Working > Perfect
-
 
 # Refinement Items :
 
