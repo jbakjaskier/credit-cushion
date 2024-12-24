@@ -15,13 +15,12 @@ export type EnvelopeCreatedResult = {
 export async function sendVariationOfContractToCustomer(
   loanId: string
 ): Promise<FetcherError | EnvelopeCreatedResult> {
+  const loanWithHardship = await getLoanFromDbAsync(new ObjectId(loanId));
 
-  const loanWithHardship = await getLoanFromDbAsync(new ObjectId(loanId))
-
-  if(isDbFetcherError(loanWithHardship)) {
+  if (isDbFetcherError(loanWithHardship)) {
     return {
-      errorMessage: loanWithHardship.errorMessage
-    }
+      errorMessage: loanWithHardship.errorMessage,
+    };
   }
 
   if (loanWithHardship.hardship === undefined) {
@@ -37,11 +36,14 @@ export async function sendVariationOfContractToCustomer(
   }
 
   try {
-
     const session = await verifySession();
 
     const sendEnvelopeResult = await fetch(
-      `${process.env.DOCUSIGN_ESIG_BASE_URL}/v2.1/accounts/${session.sessionPayload.userInfo.accounts.find(l => l.is_default == true)!.account_id}/envelopes`,
+      `${process.env.DOCUSIGN_ESIG_BASE_URL}/v2.1/accounts/${
+        session.sessionPayload.userInfo.accounts.find(
+          (l) => l.is_default == true
+        )!.account_id
+      }/envelopes`,
       {
         method: "POST",
         headers: {
@@ -131,6 +133,69 @@ export async function sendVariationOfContractToCustomer(
 
     return {
       errorMessage: `We were unable to send the template to the customer. Please try again in a bit`,
+    };
+  }
+}
+
+export async function getEnvelopeFromDocuSign(envelopeId: string) {
+  try {
+    const session = await verifySession();
+    const accountId = session.sessionPayload.userInfo.accounts.find(
+      (l) => l.is_default == true
+    )!.account_id;
+
+    const response = await fetch(
+      `${process.env.DOCUSIGN_ESIG_BASE_URL}/v2.1/accounts/${accountId}/envelopes/${envelopeId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${session.sessionPayload.accessTokenResponse.access_token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      return {
+        errorMessage: `Failed to fetch envelope details`,
+      };
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    return {
+      errorMessage: `Error fetching envelope: ${error}`,
+    };
+  }
+}
+
+export async function getEnvelopeDocuments(envelopeId: string) {
+  try {
+    const session = await verifySession();
+    const accountId = session.sessionPayload.userInfo.accounts.find(
+      (l) => l.is_default == true
+    )!.account_id;
+
+    const response = await fetch(
+      `${process.env.DOCUSIGN_ESIG_BASE_URL}/v2.1/accounts/${accountId}/envelopes/${envelopeId}/documents/combined`,
+      {
+        headers: {
+          Authorization: `Bearer ${session.sessionPayload.accessTokenResponse.access_token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      return {
+        errorMessage: `Failed to fetch envelope documents`,
+      };
+    }
+
+    // Get the PDF content as a buffer
+    const documentBuffer = await response.arrayBuffer();
+    return Buffer.from(documentBuffer);
+  } catch (error) {
+    return {
+      errorMessage: `Error fetching envelope documents: ${error}`,
     };
   }
 }

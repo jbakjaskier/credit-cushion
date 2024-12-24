@@ -1,5 +1,6 @@
 import LoanBreadcrumb from "@/components/loans/LoanBreadcrumb";
 import LoanErrorState from "@/components/loans/LoanErrorState";
+import LoanChatWidget from "@/components/loans/LoanChatWidget";
 import { getLoanFromDbAsync } from "@/lib/db/dbFetcher";
 import { isDbFetcherError } from "@/lib/db/models/loans";
 import { ObjectId } from "mongodb";
@@ -24,7 +25,13 @@ export default async function LoanDetailsPage({
       {isDbFetcherError(loanInDb) ? (
         <LoanErrorState errorMessage={loanInDb.errorMessage} />
       ) : (
-        <LoanDetailsAccordions loan={loanInDb} />
+        <>
+          <LoanDetailsAccordions loan={loanInDb} />
+          {(loanInDb.status === "loan-sent-to-customer" ||
+            loanInDb.status === "loan-signed-by-customer") && (
+            <LoanChatWidget loan={loanInDb} />
+          )}
+        </>
       )}
     </div>
   );
