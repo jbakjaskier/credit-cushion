@@ -87,7 +87,7 @@ export default function LoanChatWidgetClient({ loanId }: { loanId: string }) {
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.length === 0 && (
           <div className="text-center text-gray-500 text-sm py-8">
-            Ask me anything about your loan details!
+            Ask me anything about the loan details!
           </div>
         )}
         {messages.map((message, index) => (

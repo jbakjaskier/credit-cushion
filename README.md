@@ -51,21 +51,21 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 # Remaining TODOs:
 
-1. Hardship Form State UI
+1. Hardship Form State UI ✅
 
-   - For the `emailSentToRepresentative` state - a UI must be implemented
-   - When there is an error all the entered information is lost. To fix this send back the field info from the server action in the error state apart from just the message for each component.
+   - For the `emailSentToRepresentative` state - a UI must be implemented ✅
+   - When there is an error all the entered information is lost. To fix this send back the field info from the server action in the error state apart from just the message for each component. ✅
 
-2. Update application routing in the top --> Done
+2. Update application routing in the top ✅
 
-   - Currently it says Products and Customers when in reality it should be saying "Loans" and "Products"
-   - Add footer.
+   - Currently it says Products and Customers when in reality it should be saying "Loans" and "Products" ✅
+   - Add footer. ✅
 
-3. Add warning and notification label when a variation of contract is generated but needs to be sent to customer
+3. Add warning and notification label when a variation of contract is generated but needs to be sent to customer ✅
 
-4. Add UI for when `hardship.loanVariationStatus` is `needsAttention` and have the UI to `resolve` it as well.
+4. Add UI for when `hardship.loanVariationStatus` is `needsAttention` and have the UI to `resolve` it as well. ✅
 
-   - The `needsAttention` can resolve by going to `hardshipResolved`, however for the other two states - for `variationGenerated` and `variationSent` - we will leave it as it is as it does not need resolving and the UI has hardship envelope details as well. So no UI or logic updates are required for those two states
+   - The `needsAttention` can resolve by going to `hardshipResolved`, however for the other two states - for `variationGenerated` and `variationSent` - we will leave it as it is as it does not need resolving and the UI has hardship envelope details as well. So no UI or logic updates are required for those two states ✅
 
 5. UI to ask them to create a webform from template
 
@@ -73,10 +73,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
    - If there is not ask them to load it
    - If there is embed and show the webform in the "Products" view so that user doesn't need to jump back and forth into DocuSign.
 
-6. AI Companion that reads signed loan documents and answers relevant questions
-   - Can get the document by calling docusign envelope document
-   - Pipe the document to Gemini to answer relevant questions from customer
-   - UI in the Loan provider space for this document chat.
+6. AI Companion that reads signed loan documents and answers relevant questions ✅
+   - Can get the document by calling docusign envelope document ✅
+   - Pipe the document to Gemini to answer relevant questions from customer ✅
+   - UI in the Loan provider space for this document chat.✅
 
 Working > Perfect
 
