@@ -77,6 +77,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
    - Can get the document by calling docusign envelope document ✅
    - Pipe the document to Gemini to answer relevant questions from customer ✅
    - UI in the Loan provider space for this document chat.✅
+  
+7. Added notes with AI that helps loan provider with manual resolution. 
 
 Working > Perfect
 
