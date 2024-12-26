@@ -87,3 +87,4 @@ Working > Perfect
 1. Update and Cleanup README.md to reflect project goals
 2. Update post in submission platform
 3. Record and submit demo video
+4. Flesh out landing page. 
