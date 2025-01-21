@@ -54,7 +54,7 @@ const zodValidator = z.object({
       return false;
     },
     {
-      message: "Please attach supporting documents that support your case",
+      message: "Please attach supporting documents that support your case, and make sure it's less than 4MB",
     }
   ),
 });

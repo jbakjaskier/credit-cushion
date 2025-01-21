@@ -3,6 +3,7 @@ import { Loan } from "@/lib/db/models/loans";
 import Link from "next/link";
 import { readerFriendlyDateString } from "@/app/(application)/loans/[loanId]/page";
 import HardshipActions from "./HardshipActions";
+import CustomerIncomeInput from "./CustomerIncomeInput";
 
 export default function LoanDetailsAccordions({ loan }: { loan: Loan }) {
   function getHardshipStatusDisplay(status: string) {
@@ -490,6 +491,36 @@ export default function LoanDetailsAccordions({ loan }: { loan: Loan }) {
               </dd>
             </div>
           </dl>
+        </div>
+      </details>
+
+      <details className="group rounded-lg border border-gray-200">
+        <summary className="flex w-full justify-between rounded-lg bg-gray-50 px-4 py-2 text-left text-sm font-medium text-gray-900 hover:bg-gray-100 cursor-pointer">
+          <div>
+            <h3 className="text-sm font-semibold leading-6">Loan Insurance</h3>
+            <p className="text-xs leading-5 text-gray-500">
+              Details of the insurance attached to this loan
+            </p>
+          </div>
+          <ChevronDownIcon className="h-5 w-5 text-gray-500 group-open:rotate-180 transition-transform" />
+        </summary>
+
+        <div className="px-4 pb-4">
+          <div className="border-t border-gray-100 px-4 py-3 sm:col-span-1 sm:px-0">
+            <dt className="text-sm font-medium leading-6 text-gray-500">
+              Annual Customer Income
+            </dt>
+            <dd className="mt-0.5 text-sm leading-6 text-gray-900">
+              {loan.loanInsurance !== undefined &&
+              loan.loanInsurance !== null &&
+              loan.loanInsurance.annualCustomerIncome !== undefined &&
+              loan.loanInsurance.annualCustomerIncome !== null ? (
+                `$${loan.loanInsurance.annualCustomerIncome.value}`
+              ) : (
+                <CustomerIncomeInput loanId={loan._id.toString()} />
+              )}
+            </dd>
+          </div>
         </div>
       </details>
 

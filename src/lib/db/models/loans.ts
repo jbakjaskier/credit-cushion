@@ -38,9 +38,17 @@ export interface Loan {
     repaymentInstalmentAmount: Money;
     finalRepaymentInstalmentAmount: Money;
   };
+  loanInsurance?: LoanInsuranceDetail;
   customerDateSigned?: Date;
   lastUpdated: Date;
   hardship?: CustomerHardship;
+}
+
+export type LoanInsuranceDetail = {
+  annualCustomerIncome: Money;
+  loanInsuranceContent?: string;
+  insuranceStatus?: "generated" | "sentToCustomer"
+  envelopeDetails?: LoanProductEnvelope;
 }
 
 export type CustomerHardship = {
@@ -54,18 +62,18 @@ export type CustomerHardship = {
     | "variationGenerated"
     | "variationSentToCustomer";
   variatedContractContent?: string;
-  envelopeDetails?: CustomerHardshipEnvelope;
+  envelopeDetails?: LoanProductEnvelope;
   rejectionNotes?: string;
 };
 
-export type CustomerHardshipEnvelope = {
+export type LoanProductEnvelope = {
   envelopeId: string;
   envelopeUri: string;
   envelopeStatus: string;
   lastUpdated: Date;
 };
 
-type Money = {
+export type Money = {
   value: number;
   currency: "aud"; //Currently we only support AUD financial providers. Must be updated later
 };

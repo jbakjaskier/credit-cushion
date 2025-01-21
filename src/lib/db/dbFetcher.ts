@@ -7,27 +7,30 @@ import {
   DbWriteOperationSuccessResult,
   Loan,
   loanCollectionName,
+  Money,
 } from "./models/loans";
 import clientPromise, { dbName } from "./mongodb";
 import { EnvelopeCreatedResult } from "../fetcher/envelope";
 import { Template, templateCollectionName } from "./models/templates";
 import { verifySession } from "../auth/session";
 
-
-export async function getTemplateForAccount() : Promise<Template | null | DbFetcherError>{
+export async function getTemplateForAccount(): Promise<
+  Template | null | DbFetcherError
+> {
   try {
-    const session  = await verifySession()
+    const session = await verifySession();
 
     const templateCollection = (await clientPromise)
       .db(dbName)
       .collection<Template>(templateCollectionName);
-    
-    const templateFound = await templateCollection.findOne({
-      accountId: session.sessionPayload.userInfo.accounts.find(l => l.is_default)!.account_id
-    })
-    
-    return templateFound;
 
+    const templateFound = await templateCollection.findOne({
+      accountId: session.sessionPayload.userInfo.accounts.find(
+        (l) => l.is_default
+      )!.account_id,
+    });
+
+    return templateFound;
   } catch (error: unknown) {
     if (typeof error === "string") {
       return {
@@ -44,15 +47,60 @@ export async function getTemplateForAccount() : Promise<Template | null | DbFetc
     return {
       errorMessage: `Something went wrong while getting your templates. Please try again in a bit`,
     };
-
   }
 }
 
-
-export async function addLoanTemplate(templateToInsert : Omit<Template, "accountId">) : Promise <DbWriteOperationSuccessResult | DbWriteOperationErrorResult>{
+export async function addAnnualCustomerIncome(
+  annualCustomerIncome: Money,
+  loanId: string
+): Promise<DbWriteOperationErrorResult | DbWriteOperationSuccessResult> {
   try {
+    const loanCollection = (await clientPromise)
+      .db(dbName)
+      .collection<Loan>(loanCollectionName);
+      
+    await loanCollection.updateOne(
+      {
+        _id: new ObjectId(loanId),
+      },
+      {
+        $set: {
+          lastUpdated: new Date(),
+          "loanInsurance.annualCustomerIncome": annualCustomerIncome,
+        },
+      }
+    );
 
-    const session  = await verifySession()
+    return {
+      mode: "success",
+    };
+  } catch (error: unknown) {
+    if (typeof error === "string") {
+      return {
+        mode: "error",
+        errorMessage: error,
+      };
+    }
+
+    if (error instanceof Error) {
+      return {
+        mode: "error",
+        errorMessage: error.message,
+      };
+    }
+
+    return {
+      mode: "error",
+      errorMessage: `Something went while trying to write the customer income. Please try again in a bit`,
+    };
+  }
+}
+
+export async function addLoanTemplate(
+  templateToInsert: Omit<Template, "accountId">
+): Promise<DbWriteOperationSuccessResult | DbWriteOperationErrorResult> {
+  try {
+    const session = await verifySession();
 
     const templateCollection = (await clientPromise)
       .db(dbName)
@@ -60,18 +108,15 @@ export async function addLoanTemplate(templateToInsert : Omit<Template, "account
 
     await templateCollection.insertOne({
       ...templateToInsert,
-      accountId: session.sessionPayload.userInfo.accounts.find(x => x.is_default)!.account_id
-    })
-
+      accountId: session.sessionPayload.userInfo.accounts.find(
+        (x) => x.is_default
+      )!.account_id,
+    });
 
     return {
-      mode: 'success'
+      mode: "success",
     };
-
-
-
-  } catch (error : unknown) {
-
+  } catch (error: unknown) {
     if (typeof error === "string") {
       return {
         mode: "error",
@@ -90,7 +135,6 @@ export async function addLoanTemplate(templateToInsert : Omit<Template, "account
       mode: "error",
       errorMessage: `Something went wrong while adding the template to the Db. Please try again in a bit`,
     };
-
   }
 }
 
@@ -116,8 +160,8 @@ export async function updateVariationofContractContent(
     );
 
     return {
-      mode: "success"
-    }
+      mode: "success",
+    };
   } catch (error: unknown) {
     if (typeof error === "string") {
       return {
@@ -234,16 +278,19 @@ export async function addEnvelopeToHardship(
 
 export async function getLoansFromDbAsync(): Promise<Loan[] | DbFetcherError> {
   try {
-
     const session = await verifySession();
 
     const loanCollection = (await clientPromise)
       .db(dbName)
       .collection<Loan>(loanCollectionName);
 
-    const loans = await loanCollection.find({
-      accountId: session.sessionPayload.userInfo.accounts.find(x => x.is_default)!.account_id
-    }).toArray();
+    const loans = await loanCollection
+      .find({
+        accountId: session.sessionPayload.userInfo.accounts.find(
+          (x) => x.is_default
+        )!.account_id,
+      })
+      .toArray();
 
     if (loans.length === 0) {
       return {
