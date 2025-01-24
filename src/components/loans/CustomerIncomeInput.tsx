@@ -1,6 +1,6 @@
 "use client";
 
-import { saveCustomerIncome } from "@/app/(application)/loans/[loanId]/_customerIncome/action";
+import { saveCustomerIncome } from "@/app/(application)/loans/[loanId]/_loanInsurance/action";
 import { BanknotesIcon, DocumentCheckIcon } from "@heroicons/react/24/outline";
 import { useActionState } from "react";
 import ProgressLoader from "../common/ProgressLoader";
