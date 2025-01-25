@@ -24,15 +24,15 @@ export const USER_NAVIGATION = [
 export const getApplicationNavigation = (pathname: string) =>
   [
     {
-      name: "Loans",
-      href: ROUTES.LOANS,
-      current: pathname === ROUTES.LOANS || pathname.startsWith("/loans/"),
-    },
-    {
       name: "Products",
       href: ROUTES.PRODUCTS,
       current:
         pathname === ROUTES.PRODUCTS || pathname.startsWith("/products/"),
+    },
+    {
+      name: "Loans",
+      href: ROUTES.LOANS,
+      current: pathname === ROUTES.LOANS || pathname.startsWith("/loans/"),
     },
   ] as const;
 
