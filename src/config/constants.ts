@@ -13,7 +13,6 @@ export const ROUTES = {
 export const MARKETING_NAVIGATION = [
   { name: "Home", href: ROUTES.HOME },
   { name: "Hardship", href: ROUTES.HARDSHIP },
-  { name: "FAQ", href: "#" },
 ] as const;
 
 export const USER_NAVIGATION = [
